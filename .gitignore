@@ -1,0 +1,4 @@
+node_modules/
+*.py
+_check.js
+.claude/
