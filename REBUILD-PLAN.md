@@ -217,24 +217,28 @@ Playwright has specific Electron support — it launches the app directly and ca
 
 ### Happy path test suite (must pass before any merge to main)
 
+**Core daily loop:**
 1. **App launches** — window appears, clock shows, quote shows, Log tab is active
-2. **Add an entry** — fill all fields, save, entry appears in Entries tab
+2. **Add an entry** — type description, auto-suggest appears after 2 characters, fill category/sub-category/start/end, save, entry appears in Entries tab
 3. **Edit an entry** — change description, save, updated value shows
 4. **Delete an entry** — confirmation modal appears (not browser confirm()), entry is removed
-5. **Tab switching** — all four tabs open without blank screens or visual bleed
-6. **Theme switching** — theme updates immediately, persists after app restart
-7. **Data persists** — close and reopen app, entries created in test are still there
-8. **Historical entries visible** — entries with past dates appear under correct date filters (day, week, month, all)
-9. **Backup runs** — a backup file exists in `Documents\Cadence Backups\` after app opens
-10. **Import/export** — export produces a valid JSON file, import restores entries correctly
-11. **Auto-suggest** — typing a known description fragment shows a suggestion
-12. **App handles missing database** — if `cadence.db` is deleted and app is reopened, it starts clean without crashing
+5. **Data persists** — close and reopen app, entry created in test is still there
+6. **Entries not missing** — entries with past dates appear correctly under day, week, month, and all filters
+
+**Regression — things that actually broke in this app:**
+
+7. **No panel bleed** — only the active tab's content is visible, other panels are hidden
+8. **No horizontal scroll** — Entries tab does not scroll sideways
+9. **Grid edit opens and closes** — can enter grid edit, make no changes, exit cleanly
+10. **End time disabled until start filled** — End field cannot be interacted with until a valid Start time is entered
 
 ### What tests do NOT cover (yet)
-- Reports tab accuracy (chart values)
-- Grid edit in detail
-- Gap detection logic
-- Manage tab rename/delete flows
+- Reports tab accuracy
+- Grid edit saves and discards
+- Gap detection
+- Manage tab flows
+- Import/export
+- Backup verification
 
 These are candidates for a future expanded test suite, not required for this rebuild.
 
