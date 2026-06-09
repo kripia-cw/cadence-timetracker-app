@@ -4,9 +4,13 @@
   "description": "Kim's Time Tracker",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
   },
   "devDependencies": {
-    "electron": "^41.0.0"
+    "@playwright/test": "^1.60.0",
+    "electron": "^41.0.0",
+    "playwright": "^1.60.0"
   }
 }

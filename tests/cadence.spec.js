@@ -1,0 +1,258 @@
+const { test, expect } = require('@playwright/test');
+const { launchApp, closeApp } = require('./helpers');
+
+// Helper: click a tab by name
+async function switchTab(win, name) {
+  await win.click(`button[onclick*="showTab('${name}'"]`);
+  await win.waitForTimeout(300);
+}
+
+// Helper: add a time entry via the Log tab form
+// cat and proj must be values that already exist in the app's lists.
+// Using setComboVal() directly because the custom combo field requires
+// both .value and .dataset.confirmed to be set — typing + Tab alone doesn't commit.
+async function addEntry(win, { desc, cat = 'Operations', proj = 'Recurring ops tasks', start, end }) {
+  await switchTab(win, 'log');
+
+  await win.fill('#desc', desc);
+  await win.waitForTimeout(200);
+
+  await win.evaluate(([c, p]) => { setComboVal('cat-sel', c); setComboVal('project', p); }, [cat, proj]);
+  await win.waitForTimeout(100);
+
+  await win.fill('#start', start);
+  await win.press('#start', 'Tab');
+  await win.waitForTimeout(200);
+
+  await win.fill('#end', end);
+  await win.press('#end', 'Tab');
+  await win.waitForTimeout(200);
+
+  await win.evaluate(() => window.addEntry());
+  await win.waitForTimeout(400);
+}
+
+// ─── Test 1: App launches correctly ────────────────────────────────────────
+test('app launches with Log tab active', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // Clock should be visible
+    await expect(win.locator('#clock-time')).toBeVisible();
+
+    // Log tab panel should be active and visible
+    await expect(win.locator('#tab-log')).toBeVisible();
+
+    // Other panels should be hidden
+    await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-reports')).toBeHidden();
+    await expect(win.locator('#tab-manage')).toBeHidden();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 2: Add an entry and see it in Entries tab ────────────────────────
+test('add entry — appears in Entries tab', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Writing test entry', start: '09:00', end: '10:00' });
+
+    await switchTab(win, 'entries');
+
+    const entry = win.locator('#entries-list').getByText('Writing test entry');
+    await expect(entry).toBeVisible();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 3: Auto-suggest appears after typing ─────────────────────────────
+test('auto-suggest appears after 2 characters', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // Save an entry first so LEARN has something to suggest
+    await addEntry(win, { desc: 'Onboarding review', start: '09:00', end: '09:30' });
+
+    // Clear the description field and type the start of the same description
+    await switchTab(win, 'log');
+    await win.fill('#desc', '');
+    await win.type('#desc', 'On');
+    await win.waitForTimeout(500);
+
+    // Suggestion box should appear
+    await expect(win.locator('#suggest-box')).toBeVisible();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 4: Edit an entry ─────────────────────────────────────────────────
+test('edit entry — changes save correctly', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Original description', start: '09:00', end: '10:00' });
+
+    await switchTab(win, 'entries');
+
+    // Click the first edit button
+    const editBtn = win.locator('[onclick*="editEntry"]').first();
+    await editBtn.click();
+    await win.waitForTimeout(300);
+
+    // Should now be on Log tab with entry loaded — change the description
+    await win.fill('#desc', 'Updated description');
+    await win.click('#add-btn');
+    await win.waitForTimeout(300);
+
+    await switchTab(win, 'entries');
+    await expect(win.locator('#entries-list').getByText('Updated description')).toBeVisible();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 5: Delete an entry ───────────────────────────────────────────────
+test('delete entry — shows modal not browser confirm, entry removed', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Entry to delete', start: '09:00', end: '10:00' });
+
+    await switchTab(win, 'entries');
+
+    // Click the first delete button
+    const deleteBtn = win.locator('[onclick*="del("]').first();
+    await deleteBtn.click();
+    await win.waitForTimeout(300);
+
+    // Custom modal should appear — NOT browser confirm()
+    await expect(win.locator('#tt-modal')).toBeVisible();
+    const confirmBtn = win.locator('#tt-modal').getByText('Yes, delete entry');
+    await expect(confirmBtn).toBeVisible();
+
+    await confirmBtn.click();
+    await win.waitForTimeout(300);
+
+    await expect(win.locator('#entries-list').getByText('Entry to delete')).toBeHidden();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 6: Data persists across restart ──────────────────────────────────
+test('data persists — entry still there after restart', async () => {
+  const { _electron: electron } = require('playwright');
+  const path = require('path');
+  const os = require('os');
+  const TEST_DATA_DIR = path.join(os.tmpdir(), 'cadence-test-persist');
+  const fs = require('fs');
+
+  // Clean start
+  if (fs.existsSync(TEST_DATA_DIR)) fs.rmSync(TEST_DATA_DIR, { recursive: true });
+
+  const APP_PATH = path.join(__dirname, '..');
+
+  // First launch — add entry
+  const app1 = await electron.launch({ args: [APP_PATH, `--user-data-dir=${TEST_DATA_DIR}`] });
+  const win1 = await app1.firstWindow();
+  await win1.waitForLoadState('domcontentloaded');
+  await win1.waitForTimeout(500);
+  await addEntry(win1, { desc: 'Persistence check', start: '14:00', end: '15:00' });
+  await app1.close();
+
+  // Second launch — same data dir, entry should still be there
+  const app2 = await electron.launch({ args: [APP_PATH, `--user-data-dir=${TEST_DATA_DIR}`] });
+  const win2 = await app2.firstWindow();
+  await win2.waitForLoadState('domcontentloaded');
+  await win2.waitForTimeout(500);
+
+  try {
+    await switchTab(win2, 'entries');
+    await expect(win2.locator('#entries-list').getByText('Persistence check')).toBeVisible();
+  } finally {
+    await app2.close();
+  }
+});
+
+// ─── Test 7: No panel bleed ────────────────────────────────────────────────
+test('no panel bleed — only active tab content visible', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // Log is active on launch — others hidden
+    await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-reports')).toBeHidden();
+    await expect(win.locator('#tab-manage')).toBeHidden();
+
+    // Switch to Entries — log, reports, manage hidden
+    await switchTab(win, 'entries');
+    await expect(win.locator('#tab-log')).toBeHidden();
+    await expect(win.locator('#tab-reports')).toBeHidden();
+    await expect(win.locator('#tab-manage')).toBeHidden();
+
+    // Switch to Reports
+    await switchTab(win, 'reports');
+    await expect(win.locator('#tab-log')).toBeHidden();
+    await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-manage')).toBeHidden();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 8: No horizontal scroll ─────────────────────────────────────────
+test('no horizontal scroll in Entries tab', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await switchTab(win, 'entries');
+
+    const overflows = await win.evaluate(() => {
+      const el = document.getElementById('tab-entries');
+      return el.scrollWidth > el.clientWidth;
+    });
+    expect(overflows).toBe(false);
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 9: Grid edit opens and closes ───────────────────────────────────
+test('grid edit opens and closes cleanly', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await switchTab(win, 'entries');
+
+    // Open grid edit
+    await win.click('#grid-edit-btn');
+    await win.waitForTimeout(500);
+
+    // Grid edit button should be hidden while in grid edit mode
+    await expect(win.locator('#grid-edit-btn')).toBeHidden();
+
+    // Exit via Discard button (no changes made so it exits silently)
+    await win.click('.btn-discard');
+    await win.waitForTimeout(500);
+
+    // Grid edit button should be visible again
+    await expect(win.locator('#grid-edit-btn')).toBeVisible();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 10: End time disabled until start filled ────────────────────────
+test('end time disabled until start time is entered', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // End field should be disabled on load
+    await expect(win.locator('#end')).toBeDisabled();
+
+    // Fill start time
+    await win.fill('#start', '09:00');
+    await win.press('#start', 'Tab');
+    await win.waitForTimeout(300);
+
+    // End field should now be enabled
+    await expect(win.locator('#end')).toBeEnabled();
+  } finally {
+    await closeApp(app);
+  }
+});
