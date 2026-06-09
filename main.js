@@ -105,6 +105,38 @@ ipcMain.handle('import-data', async () => {
   return { ok: true, data: raw }
 })
 
+ipcMain.handle('backup-data', async (event, payload) => {
+  try {
+    const backupDir = path.join(app.getPath('documents'), 'Cadence Backups')
+    if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true })
+
+    const now = new Date()
+    const pad = n => String(n).padStart(2, '0')
+    const stamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}-${pad(now.getHours())}-00`
+    const filename = `cadence-${stamp}.json`
+    fs.writeFileSync(path.join(backupDir, filename), payload, 'utf8')
+
+    // Keep only the 30 most recent backup files
+    const files = fs.readdirSync(backupDir)
+      .filter(f => f.startsWith('cadence-') && f.endsWith('.json'))
+      .sort()
+    if (files.length > 30) {
+      files.slice(0, files.length - 30).forEach(f => {
+        fs.unlinkSync(path.join(backupDir, f))
+      })
+    }
+    return { ok: true }
+  } catch (e) {
+    return { ok: false, error: e.message }
+  }
+})
+
+// Returns the database file path so the renderer can open it with better-sqlite3.
+// Using userData means it automatically follows --user-data-dir (important for tests).
+ipcMain.on('get-db-path', (event) => {
+  event.returnValue = path.join(app.getPath('userData'), 'cadence.db')
+})
+
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
