@@ -46,6 +46,10 @@ test('app launches with Log tab active', async () => {
     await expect(win.locator('#tab-entries')).toBeHidden();
     await expect(win.locator('#tab-reports')).toBeHidden();
     await expect(win.locator('#tab-manage')).toBeHidden();
+
+    // Screenshot of the default state — review this after every test run.
+    // If the app looks wrong visually, you'll see it here before anything else.
+    await win.screenshot({ path: 'test-results/screenshots/01-launch-default.png' });
   } finally {
     await closeApp(app);
   }
@@ -296,10 +300,13 @@ test('theme switching — body class and active button update correctly', async 
     expect(initialClass).toBe('space');
     await expect(win.locator('button.theme-btn.space')).toHaveClass(/active/);
 
-    // Switch to each theme and verify body class + active button moves
+    // Switch to each theme, verify behaviour, and screenshot for visual review
+    const fs = require('fs');
+    fs.mkdirSync('test-results/screenshots', { recursive: true });
+
     for (const theme of ['sakura', 'woodland', 'aurora', 'castle', 'space']) {
       await win.evaluate(t => window.setTheme(t), theme);
-      await win.waitForTimeout(100);
+      await win.waitForTimeout(200);
 
       const bodyClass = await win.evaluate(() => document.body.className);
       expect(bodyClass).toBe(theme);
@@ -317,6 +324,9 @@ test('theme switching — body class and active button update correctly', async 
           .map(b => b.title);
       }, theme);
       expect(otherActive).toHaveLength(0);
+
+      // Screenshot every theme — open test-results/screenshots/ after a run to visually verify
+      await win.screenshot({ path: `test-results/screenshots/theme-${theme}.png` });
     }
   } finally {
     await closeApp(app);
