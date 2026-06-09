@@ -24,14 +24,19 @@ The rebuild keeps everything you love about the app — themes, quotes, feel, al
 
 **After:**
 ```
-index.html        — structure only (what exists on the page)
-src/style.css     — appearance only (what things look like)
-src/app.js        — behaviour only (what things do)
-src/db.js         — data layer (all database read/write operations)
-main.js           — Electron window setup (stays mostly as-is)
+index.html          — structure only (what exists on the page)
+src/style.css       — appearance only (what things look like)
+src/app.js          — behaviour only (what things do)
+src/db.js           — data layer (all database read/write operations)
+main.js             — Electron window setup (stays mostly as-is)
+tests/              — Playwright test suite
 ```
 
 **Why:** When something looks wrong you go to `style.css`. When something behaves wrong you go to `app.js`. When data isn't saving you go to `db.js`. You always know where to look. Changes in one file can't accidentally break another.
+
+**Note on app.js size:** Even after splitting, `app.js` will still be large. We will not try to break it up further in this rebuild — that's a future concern. The goal here is separation of concerns (HTML / CSS / JS / data), not perfect modularity.
+
+**Note on file loading:** In Electron, `index.html` loads local files using relative paths — `<link rel="stylesheet" href="src/style.css">` and `<script src="src/app.js">`. This works correctly as long as `main.js` loads `index.html` with `loadFile()` (which it already does) rather than a URL.
 
 ### 2. Replace localStorage with SQLite
 
@@ -43,9 +48,13 @@ main.js           — Electron window setup (stays mostly as-is)
 
 **The package we'll use:** `better-sqlite3` — the standard SQLite library for Node.js/Electron. Synchronous (simple), fast, well-maintained.
 
+**Clean start:** The current localStorage data was lost in the incident that prompted this rebuild. We will treat the SQLite migration as a clean start — no data to migrate. If a JSON backup exists in `Documents\Cadence Backups\`, we will provide an import path to restore from it.
+
 ### 3. Keep automatic backups
 
 The hourly JSON backups to `Documents\Cadence Backups\` that we already built stay. They now export from SQLite instead of localStorage. You'll always have a human-readable backup alongside the database.
+
+**The backup is also the recovery path.** If `cadence.db` is ever lost or corrupted, you import the most recent backup JSON to restore your entries.
 
 ### 4. Proper git workflow with automated testing
 
@@ -53,25 +62,12 @@ The hourly JSON backups to `Documents\Cadence Backups\` that we already built st
 
 **After:**
 - All work happens on `dev`
-- Each piece of work is its own commit with a clear message explaining why
+- Each piece of work is its own commit with a clear message explaining why the change was made (not just what changed)
 - `main` only receives code that has passed the Playwright test suite
 - Before any significant change, the plan is written down first
+- If a stage fails partway through: stop, revert to the last clean commit on `dev`, understand what went wrong before continuing
 
-**The testing gate:**
-We use Playwright for automated end-to-end testing. Before anything merges to `main`, the test suite must pass. The tests cover the happy path — the core flows a real user takes every day:
-
-1. App opens and displays correctly
-2. Add a time entry — fills all fields, saves, appears in Entries tab
-3. Edit an existing entry — changes save correctly
-4. Delete an entry — confirmation appears, entry is removed
-5. Switch between all four tabs — no blank screens, no bleed
-6. Switch themes — app updates correctly, persists on relaunch
-7. Data persists — close and reopen the app, entries still there
-8. Historical entries visible — entries from previous days/weeks/months appear correctly in the Entries tab under the right date filters (day, week, month, all)
-
-If any test fails, it does not merge. Fix it first.
-
-Playwright will be introduced at the start of Stage 1 so testing is part of the workflow from day one, not bolted on at the end.
+**Commit size rule:** One logical change per commit. Not one line, not one day's work — one coherent thing. "Add SQLite schema" is a commit. "Fix start time validation" is a commit. "Various changes" is not a commit.
 
 ---
 
@@ -82,32 +78,12 @@ Playwright will be introduced at the start of Stage 1 so testing is part of the 
 - The single-window Electron setup — still docked, still always-on-top
 - The design philosophy (subject to a separate review session — see FOLLOW-UP.md)
 
----
-
-## The order we'll build it
-
-We do this in stages. Each stage is complete and working before we start the next. We never have a broken app.
-
-### Stage 1 — Set up the project structure (no functionality changes)
-Create the new file structure. Move CSS out of `index.html` into `src/style.css`. Move JavaScript out into `src/app.js`. The app looks and works exactly the same — we've just reorganised where things live.
-
-**How you'll know it's done:** App opens, looks identical, all features work.
-
-### Stage 2 — Add SQLite alongside localStorage
-Install `better-sqlite3`. Create `src/db.js`. Write the database schema (the structure of the tables). On startup, if a SQLite database doesn't exist yet, create it and migrate any existing localStorage data into it. Both systems run in parallel at this stage — SQLite writes, localStorage still reads.
-
-**How you'll know it's done:** A `cadence.db` file appears in `Documents\Cadence\` when you open the app.
-
-### Stage 3 — Switch reads to SQLite, remove localStorage
-Change all data loading to read from SQLite instead of localStorage. Remove the localStorage fallback. The app now runs entirely on SQLite.
-
-**How you'll know it's done:** App works as before. localStorage keys (`tt_e` etc.) are empty. All data is in `cadence.db`.
-
-### Stage 4 — Clean up and stabilise
-Remove any remaining references to localStorage. Update the backup system to export from SQLite. Test every feature. Fix anything that broke.
-
-### Stage 5 — Merge to main
-When Stage 4 is clean: merge `dev` into `main` via a pull request. First time `main` has ever had a proper, tested, well-built version of the app.
+**Features that need extra attention during Stage 3** (they touch the data layer deeply and won't automatically work after switching to SQLite):
+- Grid edit — reads and writes entries directly
+- Gap detection — reads entries to find time gaps
+- Import/export JSON — reads and writes all data
+- Auto-suggest (LEARN model) — has its own data that needs to survive
+- Dismissed gaps — persisted state that needs to survive
 
 ---
 
@@ -126,36 +102,152 @@ SQLite stores data in tables — like spreadsheet tabs. Here's what Cadence need
 | start_time | text | 08:46 |
 | end_time | text | 09:24 |
 | duration_mins | integer | 38 |
-| tags | text | billable,internal |
 | notes | text | (optional) |
 | created_at | integer | 1749456123456 |
 
-**categories** table — one row per category
+**entry_tags** table — links entries to tags (one row per tag per entry)
+| column | type | example |
+|--------|------|---------|
+| entry_id | integer | 1 |
+| tag | text | billable |
+
+*Why a separate table for tags:* Storing tags as a comma-separated string (`"billable,internal"`) is fragile — searching, filtering, and editing tags becomes messy. A separate table means each tag is its own row, which is clean and queryable.
+
+**categories** table
 | column | type |
 |--------|------|
 | id | integer (auto) |
 | name | text |
 
-**projects** table — one row per sub-category
+**projects** table — sub-categories
 | column | type |
 |--------|------|
 | id | integer (auto) |
 | name | text |
 | category | text |
 
-**tags** table — one row per tag
+**tags** table — the list of available tags
 | column | type |
 |--------|------|
 | id | integer (auto) |
 | name | text |
 
+**settings** table — app preferences and state that need to persist
+| key | value example |
+|-----|---------------|
+| theme | space |
+| anchor | right |
+| dismissed_gaps | (JSON array of gap IDs) |
+| learn_model | (JSON object — the autocomplete data) |
+
+*Why a settings table:* The LEARN model (autocomplete) and dismissed gaps were missing from the original plan. They live in localStorage today and must survive the migration. A key/value settings table is the right place for this kind of miscellaneous persistent state.
+
 ---
 
-## Questions to answer before we start Stage 1
+## The order we'll build it
 
-1. Is there anything in this plan you disagree with or don't understand?
-2. Are you happy with `Documents\Cadence\cadence.db` as the database location?
-3. Anything about the current app behaviour you want changed during the rebuild (features, flows, anything that annoys you)?
+We do this in stages. Each stage is complete and working before we start the next. We never have a broken app. If a stage breaks something, we stop and revert — we do not push forward with a broken app.
+
+### Stage 1 — Set up project structure + install Playwright (no functionality changes)
+
+- Create `src/` folder
+- Move CSS from `index.html` into `src/style.css`
+- Move JavaScript from `index.html` into `src/app.js`
+- Update `index.html` to load both files
+- Install Playwright and write the full happy path test suite (see Testing section below)
+- Run tests — they must all pass before Stage 1 is considered done
+
+**How you'll know it's done:** App looks and works identically. All Playwright tests pass.
+
+**Rollback plan:** `index.html` on `dev` before Stage 1 is the safe state. If anything goes wrong, `git revert` returns to it instantly.
+
+### Stage 2 — Add SQLite alongside localStorage
+
+- Install `better-sqlite3`
+- Create `src/db.js` with the full schema
+- On startup: create `Documents\Cadence\cadence.db` if it doesn't exist
+- All writes go to SQLite AND localStorage (both updated simultaneously)
+- All reads still come from localStorage
+- Run Playwright tests — must pass
+
+**How you'll know it's done:** `cadence.db` file exists in `Documents\Cadence\`. App still works exactly as before.
+
+**Rollback plan:** Remove `better-sqlite3`, delete `src/db.js`, remove the dual-write calls.
+
+### Stage 3 — Switch reads to SQLite, remove localStorage
+
+- Change all data loading to read from SQLite
+- Remove localStorage writes
+- Update the backup system to export from SQLite
+- Migrate the LEARN model and dismissed gaps from localStorage into the settings table
+- Run Playwright tests — must pass
+- Manually verify: historical entries visible, auto-suggest works, themes persist, dismissed gaps persist
+
+**How you'll know it's done:** App works as before. localStorage is empty. All data in `cadence.db`.
+
+**Rollback plan:** This is the riskiest stage. Before starting, tag the last working Stage 2 commit in git so we can return to it exactly.
+
+### Stage 4 — Clean up and stabilise
+
+- Remove any remaining localStorage references
+- Verify all data-heavy features explicitly: grid edit, gap detection, import/export, auto-suggest
+- Fix anything broken
+- Run full Playwright suite
+- Do a full manual walkthrough of every feature
+
+### Stage 5 — Merge to main
+
+- Open a pull request from `dev` to `main` on GitHub
+- Playwright tests must pass
+- Review the diff together before merging
+- First time `main` has a properly built, tested version of the app
+
+---
+
+## Testing
+
+### Approach
+- Playwright for automated end-to-end testing against the real Electron app
+- Tests use a **separate test database** (`cadence-test.db`) — never touches your real data
+- Each test run **seeds its own data** — creates the entries it needs, tests against them, leaves nothing behind
+- Tests are written before the code they test where possible
+
+### How Playwright works with Electron
+Playwright has specific Electron support — it launches the app directly and can interact with it like a real user (click buttons, type in fields, read what's on screen). It requires a small amount of extra setup compared to testing a website, which we'll handle in Stage 1.
+
+### Happy path test suite (must pass before any merge to main)
+
+1. **App launches** — window appears, clock shows, quote shows, Log tab is active
+2. **Add an entry** — fill all fields, save, entry appears in Entries tab
+3. **Edit an entry** — change description, save, updated value shows
+4. **Delete an entry** — confirmation modal appears (not browser confirm()), entry is removed
+5. **Tab switching** — all four tabs open without blank screens or visual bleed
+6. **Theme switching** — theme updates immediately, persists after app restart
+7. **Data persists** — close and reopen app, entries created in test are still there
+8. **Historical entries visible** — entries with past dates appear under correct date filters (day, week, month, all)
+9. **Backup runs** — a backup file exists in `Documents\Cadence Backups\` after app opens
+10. **Import/export** — export produces a valid JSON file, import restores entries correctly
+11. **Auto-suggest** — typing a known description fragment shows a suggestion
+12. **App handles missing database** — if `cadence.db` is deleted and app is reopened, it starts clean without crashing
+
+### What tests do NOT cover (yet)
+- Reports tab accuracy (chart values)
+- Grid edit in detail
+- Gap detection logic
+- Manage tab rename/delete flows
+
+These are candidates for a future expanded test suite, not required for this rebuild.
+
+---
+
+## Questions answered before starting
+
+1. ✅ File structure agreed
+2. ✅ `Documents\Cadence\cadence.db` as database location
+3. ✅ No feature changes during rebuild — features come after foundations are solid
+4. ✅ Clean start on data — no localStorage migration needed
+5. ✅ Playwright with isolated test database and seeded data
+6. ✅ Rollback plan defined for each stage
 
 ---
 
