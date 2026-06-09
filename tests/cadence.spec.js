@@ -240,34 +240,46 @@ test('grid edit opens and closes cleanly', async () => {
 
 // ─── Test 11: No encoding corruption anywhere in the UI ───────────────────
 // This test exists because a PowerShell file-split bug silently garbled every
-// non-ASCII character in app.js (em dashes, Māori macrons, special symbols).
-// All 10 behaviour tests passed — but the app was visibly broken throughout.
-// Now we check the entire visible page for the garbled character signatures.
+// non-ASCII character in app.js, style.css, and index.html.
+// All behaviour tests passed — but the app was visibly broken throughout:
+// placeholder text, button labels, quotes, tooltips, hidden panels.
+// We check all text and attributes, not just what's currently visible.
 test('no encoding corruption anywhere in the UI', async () => {
   const { app, win } = await launchApp();
   try {
-    // Check all visible text on screen — not just one element
-    const pageText = await win.evaluate(() => document.body.innerText);
+    const result = await win.evaluate(() => {
+      const garbled = ['â€', 'Ã', 'ÃƒÂ', 'Å½'];
+      const found = [];
 
-    // These sequences are the fingerprint of UTF-8 read as Windows-1252.
-    // If any appear anywhere on screen, the file was split with wrong encoding.
-    expect(pageText).not.toContain('â€');
-    expect(pageText).not.toContain('Ã');
-    expect(pageText).not.toContain('ÃƒÂ');
-    expect(pageText).not.toContain('Å');
+      // Check all text nodes including hidden panels
+      const allText = document.body.innerHTML;
+      garbled.forEach(g => { if (allText.includes(g)) found.push(`innerHTML contains "${g}"`); });
 
-    // Also check a known non-ASCII string renders correctly in the app source.
-    // The default category list contains an em dash in some labels.
-    // We check the raw JS source rather than rendered text so this catches
-    // corruption even in strings not currently visible on screen.
-    const sourceOk = await win.evaluate(() => {
-      // "Kia kaha — be strong." is hardcoded in the quotes array.
-      // If encoding is broken this string won't exist.
-      return typeof QUOTES !== 'undefined'
-        ? QUOTES.some(q => q.text.includes('—') || q.author.includes('ā'))
-        : true; // if QUOTES isn't global, skip this check
+      // Check placeholder attributes specifically (innerText misses these)
+      document.querySelectorAll('[placeholder]').forEach(el => {
+        garbled.forEach(g => {
+          if (el.placeholder.includes(g)) found.push(`placeholder on #${el.id} contains "${g}": ${el.placeholder}`);
+        });
+      });
+
+      // Check title/tooltip attributes
+      document.querySelectorAll('[title]').forEach(el => {
+        garbled.forEach(g => {
+          if (el.title.includes(g)) found.push(`title on #${el.id} contains "${g}": ${el.title}`);
+        });
+      });
+
+      // Verify known non-ASCII strings are correct (not just absent-but-wrong)
+      const catPlaceholder = document.getElementById('cat-sel')?.placeholder || '';
+      if (catPlaceholder && !catPlaceholder.includes('—')) found.push(`category placeholder missing em dash: "${catPlaceholder}"`);
+
+      return found;
     });
-    expect(sourceOk).toBe(true);
+
+    if (result.length > 0) {
+      console.log('Encoding issues found:', result);
+    }
+    expect(result).toHaveLength(0);
   } finally {
     await closeApp(app);
   }

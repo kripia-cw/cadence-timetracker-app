@@ -24,7 +24,7 @@
   </div>
 
   <div id="tt-modal"><div class="modal-box" id="tt-modal-box"></div></div>
-  <button id="test-banner" class="test-banner" onclick="window.toggleTestMode()" title="Click to exit test mode">âš— TEST MODE ACTIVE â€” sample data only Â· tap to exit</button>
+  <button id="test-banner" class="test-banner" onclick="window.toggleTestMode()" title="Click to exit test mode">⚗ TEST MODE ACTIVE — sample data only · tap to exit</button>
   <div class="tabs">
     <button class="tab active" onclick="window.showTab('log',this)">Log</button>
     <button class="tab" onclick="window.showTab('entries',this)">Entries</button>
@@ -36,15 +36,15 @@
     <div id="tab-log" class="panel active">
       <div class="field notes-field">
         <div class="notes-field-hdr"><span class="notes-field-lbl">Details</span><span class="notes-muted">(optional)</span><span class="notes-counter" id="notes-counter">0 / 500</span></div>
-        <textarea id="notes" maxlength="500" placeholder="What actually happened? Context, outcomes, blockersâ€¦" rows="2" oninput="document.getElementById('notes-counter').textContent=this.value.length+' / 500'"></textarea>
+        <textarea id="notes" maxlength="500" placeholder="What actually happened? Context, outcomes, blockers…" rows="2" oninput="document.getElementById('notes-counter').textContent=this.value.length+' / 500'"></textarea>
       </div>
       <div class="field"><label>Description</label><input id="desc" type="text" placeholder="What did you work on?" maxlength="120" onfocus="window.descSuggest(this.value)" oninput="window.descSuggest(this.value)" autocomplete="off"></div>
-      <div class="field"><input type="text" id="cat-sel" class="combo-field" placeholder="â€” category â€”" maxlength="80" autocomplete="off"></div>
-      <div class="field"><input type="text" id="project" class="combo-field" placeholder="â€” sub category â€”" maxlength="80" autocomplete="off"></div>
-      <div class="field"><label>Date</label><div class="cal-wrap"><button type="button" class="cal-trigger" id="cal-trigger" onclick="window.toggleCal()"><span class="cal-trigger-icon">ðŸ“…</span><span id="cal-trigger-text">Today</span></button><input type="hidden" id="date"><div id="cal-popup" class="cal-popup"><div class="cal-nav"><button type="button" class="cal-nav-btn" onclick="window.calNav(-1)">&#8249;</button><span class="cal-nav-lbl" id="cal-nav-lbl"></span><button type="button" class="cal-nav-btn" onclick="window.calNav(1)">&#8250;</button></div><div class="cal-grid" id="cal-grid"></div><button type="button" class="cal-today-btn" onclick="window.calPickToday()">Jump to today</button></div></div></div>
+      <div class="field"><input type="text" id="cat-sel" class="combo-field" placeholder="— category —" maxlength="80" autocomplete="off"></div>
+      <div class="field"><input type="text" id="project" class="combo-field" placeholder="— sub category —" maxlength="80" autocomplete="off"></div>
+      <div class="field"><label>Date</label><div class="cal-wrap"><button type="button" class="cal-trigger" id="cal-trigger" onclick="window.toggleCal()"><span class="cal-trigger-icon">📅</span><span id="cal-trigger-text">Today</span></button><input type="hidden" id="date"><div id="cal-popup" class="cal-popup"><div class="cal-nav"><button type="button" class="cal-nav-btn" onclick="window.calNav(-1)">&#8249;</button><span class="cal-nav-lbl" id="cal-nav-lbl"></span><button type="button" class="cal-nav-btn" onclick="window.calNav(1)">&#8250;</button></div><div class="cal-grid" id="cal-grid"></div><button type="button" class="cal-today-btn" onclick="window.calPickToday()">Jump to today</button></div></div></div>
       <div style="display:flex;gap:6px;"><div class="field" style="flex:1;"><label>Start</label><input id="start" type="text" placeholder="09:00" maxlength="5" oninput="window.fmtT(this)"></div><div class="field" style="flex:1;"><label>End</label><input id="end" type="text" placeholder="10:30" maxlength="5" oninput="window.fmtT(this)" onkeydown="window.endFieldKeydown(event)" disabled></div></div>
-      <div class="field"><input type="text" id="tag1" class="combo-field" placeholder="â€” tag â€”" maxlength="50" autocomplete="off"></div>
-      <div class="field"><input type="text" id="tag2" class="combo-field" placeholder="â€” tag â€”" maxlength="50" autocomplete="off"></div>
+      <div class="field"><input type="text" id="tag1" class="combo-field" placeholder="— tag —" maxlength="50" autocomplete="off"></div>
+      <div class="field"><input type="text" id="tag2" class="combo-field" placeholder="— tag —" maxlength="50" autocomplete="off"></div>
       <button id="add-btn" class="btn" onclick="window.addEntry()">Add entry</button>
       <div class="save-flash" id="save-flash" aria-live="polite">Saved</div>
       <div class="status" id="status"></div>
@@ -69,7 +69,7 @@
       <button type="button" id="grid-edit-btn" class="grid-edit-btn" onclick="window.enterGridEdit()" style="width:100%;margin-bottom:5px;">Grid edit</button>
       <div id="entries-custom-range" class="ecr" style="display:none">
         <input type="date" id="ecr-start" title="From">
-        <span class="ecr-sep">â€“</span>
+        <span class="ecr-sep">–</span>
         <input type="date" id="ecr-end" title="To">
       </div>
       <div class="chips" id="chips"></div>
@@ -102,18 +102,18 @@
     <div id="tab-manage" class="panel">
       <div class="cat-tree-bar" id="cat-tree-bar">
         <button class="ctt-btn" data-view="subcats" onclick="window.setManageView('default')">Default<span class="ctt-tip">Return to the default view: categories and sub categories visible, entries collapsed</span></button>
-        <button class="ctt-btn" data-view="all" onclick="window.setManageView('all')">All<span class="ctt-tip">Expand everything â€” all categories, sub categories and every entry</span></button>
-        <button class="ctt-btn" data-view="cats" onclick="window.setManageView('cats')">Cats<span class="ctt-tip">Show category headers only â€” sub categories hidden</span></button>
+        <button class="ctt-btn" data-view="all" onclick="window.setManageView('all')">All<span class="ctt-tip">Expand everything — all categories, sub categories and every entry</span></button>
+        <button class="ctt-btn" data-view="cats" onclick="window.setManageView('cats')">Cats<span class="ctt-tip">Show category headers only — sub categories hidden</span></button>
         <button class="ctt-btn" data-view="subcats" onclick="window.setManageView('subcats')">Sub cats<span class="ctt-tip">Show categories and sub categories</span></button>
         <button class="ctt-btn" data-view="clear" onclick="window.setManageView('clear')">Clear<span class="ctt-tip">Collapse everything back to category headers only</span></button>
       </div>
       <div style="display:flex;gap:4px;margin-bottom:6px;">
-        <button class="btn-ghost" style="flex:1;text-align:left;font-size:10px;" onclick="window.openAddCat()">ï¼‹ Category</button>
-        <button class="btn-ghost" style="flex:1;text-align:left;font-size:10px;" onclick="window.openAddProj()">ï¼‹ Sub cat</button>
+        <button class="btn-ghost" style="flex:1;text-align:left;font-size:10px;" onclick="window.openAddCat()">＋ Category</button>
+        <button class="btn-ghost" style="flex:1;text-align:left;font-size:10px;" onclick="window.openAddProj()">＋ Sub cat</button>
       </div>
       <div id="cat-tree"></div>
       <div class="slbl" style="margin-top:10px;">Tags</div>
-      <button class="btn-ghost" style="width:100%;text-align:left;margin-bottom:5px;font-size:10px;" onclick="window.openAddTag()">ï¼‹ Add tag</button>
+      <button class="btn-ghost" style="width:100%;text-align:left;margin-bottom:5px;font-size:10px;" onclick="window.openAddTag()">＋ Add tag</button>
       <div id="tag-list"></div>
       <div class="slbl" style="margin-top:10px;">System</div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 2px;">
@@ -138,11 +138,11 @@
         </div>
       </div>
       <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;gap:5px;">
-        <button class="btn-ghost" style="flex:1;font-size:9px;padding:4px;" onclick="window.exportJSON()">â¬‡ Export JSON</button>
-        <button class="btn-ghost" style="flex:1;font-size:9px;padding:4px;" onclick="window.importJSON()">â¬† Import JSON</button>
+        <button class="btn-ghost" style="flex:1;font-size:9px;padding:4px;" onclick="window.exportJSON()">⬇ Export JSON</button>
+        <button class="btn-ghost" style="flex:1;font-size:9px;padding:4px;" onclick="window.importJSON()">⬆ Import JSON</button>
       </div>
       <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(200,50,50,0.25);">
-        <button onclick="window.showDeleteAll()" style="width:100%;padding:7px;background:transparent;border:1px solid rgba(200,50,50,0.5);border-radius:4px;color:#e44;font-size:10px;cursor:pointer;letter-spacing:.03em;">Delete all entriesâ€¦</button>
+        <button onclick="window.showDeleteAll()" style="width:100%;padding:7px;background:transparent;border:1px solid rgba(200,50,50,0.5);border-radius:4px;color:#e44;font-size:10px;cursor:pointer;letter-spacing:.03em;">Delete all entries…</button>
       </div>
     </div>
   </div>
@@ -158,11 +158,11 @@
 
 <script src="src/app.js"></script>
 
-<!-- â”€â”€ Help overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+<!-- ── Help overlay ─────────────────────────────────────────────────── -->
 <div class="help-overlay" id="help-overlay" onclick="if(event.target===this)window.closeHelp()">
   <div class="help-panel">
     <div class="help-panel-hdr">
-      <h2>âš™ Feature Guide</h2>
+      <h2>⚙ Feature Guide</h2>
       <button class="help-close-btn" onclick="window.closeHelp()" title="Close">&#10005;</button>
     </div>
     <div class="help-body" id="help-body"></div>
