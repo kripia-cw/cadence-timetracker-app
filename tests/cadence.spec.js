@@ -285,6 +285,95 @@ test('no encoding corruption anywhere in the UI', async () => {
   }
 });
 
+// ─── Tests 12-14: Theme system ────────────────────────────────────────────
+
+// Test 12: Switching themes changes the body class and active button
+test('theme switching — body class and active button update correctly', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // App launches with Space theme by default
+    const initialClass = await win.evaluate(() => document.body.className);
+    expect(initialClass).toBe('space');
+    await expect(win.locator('button.theme-btn.space')).toHaveClass(/active/);
+
+    // Switch to each theme and verify body class + active button moves
+    for (const theme of ['sakura', 'woodland', 'aurora', 'castle', 'space']) {
+      await win.evaluate(t => window.setTheme(t), theme);
+      await win.waitForTimeout(100);
+
+      const bodyClass = await win.evaluate(() => document.body.className);
+      expect(bodyClass).toBe(theme);
+
+      const activeBtn = await win.evaluate(t => {
+        const btn = document.querySelector(`.theme-btn.${t}`);
+        return btn ? btn.classList.contains('active') : false;
+      }, theme);
+      expect(activeBtn).toBe(true);
+
+      // No other theme button should be active
+      const otherActive = await win.evaluate(t => {
+        return [...document.querySelectorAll('.theme-btn')]
+          .filter(b => !b.classList.contains(t) && b.classList.contains('active'))
+          .map(b => b.title);
+      }, theme);
+      expect(otherActive).toHaveLength(0);
+    }
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// Test 13: Theme persists after app restart
+test('theme persists across restart', async () => {
+  const { _electron: electron } = require('playwright');
+  const path = require('path');
+  const os = require('os');
+  const fs = require('fs');
+  const TEST_DATA_DIR = path.join(os.tmpdir(), 'cadence-test-theme-persist');
+  if (fs.existsSync(TEST_DATA_DIR)) fs.rmSync(TEST_DATA_DIR, { recursive: true });
+  const APP_PATH = path.join(__dirname, '..');
+
+  // First launch — switch to Woodland
+  const app1 = await electron.launch({ args: [APP_PATH, `--user-data-dir=${TEST_DATA_DIR}`] });
+  const win1 = await app1.firstWindow();
+  await win1.waitForLoadState('domcontentloaded');
+  await win1.waitForTimeout(500);
+  await win1.evaluate(() => window.setTheme('woodland'));
+  await win1.waitForTimeout(200);
+  await app1.close();
+
+  // Second launch — should open with Woodland
+  const app2 = await electron.launch({ args: [APP_PATH, `--user-data-dir=${TEST_DATA_DIR}`] });
+  const win2 = await app2.firstWindow();
+  await win2.waitForLoadState('domcontentloaded');
+  await win2.waitForTimeout(500);
+  try {
+    const bodyClass = await win2.evaluate(() => document.body.className);
+    expect(bodyClass).toBe('woodland');
+    await expect(win2.locator('button.theme-btn.woodland')).toHaveClass(/active/);
+  } finally {
+    await app2.close();
+  }
+});
+
+// Test 14: All 5 themes load without JS errors
+// Note: Sakura has known visual contrast issues (documented in DESIGN-PHILOSOPHY.md
+// and FOLLOW-UP.md) — this test only checks it doesn't crash, not that it looks right.
+test('all themes load without errors', async () => {
+  const { app, win } = await launchApp();
+  const errors = [];
+  win.on('pageerror', err => errors.push(err.message));
+  try {
+    for (const theme of ['space', 'sakura', 'woodland', 'aurora', 'castle']) {
+      await win.evaluate(t => window.setTheme(t), theme);
+      await win.waitForTimeout(200);
+    }
+    expect(errors).toHaveLength(0);
+  } finally {
+    await closeApp(app);
+  }
+});
+
 // ─── Test 10: End time disabled until start filled ────────────────────────
 test('end time disabled until start time is entered', async () => {
   const { app, win } = await launchApp();
