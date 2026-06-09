@@ -3,7 +3,7 @@ const Database = require('better-sqlite3');
 const _fs = require('fs');
 const _path = require('path');
 
-// Database init â€” data lives in userData/cadence.db (follows --user-data-dir for tests)
+// Database init — data lives in userData/cadence.db (follows --user-data-dir for tests)
 const _dbPath = ipcRenderer.sendSync('get-db-path');
 const _dbDir = _path.dirname(_dbPath);
 if (!_fs.existsSync(_dbDir)) _fs.mkdirSync(_dbDir, { recursive: true });
@@ -79,67 +79,67 @@ const QUOTES = [
   {text:"Success is not final, failure is not fatal: it is the courage to continue that counts.",author:"Winston Churchill, c.1940"},
   {text:"Believe you can and you're halfway there.",author:"Theodore Roosevelt, c.1910"},
   {text:"The future belongs to those who believe in the beauty of their dreams.",author:"Eleanor Roosevelt, c.1940"},
-  {text:"Ka mua, ka muri ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â walking backwards into the future.",author:"MÃƒâ€žÃ‚Âori proverb"},
-  {text:"Tukua ngÃƒâ€žÃ‚Â mahi kia kÃƒâ€¦Ã‚Ârero ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â let the work speak for itself.",author:"MÃƒâ€žÃ‚Âori proverb"},
+  {text:"Ka mua, ka muri — walking backwards into the future.",author:"Māori proverb"},
+  {text:"Tukua ngā mahi kia kōrero — let the work speak for itself.",author:"Māori proverb"},
   {text:"You miss 100% of the shots you don't take.",author:"Wayne Gretzky, c.1983"},
   {text:"Be so good they can't ignore you.",author:"Steve Martin, c.2007"},
-  {text:"Kia kaha ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â be strong.",author:"MÃƒâ€žÃ‚Âori proverb"},
+  {text:"Kia kaha — be strong.",author:"Māori proverb"},
   {text:"Progress, not perfection.",author:"Unknown"},
   {text:"Little by little, one travels far.",author:"J.R.R. Tolkien, 1954"},
   {text:"The best time to plant a tree was 20 years ago. The second best time is now.",author:"Chinese proverb"},
   {text:"You are enough just as you are.",author:"Meghan Markle, 2019"},
   {text:"Be the change you wish to see in the world.",author:"Mahatma Gandhi, c.1913"},
-  {text:"Kia maia ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â be brave.",author:"MÃƒâ€žÃ‚Âori proverb"},
+  {text:"Kia maia — be brave.",author:"Māori proverb"},
   {text:"Well-behaved women seldom make history.",author:"Laurel Thatcher Ulrich, 1976"},
   {text:"The question isn't who is going to let me; it's who is going to stop me.",author:"Ayn Rand, 1943"},
   {text:"I am not afraid of storms, for I am learning how to sail my ship.",author:"Louisa May Alcott, 1868"},
-  {text:"One day or day one ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â you decide.",author:"Unknown"},
-  {text:"Rest is not idleness ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it's part of the work.",author:"Unknown"},
+  {text:"One day or day one — you decide.",author:"Unknown"},
+  {text:"Rest is not idleness — it's part of the work.",author:"Unknown"},
   {text:"Start where you are. Use what you have. Do what you can.",author:"Arthur Ashe, c.1990"},
   {text:"Energy and persistence conquer all things.",author:"Benjamin Franklin, c.1758"},
   {text:"Dream big. Start small. Act now.",author:"Unknown"},
   {text:"Wake up with determination. Go to bed with satisfaction.",author:"Unknown"},
   // --- Harry Potter ---
-  {text:"It does not do to dwell on dreams and forget to live.",author:"Dumbledore ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.K. Rowling, 1997"},
-  {text:"It is our choices that show what we truly are, far more than our abilities.",author:"Dumbledore ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.K. Rowling, 1998"},
-  {text:"We must all face the choice between what is right and what is easy.",author:"Dumbledore ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.K. Rowling, 2000"},
-  {text:"After all this time? Always.",author:"Severus Snape ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.K. Rowling, 2007"},
-  {text:"Words are our most inexhaustible source of magic.",author:"Dumbledore ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.K. Rowling, 2007"},
-  {text:"Happiness can be found even in the darkest of times, if one only remembers to turn on the light.",author:"Dumbledore ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Steve Kloves, 2004"},
+  {text:"It does not do to dwell on dreams and forget to live.",author:"Dumbledore — J.K. Rowling, 1997"},
+  {text:"It is our choices that show what we truly are, far more than our abilities.",author:"Dumbledore — J.K. Rowling, 1998"},
+  {text:"We must all face the choice between what is right and what is easy.",author:"Dumbledore — J.K. Rowling, 2000"},
+  {text:"After all this time? Always.",author:"Severus Snape — J.K. Rowling, 2007"},
+  {text:"Words are our most inexhaustible source of magic.",author:"Dumbledore — J.K. Rowling, 2007"},
+  {text:"Happiness can be found even in the darkest of times, if one only remembers to turn on the light.",author:"Dumbledore — Steve Kloves, 2004"},
   // --- LOTR / Tolkien ---
   {text:"Not all those who wander are lost.",author:"J.R.R. Tolkien, 1954"},
-  {text:"All we have to decide is what to do with the time that is given us.",author:"Gandalf ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.R.R. Tolkien, 1954"},
-  {text:"There is some good in this world, and it's worth fighting for.",author:"Samwise Gamgee ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â J.R.R. Tolkien, 1954"},
-  {text:"Even the smallest person can change the course of the future.",author:"Galadriel ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Boyens/Walsh/Jackson, 2001"},
+  {text:"All we have to decide is what to do with the time that is given us.",author:"Gandalf — J.R.R. Tolkien, 1954"},
+  {text:"There is some good in this world, and it's worth fighting for.",author:"Samwise Gamgee — J.R.R. Tolkien, 1954"},
+  {text:"Even the smallest person can change the course of the future.",author:"Galadriel — Boyens/Walsh/Jackson, 2001"},
   {text:"Courage is found in unlikely places.",author:"J.R.R. Tolkien, 1954"},
   // --- Star Wars ---
-  {text:"Do. Or do not. There is no try.",author:"Yoda ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Leigh Brackett/Lawrence Kasdan, 1980"},
-  {text:"Your focus determines your reality.",author:"Qui-Gon Jinn ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â George Lucas, 1999"},
-  {text:"The Force will be with you, always.",author:"Obi-Wan Kenobi ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â George Lucas, 1977"},
-  {text:"In my experience, there is no such thing as luck.",author:"Obi-Wan Kenobi ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â George Lucas, 1977"},
-  {text:"I find your lack of faith disturbing.",author:"Darth Vader ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â George Lucas, 1977"},
+  {text:"Do. Or do not. There is no try.",author:"Yoda — Leigh Brackett/Lawrence Kasdan, 1980"},
+  {text:"Your focus determines your reality.",author:"Qui-Gon Jinn — George Lucas, 1999"},
+  {text:"The Force will be with you, always.",author:"Obi-Wan Kenobi — George Lucas, 1977"},
+  {text:"In my experience, there is no such thing as luck.",author:"Obi-Wan Kenobi — George Lucas, 1977"},
+  {text:"I find your lack of faith disturbing.",author:"Darth Vader — George Lucas, 1977"},
   // --- Dragon Ball Z ---
-  {text:"Power comes in response to a need, not a desire.",author:"Goku ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Akira Toriyama, c.1989"},
-  {text:"Push through the pain. Giving up hurts more.",author:"Vegeta ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Akira Toriyama, c.1991"},
-  {text:"Strength is not enough. You must surpass your limits.",author:"Goku ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Akira Toriyama, c.1990"},
+  {text:"Power comes in response to a need, not a desire.",author:"Goku — Akira Toriyama, c.1989"},
+  {text:"Push through the pain. Giving up hurts more.",author:"Vegeta — Akira Toriyama, c.1991"},
+  {text:"Strength is not enough. You must surpass your limits.",author:"Goku — Akira Toriyama, c.1990"},
   // --- Pokemon ---
-  {text:"The circumstances of one's birth are irrelevant. It is what you do with the gift of life that determines who you are.",author:"Mewtwo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Takeshi Shudo, 1998"},
-  {text:"There's no sense in going out of your way to get somebody to like you.",author:"Ash Ketchum ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Takeshi Shudo, c.1997"},
+  {text:"The circumstances of one's birth are irrelevant. It is what you do with the gift of life that determines who you are.",author:"Mewtwo — Takeshi Shudo, 1998"},
+  {text:"There's no sense in going out of your way to get somebody to like you.",author:"Ash Ketchum — Takeshi Shudo, c.1997"},
   // --- MCU ---
-  {text:"I am Iron Man.",author:"Tony Stark ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Mark Fergus/Hawk Ostby, Marvel Studios, 2008"},
-  {text:"With great power comes great responsibility.",author:"Uncle Ben ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Stan Lee/Steve Ditko, Marvel, 1962"},
-  {text:"I can do this all day.",author:"Steve Rogers ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Markus/Stephen McFeely, 2011"},
-  {text:"Part of the journey is the end.",author:"Tony Stark ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Markus/Stephen McFeely, 2019"},
-  {text:"Whatever it takes.",author:"Avengers ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Markus/Stephen McFeely, 2019"},
+  {text:"I am Iron Man.",author:"Tony Stark — Mark Fergus/Hawk Ostby, Marvel Studios, 2008"},
+  {text:"With great power comes great responsibility.",author:"Uncle Ben — Stan Lee/Steve Ditko, Marvel, 1962"},
+  {text:"I can do this all day.",author:"Steve Rogers — Christopher Markus/Stephen McFeely, 2011"},
+  {text:"Part of the journey is the end.",author:"Tony Stark — Christopher Markus/Stephen McFeely, 2019"},
+  {text:"Whatever it takes.",author:"Avengers — Christopher Markus/Stephen McFeely, 2019"},
   // --- Artists ---
   {text:"I dream my painting and I paint my dream.",author:"Vincent van Gogh, c.1888"},
   {text:"Great things are done by a series of small things brought together.",author:"Vincent van Gogh, c.1882"},
   {text:"I never painted dreams. I painted my own reality.",author:"Frida Kahlo, c.1940"},
   {text:"Everything you can imagine is real.",author:"Pablo Picasso, c.1923"},
   {text:"Learning never exhausts the mind.",author:"Leonardo da Vinci, c.1510"},
-  {text:"The greater danger is not that our hopes are too high ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it is that they are too low.",author:"Michelangelo, c.1500"},
+  {text:"The greater danger is not that our hopes are too high — it is that they are too low.",author:"Michelangelo, c.1500"},
   // --- Philosophers ---
-  {text:"The unexamined life is not worth living.",author:"Socrates ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Plato, c.399 BCE"},
+  {text:"The unexamined life is not worth living.",author:"Socrates — Plato, c.399 BCE"},
   {text:"We are what we repeatedly do. Excellence is not an act but a habit.",author:"Aristotle, c.340 BCE"},
   {text:"The beginning is the most important part of the work.",author:"Plato, c.380 BCE"},
   {text:"You have power over your mind, not outside events. Realize this, and you will find strength.",author:"Marcus Aurelius, Meditations, c.170 CE"},
@@ -148,12 +148,12 @@ const QUOTES = [
   {text:"Luck is what happens when preparation meets opportunity.",author:"Seneca, c.65 CE"},
   // --- Hip Hop ---
   {text:"I'm my own soulmate. I know how to love me.",author:"Lizzo, 2019"},
-  {text:"I'm not a businessman ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â I'm a business, man.",author:"Jay-Z, 2005"},
+  {text:"I'm not a businessman — I'm a business, man.",author:"Jay-Z, 2005"},
   {text:"Reality is wrong. Dreams are for real.",author:"Tupac Shakur, c.1993"},
   {text:"Stay far from timid, only make moves when your heart's in it.",author:"The Notorious B.I.G., 1997"},
   {text:"Know yourself, know your worth.",author:"Drake, 2015"},
   {text:"Never a failure, always a lesson.",author:"Rihanna, c.2012"},
-  {text:"The best revenge is your paper.",author:"BeyoncÃƒÆ’Ã‚Â©, 2016"},
+  {text:"The best revenge is your paper.",author:"Beyoncé, 2016"},
   {text:"You can do anything you set your mind to.",author:"Eminem, 2002"},
   // --- Arnold & Einstein ---
   {text:"Strength does not come from winning. Your struggles develop your strengths.",author:"Arnold Schwarzenegger, c.1977"},
@@ -169,32 +169,32 @@ const QUOTES = [
   {text:"I don't dance now, I make money moves.",author:"Cardi B, 2017"},
   {text:"Be careful with me. I'm a queen.",author:"Cardi B, c.2018"},
   {text:"Hate it or love it, the underdog's on top.",author:"50 Cent & The Game, 2005"},
-  {text:"They told me I couldn't ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â that's why I did.",author:"Unknown"},
+  {text:"They told me I couldn't — that's why I did.",author:"Unknown"},
   {text:"We buy things we don't need with money we don't have to impress people we don't like.",author:"Dave Ramsey, c.2000"},
   {text:"Life isn't about finding yourself. It's about creating yourself.",author:"George Bernard Shaw, c.1921"},
   {text:"The only thing we have to fear is fear itself.",author:"Franklin D. Roosevelt, 1933"},
   {text:"Float like a butterfly, sting like a bee.",author:"Muhammad Ali, 1964"},
   {text:"I hated every minute of training, but I said: don't quit. Suffer now and live the rest of your life as a champion.",author:"Muhammad Ali, c.1970"},,
-  {text:"Talent is something you make bloom; instinct is something you polish.",author:"Oikawa Tooru ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Furudate, Haikyuu!!, 2012"},
-  {text:"Even if we're not confident that we'll win, we can still fight for it!",author:"Hinata Shoyo ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Furudate, Haikyuu!!, 2012"},
+  {text:"Talent is something you make bloom; instinct is something you polish.",author:"Oikawa Tooru — Furudate, Haikyuu!!, 2012"},
+  {text:"Even if we're not confident that we'll win, we can still fight for it!",author:"Hinata Shoyo — Furudate, Haikyuu!!, 2012"},
   {text:"The last one to give up is the one who wins.",author:"Furudate, Haikyuu!!, c.2013"},
-  {text:"Don't stay the same. Keep evolving.",author:"Kageyama Tobio ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Furudate, Haikyuu!!, c.2014"},
+  {text:"Don't stay the same. Keep evolving.",author:"Kageyama Tobio — Furudate, Haikyuu!!, c.2014"},
   {text:"If I stop now, I lose. So I keep going.",author:"Furudate, Haikyuu!!, c.2015"},
-  {text:"No matter how hard or impossible it is, never lose sight of your goal.",author:"Monkey D. Luffy ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Eiichiro Oda, One Piece, c.1999"},
-  {text:"Power isn't determined by your size, but by the size of your heart and dreams.",author:"Monkey D. Luffy ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Eiichiro Oda, One Piece, c.2000"},
-  {text:"If I can't protect my crewmates, I have no right to become King of the Pirates.",author:"Monkey D. Luffy ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Eiichiro Oda, One Piece, c.2000"},
-  {text:"A person grows up when they're able to overcome hardship.",author:"Jiraiya ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Masashi Kishimoto, Naruto, c.2006"},
-  {text:"I never go back on my word. That's my ninja way.",author:"Naruto Uzumaki ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Masashi Kishimoto, c.2002"},
-  {text:"When people protect something truly precious, they can become as strong as they need to be.",author:"Haku ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Masashi Kishimoto, Naruto, c.2000"},
-  {text:"It's not the face that makes someone a monster. It's the choices they make.",author:"Naruto Uzumaki ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Masashi Kishimoto"},
-  {text:"The world is merciless, and it's also very beautiful.",author:"Mikasa Ackerman ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hajime Isayama, c.2009"},
-  {text:"If you don't fight, you can't win.",author:"Eren Yeager ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hajime Isayama, c.2009"},
-  {text:"Why do we fall? So that we can learn to pick ourselves back up.",author:"Alfred Pennyworth ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Nolan, 2005"},
-  {text:"It's not who I am underneath, but what I do that defines me.",author:"Bruce Wayne ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Nolan, Batman Begins, 2005"},
-  {text:"The night is darkest just before the dawn. And I promise you, the dawn is coming.",author:"Harvey Dent ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Nolan, The Dark Knight, 2008"},
-  {text:"Life doesn't give us purpose. We give life purpose.",author:"Barry Allen ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â DC Comics"},
+  {text:"No matter how hard or impossible it is, never lose sight of your goal.",author:"Monkey D. Luffy — Eiichiro Oda, One Piece, c.1999"},
+  {text:"Power isn't determined by your size, but by the size of your heart and dreams.",author:"Monkey D. Luffy — Eiichiro Oda, One Piece, c.2000"},
+  {text:"If I can't protect my crewmates, I have no right to become King of the Pirates.",author:"Monkey D. Luffy — Eiichiro Oda, One Piece, c.2000"},
+  {text:"A person grows up when they're able to overcome hardship.",author:"Jiraiya — Masashi Kishimoto, Naruto, c.2006"},
+  {text:"I never go back on my word. That's my ninja way.",author:"Naruto Uzumaki — Masashi Kishimoto, c.2002"},
+  {text:"When people protect something truly precious, they can become as strong as they need to be.",author:"Haku — Masashi Kishimoto, Naruto, c.2000"},
+  {text:"It's not the face that makes someone a monster. It's the choices they make.",author:"Naruto Uzumaki — Masashi Kishimoto"},
+  {text:"The world is merciless, and it's also very beautiful.",author:"Mikasa Ackerman — Hajime Isayama, c.2009"},
+  {text:"If you don't fight, you can't win.",author:"Eren Yeager — Hajime Isayama, c.2009"},
+  {text:"Why do we fall? So that we can learn to pick ourselves back up.",author:"Alfred Pennyworth — Christopher Nolan, 2005"},
+  {text:"It's not who I am underneath, but what I do that defines me.",author:"Bruce Wayne — Christopher Nolan, Batman Begins, 2005"},
+  {text:"The night is darkest just before the dawn. And I promise you, the dawn is coming.",author:"Harvey Dent — Christopher Nolan, The Dark Knight, 2008"},
+  {text:"Life doesn't give us purpose. We give life purpose.",author:"Barry Allen — DC Comics"},
   {text:"I've failed over and over again in my life. And that is why I succeed.",author:"Michael Jordan, c.1997"},
-  {text:"Everything negative ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pressure, challenges ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â is an opportunity for me to rise.",author:"Kobe Bryant, c.2010"},
+  {text:"Everything negative — pressure, challenges — is an opportunity for me to rise.",author:"Kobe Bryant, c.2010"},
   {text:"The moment you give up is the moment you let someone else win.",author:"Kobe Bryant, c.2009"},
   {text:"I trained 4 years to run 9 seconds. People give up when they don't see results in 2 months.",author:"Usain Bolt, c.2012"},
   {text:"A champion is defined not by their wins but by how they can recover when they fall.",author:"Serena Williams, c.2015"},
@@ -208,13 +208,13 @@ const QUOTES = [
   {text:"To live is the rarest thing in the world. Most people just exist.",author:"Oscar Wilde, The Soul of Man, 1891"},
   {text:"Always forgive your enemies. Nothing annoys them so much.",author:"Oscar Wilde, c.1890"},
   {text:"Experience is simply the name we give our mistakes.",author:"Oscar Wilde, Lady Windermere's Fan, 1892"},
-  {text:"We know what we are, but know not what we may be.",author:"Ophelia ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Hamlet, c.1601"},
+  {text:"We know what we are, but know not what we may be.",author:"Ophelia — William Shakespeare, Hamlet, c.1601"},
   {text:"All the world is a stage, and all the men and women merely players.",author:"William Shakespeare, As You Like It, 1599"},
-  {text:"What a piece of work is a man! How noble in reason, how infinite in faculty!",author:"Hamlet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, c.1601"},
-  {text:"The lady doth protest too much, methinks.",author:"Gertrude ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Hamlet, c.1601"},
+  {text:"What a piece of work is a man! How noble in reason, how infinite in faculty!",author:"Hamlet — William Shakespeare, c.1601"},
+  {text:"The lady doth protest too much, methinks.",author:"Gertrude — William Shakespeare, Hamlet, c.1601"},
   {text:"Expectation is the root of all heartache.",author:"William Shakespeare, c.1600"},
-  {text:"This above all: to thine own self be true.",author:"Polonius ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Hamlet, c.1601"},
-  {text:"We are such stuff as dreams are made on.",author:"Prospero ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, The Tempest, c.1611"},
+  {text:"This above all: to thine own self be true.",author:"Polonius — William Shakespeare, Hamlet, c.1601"},
+  {text:"We are such stuff as dreams are made on.",author:"Prospero — William Shakespeare, The Tempest, c.1611"},
   {text:"The only way to make sense out of change is to plunge into it and join the dance.",author:"Alan Watts, c.1960"},
   {text:"You are under no obligation to be the same person you were a year ago.",author:"Alan Watts, c.1960"},
   {text:"This is the real secret of life: to be completely engaged with what you are doing right now.",author:"Alan Watts, c.1960"},
@@ -267,19 +267,19 @@ const QUOTES = [
   {text:"There are no great people. Only great challenges that ordinary people rise to meet.",author:"Admiral William Halsey, c.1945"},
   {text:"Creativity is intelligence having fun.",author:"Albert Einstein, c.1929"},
   {text:"Logic will get you from A to B. Imagination will take you everywhere.",author:"Albert Einstein, c.1929"},
-  {text:"You cannot alter your fate. However, you can rise to meet it.",author:"Hii-sama ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Princess Mononoke, 1997"},
-  {text:"Once you've met someone, you never really forget them.",author:"Zeniba ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Spirited Away, 2001"},
-  {text:"A heart's a heavy burden.",author:"Sophie ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Howl's Moving Castle, 2004"},
-  {text:"I think we ought to live happily ever after.",author:"Howl ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Howl's Moving Castle, 2004"},
-  {text:"The world cannot live without love.",author:"Sheeta ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Castle in the Sky, 1986"},
+  {text:"You cannot alter your fate. However, you can rise to meet it.",author:"Hii-sama — Hayao Miyazaki, Princess Mononoke, 1997"},
+  {text:"Once you've met someone, you never really forget them.",author:"Zeniba — Hayao Miyazaki, Spirited Away, 2001"},
+  {text:"A heart's a heavy burden.",author:"Sophie — Hayao Miyazaki, Howl's Moving Castle, 2004"},
+  {text:"I think we ought to live happily ever after.",author:"Howl — Hayao Miyazaki, Howl's Moving Castle, 2004"},
+  {text:"The world cannot live without love.",author:"Sheeta — Hayao Miyazaki, Castle in the Sky, 1986"},
   {text:"No matter how hard or painful the journey, keep moving forward.",author:"Hayao Miyazaki, c.2000"},
-  {text:"Always believe in yourself. Do this and no matter where you are, you will have nothing to fear.",author:"Baron ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, The Cat Returns, 2002"},
-  {text:"I'd rather be dead than cool.",author:"Porco Rosso ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hayao Miyazaki, Porco Rosso, 1992"},
-  {text:"You've met with a terrible fate, haven't you?",author:"Happy Mask Salesman ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Shigeru Miyamoto, Zelda: Majora's Mask, 2000"},
+  {text:"Always believe in yourself. Do this and no matter where you are, you will have nothing to fear.",author:"Baron — Hayao Miyazaki, The Cat Returns, 2002"},
+  {text:"I'd rather be dead than cool.",author:"Porco Rosso — Hayao Miyazaki, Porco Rosso, 1992"},
+  {text:"You've met with a terrible fate, haven't you?",author:"Happy Mask Salesman — Shigeru Miyamoto, Zelda: Majora's Mask, 2000"},
   {text:"One is not born, but rather becomes, a woman.",author:"Simone de Beauvoir, The Second Sex, 1949"},
   {text:"I do not wish women to have power over men; but over themselves.",author:"Mary Wollstonecraft, A Vindication of the Rights of Woman, 1792"},
   {text:"The most courageous act is still to think for yourself. Aloud.",author:"Coco Chanel, c.1960"},
-  {text:"I am no bird; and no net ensnares me.",author:"Charlotte BrontÃƒÆ’Ã‚Â«, Jane Eyre, 1847"},
+  {text:"I am no bird; and no net ensnares me.",author:"Charlotte Brontë, Jane Eyre, 1847"},
   {text:"I am not free while any woman is unfree, even when her shackles are very different from my own.",author:"Audre Lorde, c.1981"},
   {text:"Caring for myself is not self-indulgence, it is self-preservation, and that is an act of political warfare.",author:"Audre Lorde, A Burst of Light, 1988"},
   {text:"A woman must have money and a room of her own if she is to write fiction.",author:"Virginia Woolf, A Room of One's Own, 1929"},
@@ -301,8 +301,8 @@ const QUOTES = [
   {text:"Everything can be taken from a man but one thing: the freedom to choose one's attitude in any given set of circumstances.",author:"Viktor Frankl, Man's Search for Meaning, 1946"},
   {text:"Between stimulus and response there is a space. In that space is our power to choose our response.",author:"Viktor Frankl, c.1946"},
   {text:"In any given moment we have two options: to step forward into growth or to step back into safety.",author:"Abraham Maslow, c.1962"},
-  {text:"Vulnerability is not winning or losing; it's having the courage to show up and be seen.",author:"BrenÃƒÆ’Ã‚Â© Brown, Daring Greatly, 2012"},
-  {text:"You cannot shame or belittle people into changing their behaviours.",author:"BrenÃƒÆ’Ã‚Â© Brown, c.2010"},
+  {text:"Vulnerability is not winning or losing; it's having the courage to show up and be seen.",author:"Brené Brown, Daring Greatly, 2012"},
+  {text:"You cannot shame or belittle people into changing their behaviours.",author:"Brené Brown, c.2010"},
   {text:"The greatest weapon against stress is our ability to choose one thought over another.",author:"William James, c.1890"},
   {text:"Life is what you make it. Always has been, always will be.",author:"Eleanor Roosevelt, c.1940"},
   {text:"Knowing yourself is the beginning of all wisdom.",author:"Aristotle, c.340 BCE"},
@@ -313,15 +313,15 @@ const QUOTES = [
   {text:"An artist's duty is to reflect the times.",author:"Nina Simone, c.1968"},
   {text:"You've got to learn to leave the table when love's no longer being served.",author:"Nina Simone, c.1976"},
   {text:"Love the life you live. Live the life you love.",author:"Bob Marley, c.1980"},
-  {text:"One good thing about music ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â when it hits you, you feel no pain.",author:"Bob Marley, Trenchtown Rock, 1971"},
+  {text:"One good thing about music — when it hits you, you feel no pain.",author:"Bob Marley, Trenchtown Rock, 1971"},
   {text:"It takes a long time to play like yourself.",author:"Miles Davis, c.1960"},
   {text:"Life is what happens when you're busy making other plans.",author:"John Lennon, Beautiful Boy, 1980"},
   {text:"Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything.",author:"Plato, c.390 BCE"},
   {text:"Without music, life would be a mistake.",author:"Friedrich Nietzsche, Twilight of the Idols, 1888"},
-  {text:"One day I will be at the right place at the right time. Today I practice.",author:"Unknown ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â musician's affirmation"},
+  {text:"One day I will be at the right place at the right time. Today I practice.",author:"Unknown — musician's affirmation"},
   {text:"Creativity takes courage.",author:"Henri Matisse, c.1950"},
-  {text:"I've been absolutely terrified every moment of my life ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â and I've never let it keep me from doing a single thing.",author:"Georgia O'Keeffe, c.1970"},
-  {text:"Have no fear of perfection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â you'll never reach it.",author:"Salvador DalÃƒÆ’Ã‚Â­, c.1960"},
+  {text:"I've been absolutely terrified every moment of my life — and I've never let it keep me from doing a single thing.",author:"Georgia O'Keeffe, c.1970"},
+  {text:"Have no fear of perfection — you'll never reach it.",author:"Salvador Dalí, c.1960"},
   {text:"They always say time changes things, but you actually have to change them yourself.",author:"Andy Warhol, The Philosophy of Andy Warhol, 1975"},
   {text:"Art is not what you see, but what you make others see.",author:"Edgar Degas, c.1880"},
   {text:"Art should comfort the disturbed and disturb the comfortable.",author:"Banksy, c.2006"},
@@ -331,44 +331,44 @@ const QUOTES = [
   {text:"If people knew how hard I worked to get my mastery, it wouldn't seem so wonderful at all.",author:"Michelangelo, c.1500"},
   {text:"Go and make interesting mistakes, make amazing mistakes, make glorious and fantastic mistakes.",author:"Neil Gaiman, commencement speech, 2012"},
   {text:"The world always seems brighter when you've just made something that wasn't there before.",author:"Neil Gaiman, c.2010"},
-  {text:"Life can only be understood backwards; but it must be lived forwards.",author:"SÃƒÆ’Ã‚Â¸ren Kierkegaard, Journals, 1843"},
+  {text:"Life can only be understood backwards; but it must be lived forwards.",author:"Søren Kierkegaard, Journals, 1843"},
   {text:"Judge a man by his questions rather than by his answers.",author:"Voltaire, c.1760"},
   {text:"The only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion.",author:"Albert Camus, c.1945"},
   {text:"You will never be happy if you continue to search for what happiness consists of.",author:"Albert Camus, c.1942"},
   {text:"Attention is the rarest and purest form of generosity.",author:"Simone Weil, c.1940"},
-  {text:"The unexamined life is not worth living.",author:"Socrates ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Plato, Apology, c.399 BCE"},
-  {text:"I think, therefore I am.",author:"RenÃƒÆ’Ã‚Â© Descartes, Discourse on the Method, 1637"},
+  {text:"The unexamined life is not worth living.",author:"Socrates — Plato, Apology, c.399 BCE"},
+  {text:"I think, therefore I am.",author:"René Descartes, Discourse on the Method, 1637"},
   {text:"The only freedom which deserves the name is that of pursuing our own good in our own way.",author:"John Stuart Mill, On Liberty, 1859"},
   {text:"Man is condemned to be free.",author:"Jean-Paul Sartre, Existentialism is a Humanism, 1945"},
   {text:"Hell is other people.",author:"Jean-Paul Sartre, No Exit, 1944"},
   {text:"We are what we pretend to be, so we must be careful about what we pretend to be.",author:"Kurt Vonnegut, Mother Night, 1962"},
   {text:"Of all the things I've lost, I miss my mind the most.",author:"Mark Twain, c.1900"},
-  {text:"To be, or not to be ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â that is the question.",author:"Hamlet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, c.1601"},
-  {text:"Brevity is the soul of wit.",author:"Polonius ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Hamlet, c.1601"},
-  {text:"What's in a name? That which we call a rose by any other name would smell as sweet.",author:"Juliet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Romeo and Juliet, c.1597"},
-  {text:"The robbed that smiles, steals something from the thief.",author:"Othello ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, c.1603"},
-  {text:"Our doubts are traitors and make us lose the good we oft might win.",author:"Lucio ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â William Shakespeare, Measure for Measure, c.1603"},
-  {text:"Humankind cannot gain anything without first giving something in return.",author:"Alphonse Elric ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hiromu Arakawa, Fullmetal Alchemist, 2001"},
-  {text:"A lesson without pain is meaningless. That's because no one can gain without sacrificing something.",author:"Edward Elric ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Hiromu Arakawa, FMA: Brotherhood, 2009"},
-  {text:"You can become a hero!",author:"All Might ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â KÃƒâ€¦Ã‚Âhei Horikoshi, My Hero Academia, c.2014"},
-  {text:"A hero isn't someone who never fails. A hero is someone who gets back up.",author:"KÃƒâ€¦Ã‚Âhei Horikoshi, My Hero Academia, c.2016"},
+  {text:"To be, or not to be — that is the question.",author:"Hamlet — William Shakespeare, c.1601"},
+  {text:"Brevity is the soul of wit.",author:"Polonius — William Shakespeare, Hamlet, c.1601"},
+  {text:"What's in a name? That which we call a rose by any other name would smell as sweet.",author:"Juliet — William Shakespeare, Romeo and Juliet, c.1597"},
+  {text:"The robbed that smiles, steals something from the thief.",author:"Othello — William Shakespeare, c.1603"},
+  {text:"Our doubts are traitors and make us lose the good we oft might win.",author:"Lucio — William Shakespeare, Measure for Measure, c.1603"},
+  {text:"Humankind cannot gain anything without first giving something in return.",author:"Alphonse Elric — Hiromu Arakawa, Fullmetal Alchemist, 2001"},
+  {text:"A lesson without pain is meaningless. That's because no one can gain without sacrificing something.",author:"Edward Elric — Hiromu Arakawa, FMA: Brotherhood, 2009"},
+  {text:"You can become a hero!",author:"All Might — Kōhei Horikoshi, My Hero Academia, c.2014"},
+  {text:"A hero isn't someone who never fails. A hero is someone who gets back up.",author:"Kōhei Horikoshi, My Hero Academia, c.2016"},
   {text:"The most important things in life aren't things.",author:"Natsuki Takaya, Fruits Basket, c.2001"},
-  {text:"No matter how deep the night, it always turns to day, eventually.",author:"Brook ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Eiichiro Oda, One Piece, c.2007"},
-  {text:"If you don't like your destiny, don't accept it. Instead, have the courage to change it the way you want it to be.",author:"Naruto Uzumaki ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Masashi Kishimoto"},
-  {text:"Seize the day. Make your lives extraordinary.",author:"John Keating ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tom Schulman, Dead Poets Society, 1989"},
-  {text:"It ain't about how hard you hit. It's about how hard you can get hit and keep moving forward.",author:"Rocky Balboa ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Sylvester Stallone, Rocky Balboa, 2006"},
-  {text:"Life is like a box of chocolates ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â you never know what you're gonna get.",author:"Forrest Gump ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Eric Roth, Forrest Gump, 1994"},
-  {text:"Remember who you are.",author:"Mufasa ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Jonathan Roberts/Linda Woolverton, The Lion King, 1994"},
-  {text:"The ocean chose you for a reason.",author:"Gramma Tala ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Jared Bush/Pamela Ribon, Moana, 2016"},
-  {text:"To infinity and beyond!",author:"Buzz Lightyear ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Joss Whedon et al., Toy Story, 1995"},
-  {text:"Just keep swimming.",author:"Dory ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Andrew Stanton, Finding Nemo, 2003"},
-  {text:"Adventure is out there!",author:"Up ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Bob Peterson/Pete Docter, 2009"},
-  {text:"The things that make me different are the things that make me.",author:"Winnie the Pooh ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â A.A. Milne, c.1926"},
-  {text:"Some people are worth melting for.",author:"Olaf ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Jennifer Lee, Frozen, 2013"},
-  {text:"Love is putting someone else's needs before yours.",author:"Olaf ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Jennifer Lee, Frozen, 2013"},
-  {text:"Change is nature. The part that we can influence ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â and it starts when we decide.",author:"RÃƒÆ’Ã‚Â©my ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Brad Bird, Ratatouille, 2007"},
-  {text:"Free your mind.",author:"Morpheus ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Wachowskis, The Matrix, 1999"},
-  {text:"Love is the one thing capable of transcending time and space.",author:"Brand ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Christopher Nolan, Interstellar, 2014"},
+  {text:"No matter how deep the night, it always turns to day, eventually.",author:"Brook — Eiichiro Oda, One Piece, c.2007"},
+  {text:"If you don't like your destiny, don't accept it. Instead, have the courage to change it the way you want it to be.",author:"Naruto Uzumaki — Masashi Kishimoto"},
+  {text:"Seize the day. Make your lives extraordinary.",author:"John Keating — Tom Schulman, Dead Poets Society, 1989"},
+  {text:"It ain't about how hard you hit. It's about how hard you can get hit and keep moving forward.",author:"Rocky Balboa — Sylvester Stallone, Rocky Balboa, 2006"},
+  {text:"Life is like a box of chocolates — you never know what you're gonna get.",author:"Forrest Gump — Eric Roth, Forrest Gump, 1994"},
+  {text:"Remember who you are.",author:"Mufasa — Jonathan Roberts/Linda Woolverton, The Lion King, 1994"},
+  {text:"The ocean chose you for a reason.",author:"Gramma Tala — Jared Bush/Pamela Ribon, Moana, 2016"},
+  {text:"To infinity and beyond!",author:"Buzz Lightyear — Joss Whedon et al., Toy Story, 1995"},
+  {text:"Just keep swimming.",author:"Dory — Andrew Stanton, Finding Nemo, 2003"},
+  {text:"Adventure is out there!",author:"Up — Bob Peterson/Pete Docter, 2009"},
+  {text:"The things that make me different are the things that make me.",author:"Winnie the Pooh — A.A. Milne, c.1926"},
+  {text:"Some people are worth melting for.",author:"Olaf — Jennifer Lee, Frozen, 2013"},
+  {text:"Love is putting someone else's needs before yours.",author:"Olaf — Jennifer Lee, Frozen, 2013"},
+  {text:"Change is nature. The part that we can influence — and it starts when we decide.",author:"Rémy — Brad Bird, Ratatouille, 2007"},
+  {text:"Free your mind.",author:"Morpheus — Wachowskis, The Matrix, 1999"},
+  {text:"Love is the one thing capable of transcending time and space.",author:"Brand — Christopher Nolan, Interstellar, 2014"},
   {text:"When the winds of change blow, some build walls and others build windmills.",author:"Chinese proverb"},
   {text:"Give a man a fish and you feed him for a day. Teach a man to fish and you feed him for a lifetime.",author:"Chinese proverb"},
   {text:"The man who removes a mountain begins by carrying away small stones.",author:"Chinese proverb"},
@@ -388,14 +388,14 @@ const QUOTES = [
   {text:"Without effort, no harvest.",author:"Danish proverb"},
   {text:"Even a small star shines in the darkness.",author:"Finnish proverb"},
   {text:"He who has health has hope; and he who has hope has everything.",author:"Arabian proverb"},
-  {text:"Turn your face toward the sun and the shadows fall behind you.",author:"MÃƒâ€žÃ‚Âori proverb"},
-  {text:"Whakataka te hau ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â let the wind cease, let the breeze cease, and let there be peace.",author:"MÃƒâ€žÃ‚Âori karakia"},
-  {text:"Ehara taku toa i te toa takitahi, engari taku toa he toa takitini ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â my strength is not as an individual, but as a collective.",author:"MÃƒâ€žÃ‚Âori proverb"},
+  {text:"Turn your face toward the sun and the shadows fall behind you.",author:"Māori proverb"},
+  {text:"Whakataka te hau — let the wind cease, let the breeze cease, and let there be peace.",author:"Māori karakia"},
+  {text:"Ehara taku toa i te toa takitahi, engari taku toa he toa takitini — my strength is not as an individual, but as a collective.",author:"Māori proverb"},
   {text:"I'm always gonna rise up.",author:"Kendrick Lamar, ELEMENT., 2017"},
   {text:"Sit down, be humble.",author:"Kendrick Lamar, HUMBLE., 2017"},
   {text:"Be careful with me.",author:"Cardi B, c.2018"},
   {text:"I'm the one that's got to die when it's time for me to die, so let me live my life the way I want to.",author:"Jimi Hendrix, c.1967"},
-  {text:"When I get sad, I stop being sad and be awesome instead.",author:"Barney Stinson ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Carter Bays, How I Met Your Mother, 2008"},
+  {text:"When I get sad, I stop being sad and be awesome instead.",author:"Barney Stinson — Carter Bays, How I Met Your Mother, 2008"},
   {text:"Music can change the world because it can change people.",author:"Bono, c.2000"},
   {text:"I am not going to be a star. I am going to be a legend.",author:"Freddie Mercury, c.1985"},
   {text:"There are two tragedies in life. One is to lose your heart's desire. The other is to gain it.",author:"George Bernard Shaw, Man and Superman, 1902"},
@@ -403,7 +403,7 @@ const QUOTES = [
   {text:"Not all those who wander are lost.",author:"J.R.R. Tolkien, The Fellowship of the Ring, 1954"},
   {text:"Some days you will be the light for others, and some days you will need some light from them.",author:"Unknown"},
   {text:"Be curious, not judgmental.",author:"Walt Whitman, c.1855"},
-  {text:"Do I contradict myself? Very well then I contradict myself ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â I am large, I contain multitudes.",author:"Walt Whitman, Song of Myself, 1855"},
+  {text:"Do I contradict myself? Very well then I contradict myself — I am large, I contain multitudes.",author:"Walt Whitman, Song of Myself, 1855"},
   {text:"I am not afraid of tomorrow, for I have seen yesterday and I love today.",author:"William Allen White, c.1920"},
   {text:"You must do the thing you think you cannot do.",author:"Eleanor Roosevelt, You Learn by Living, 1960"},
   {text:"No one can make you feel inferior without your consent.",author:"Eleanor Roosevelt, c.1937"},
@@ -411,7 +411,7 @@ const QUOTES = [
   {text:"Three things cannot be long hidden: the sun, the moon, and the truth.",author:"Buddha, c.500 BCE"},
   {text:"Peace comes from within. Do not seek it without.",author:"Buddha, c.500 BCE"},
   {text:"The mind is everything. What you think you become.",author:"Buddha, c.500 BCE"},
-  {text:"Yesterday is history. Tomorrow is a mystery. Today is a gift ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â that's why they call it the present.",author:"Alice Morse Earle, c.1902"},
+  {text:"Yesterday is history. Tomorrow is a mystery. Today is a gift — that's why they call it the present.",author:"Alice Morse Earle, c.1902"},
   {text:"It does not matter how slowly you go as long as you do not stop.",author:"Confucius, c.500 BCE"},
   {text:"Our greatest glory is not in never falling, but in rising every time we fall.",author:"Confucius, c.500 BCE"},
   {text:"We cannot direct the wind, but we can adjust the sails.",author:"Dolly Parton, c.1990"},
@@ -425,7 +425,7 @@ function safeLoad(key, fallback) {
   try { return JSON.parse(dbGet(key) || 'null') ?? fallback; }
   catch(e) {
     console.error('Corrupted data for ' + key + ':', e);
-    showToast('ÃƒÂ¢Ã…Â¡Ã‚Â  Could not load ' + key + ' ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â data may be corrupted. Your backup is in Documents/Cadence Backups.');
+    showToast('⚠ Could not load ' + key + ' — data may be corrupted. Your backup is in Documents/Cadence Backups.');
     return fallback;
   }
 }
@@ -437,7 +437,7 @@ let P = safeLoad('tt_p', null) || DD.projects;
 let T = safeLoad('tt_t', null) || DD.tags;
 let activeChips = new Set(), ren = {}, quoteIdx = null, editingId = null, editReturnScroll = 0;
 let appAnchor = dbGet('tt_anchor') || 'right';
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Manage tree view state ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Manage tree view state ────────────────────────────────────────────────────
 let manageView = dbGet('tt_mgview') || 'subcats';
 let manageViewLabel = manageView; // tracks the actual button clicked for highlighting
 let expandedCats = new Set();
@@ -449,7 +449,7 @@ function applyManageView(mode) {
 }
 function markActiveCttBtn(mode) {
   document.querySelectorAll('.ctt-btn').forEach(b => b.classList.remove('active'));
-  // 'clear' has no persistent active state ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it's a one-shot action
+  // 'clear' has no persistent active state — it's a one-shot action
   if (mode === 'clear') return;
   // 'default' and 'subcats' both resolve to the subcats state
   const target = (mode === 'default') ? 'subcats' : mode;
@@ -568,7 +568,7 @@ function getWeekNum(d) {
   return 1 + Math.round(((date.getTime() - w1.getTime()) / 86400000 - 3 + (w1.getDay() + 6) % 7) / 7);
 }
 
-// Shuffled quote order ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â generated once, persisted forever
+// Shuffled quote order — generated once, persisted forever
 let QORDER = JSON.parse(dbGet('tt_qorder') || 'null');
 if (!QORDER || QORDER.length !== QUOTES.length) {
   QORDER = QUOTES.map((_, i) => i);
@@ -596,8 +596,8 @@ function initQuote() {
 
 function renderQuote() {
   const q = QUOTES[QORDER[quoteIdx]];
-  document.getElementById('quote-text').textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â' + q.text + 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â';
-  document.getElementById('quote-author').textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ' + q.author;
+  document.getElementById('quote-text').textContent = '”' + q.text + '”';
+  document.getElementById('quote-author').textContent = '— ' + q.author;
 }
 
 window.prevQuote = function() {
@@ -642,142 +642,142 @@ window.resizeApp = function(mode) {
 };
 
 const HELP_SECTIONS = [
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â Logging an entry', body: `
-    <p>Fill in the <strong>Log</strong> tab and submit ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â or use the keyboard to fly through it.</p>
+  { title: '📝 Logging an entry', body: `
+    <p>Fill in the <strong>Log</strong> tab and submit — or use the keyboard to fly through it.</p>
     <ul>
-      <li><strong>Tab</strong> advances through fields in order: Description ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Start ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ End. If an earlier field is still empty, Tab jumps there first instead of skipping ahead.</li>
-      <li><strong>Enter on the End time field</strong> submits the entry immediately ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no need to click Add entry at all.</li>
+      <li><strong>Tab</strong> advances through fields in order: Description → Start → End. If an earlier field is still empty, Tab jumps there first instead of skipping ahead.</li>
+      <li><strong>Enter on the End time field</strong> submits the entry immediately — no need to click Add entry at all.</li>
       <li><strong>Enter on Description</strong> jumps to the next empty field rather than submitting early.</li>
       <li>Date defaults to <strong>today</strong> every time you save, so the next entry is always ready on the right date.</li>
-      <li>The <strong>End field is locked</strong> until a valid Start is typed ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â once Start is set, End activates with a suggested finish time based on your habits.</li>
+      <li>The <strong>End field is locked</strong> until a valid Start is typed — once Start is set, End activates with a suggested finish time based on your habits.</li>
       <li>If you change Start to a time after your current End, End clears automatically to prevent impossible ranges.</li>
-      <li>After saving, the Start field pre-fills with your previous entry's End time ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â entries chain together with no manual copy-pasting.</li>
-      <li><strong>Category</strong> sits above <strong>Sub category</strong> on the form. Both auto-suggest from your history as you type ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pick from the dropdown or keep typing to add something new.</li>
-      <li>Tags (up to two) are optional ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â useful for client names, project phases, or anything extra.</li>
+      <li>After saving, the Start field pre-fills with your previous entry's End time — entries chain together with no manual copy-pasting.</li>
+      <li><strong>Category</strong> sits above <strong>Sub category</strong> on the form. Both auto-suggest from your history as you type — pick from the dropdown or keep typing to add something new.</li>
+      <li>Tags (up to two) are optional — useful for client names, project phases, or anything extra.</li>
       <li>Any entry whose category is exactly <strong>Break</strong> is treated as a break: tracked separately and excluded from all work-time totals and averages.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Tap the ÃƒÂ¢Ã…â€œÃ…Â½ pencil on any entry card to edit it ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the Log tab pre-fills with all its details and saves in place when you hit Add entry.</span>
+    <span class="help-tip">💡 Tap the ✎ pencil on any entry card to edit it — the Log tab pre-fills with all its details and saves in place when you hit Add entry.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¹ Entries ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â dates & navigation', body: `
+  { title: '📋 Entries — dates & navigation', body: `
     <p>The <strong>Entries</strong> tab shows your logged time with flexible date filtering.</p>
     <ul>
-      <li>Click the <strong>date label</strong> (shows "Today", "Mon 12 May", "5ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“11 May", or "May 2026" depending on your view) to open a date picker.</li>
-      <li>The <strong>ÃƒÂ¢Ã¢â‚¬â€Ã¢â‚¬Å¾ ÃƒÂ¢Ã¢â‚¬â€œÃ‚Âº</strong> arrows step one day, week, or month at a time. The right arrow disables when you're already on today.</li>
-      <li>You can navigate up to <strong>two years back</strong> regardless of whether you have entries there ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â handy for logging a day you forgot.</li>
-      <li>The date label <strong>glows</strong> when you're viewing a past period rather than the current one ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a quick visual reminder of where you are.</li>
+      <li>Click the <strong>date label</strong> (shows "Today", "Mon 12 May", "5–11 May", or "May 2026" depending on your view) to open a date picker.</li>
+      <li>The <strong>◄ ►</strong> arrows step one day, week, or month at a time. The right arrow disables when you're already on today.</li>
+      <li>You can navigate up to <strong>two years back</strong> regardless of whether you have entries there — handy for logging a day you forgot.</li>
+      <li>The date label <strong>glows</strong> when you're viewing a past period rather than the current one — a quick visual reminder of where you are.</li>
       <li>Choose <strong>Day / Week / Month / Custom / All</strong> from the dropdown. Custom lets you set a precise start and end date.</li>
       <li>Week and Month views group entries under date headers. All entries within each day are shown <strong>newest first</strong>.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Tap the date label in Day mode to pick any specific date directly ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â faster than clicking the arrow many times.</span>
+    <span class="help-tip">💡 Tap the date label in Day mode to pick any specific date directly — faster than clicking the arrow many times.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ‚Â Category & tag filters', body: `
+  { title: '🔍 Category & tag filters', body: `
     <p>Filter chips below the date bar let you narrow entries by category or tag.</p>
     <ul>
-      <li>Chips <strong>only show what's present in the current date range</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â switch week and the chip list updates to match.</li>
+      <li>Chips <strong>only show what's present in the current date range</strong> — switch week and the chip list updates to match.</li>
       <li>Tap a chip to toggle it on or off. <strong>All</strong> selects everything visible. <strong>Clear</strong> removes all active filters.</li>
-      <li>All chips active = same as no chips active ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â everything shows. The chip bar hides entirely if the current period has no categorised entries.</li>
-      <li>Chips filter the <strong>list view only</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Reports uses the same chip state to scope its stats.</li>
+      <li>All chips active = same as no chips active — everything shows. The chip bar hides entirely if the current period has no categorised entries.</li>
+      <li>Chips filter the <strong>list view only</strong> — Reports uses the same chip state to scope its stats.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ If entries vanish unexpectedly, check chips ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â an active filter from a previous period can hide everything in the current one.</span>
+    <span class="help-tip">💡 If entries vanish unexpectedly, check chips — an active filter from a previous period can hide everything in the current one.</span>
   ` },
-  { title: 'ÃƒÂ¢Ã‚ÂÃ‚Â± Gap detection', body: `
+  { title: '⏱ Gap detection', body: `
     <p>Cadence automatically spots untracked time between entries and shows gap indicators inline.</p>
     <ul>
       <li>A gap appears whenever there's <strong>more than 5 minutes</strong> of unaccounted time between two consecutive entries.</li>
-      <li>Tap the <strong>ÃƒÂ¢Ã…â€œÃ‚Â pencil</strong> on a gap to jump to the Log tab with that exact time slot pre-filled ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â just describe what you were doing and save.</li>
-      <li>Tap <strong>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</strong> to dismiss a gap ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â it won't reappear unless the surrounding entries change.</li>
+      <li>Tap the <strong>✏ pencil</strong> on a gap to jump to the Log tab with that exact time slot pre-filled — just describe what you were doing and save.</li>
+      <li>Tap <strong>✕</strong> to dismiss a gap — it won't reappear unless the surrounding entries change.</li>
       <li>Gaps are <strong>fully dynamic</strong>: edit or delete entries and gaps recompute instantly. New overlaps vanish; newly uncovered time shows a gap.</li>
-      <li>Partially filling a gap (e.g. logging 10 minutes of a 1-hour gap) creates <strong>two new smaller gaps</strong> on either side ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â each can be filled or dismissed independently.</li>
-      <li>Gaps <strong>contribute zero minutes</strong> to any totals ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â they are prompts only.</li>
+      <li>Partially filling a gap (e.g. logging 10 minutes of a 1-hour gap) creates <strong>two new smaller gaps</strong> on either side — each can be filled or dismissed independently.</li>
+      <li>Gaps <strong>contribute zero minutes</strong> to any totals — they are prompts only.</li>
       <li>Dismissals persist between sessions (except in test mode where nothing is saved).</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Gaps only appear in Day view and Grid edit ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â they don't show in Week, Month, or All grouped views.</span>
+    <span class="help-tip">💡 Gaps only appear in Day view and Grid edit — they don't show in Week, Month, or All grouped views.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã¢â‚¬Å¡ Grid edit', body: `
+  { title: '🗂 Grid edit', body: `
     <p><strong>Grid edit</strong> lets you bulk-edit a whole day's entries in a spreadsheet-style table.</p>
     <ul>
       <li>Only available in <strong>Day</strong> view. Entering grid mode switches the app to wide view automatically.</li>
       <li><strong>Gap rows</strong> appear as greyed-out italic placeholders between entries. Fill in a description to turn a gap into a real logged entry when you save.</li>
-      <li>To <strong>dismiss a gap</strong> inside the grid, click the <strong>ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</strong> button in the last column of that gap row.</li>
-      <li>All changes are <strong>staged in memory</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â nothing saves until you click <strong>Save changes</strong>.</li>
+      <li>To <strong>dismiss a gap</strong> inside the grid, click the <strong>✕</strong> button in the last column of that gap row.</li>
+      <li>All changes are <strong>staged in memory</strong> — nothing saves until you click <strong>Save changes</strong>.</li>
       <li><strong>Discard</strong> rolls back everything including any new sub categories created mid-session.</li>
-      <li>Switch days with the arrows or date picker while staying in grid mode ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â each day's draft is kept separately.</li>
+      <li>Switch days with the arrows or date picker while staying in grid mode — each day's draft is kept separately.</li>
       <li>Leaving grid mode with unsaved changes prompts a confirmation. Leaving with no changes exits silently.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Grid edit + gaps is the fastest way to reconstruct a full day from memory ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the gaps show you exactly what time is still unaccounted for.</span>
+    <span class="help-tip">💡 Grid edit + gaps is the fastest way to reconstruct a full day from memory — the gaps show you exactly what time is still unaccounted for.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â  Reports & pie chart', body: `
+  { title: '📊 Reports & pie chart', body: `
     <p>Reports summarise your tracked time with metrics, pie charts, and bar breakdowns.</p>
     <ul>
-      <li><strong>Work time, Breaks, Days tracked, Avg per day</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â shown as metric tiles at the top. Breaks never inflate work totals.</li>
+      <li><strong>Work time, Breaks, Days tracked, Avg per day</strong> — shown as metric tiles at the top. Breaks never inflate work totals.</li>
       <li>The <strong>top pie chart</strong> shows how work time splits across all categories. Click a slice or legend row, or use the category chips below, to drill into sub categories for that category.</li>
       <li>The <strong>sub category pie</strong> defaults to your busiest category. Use <strong>Clear</strong> to hide it until you pick a category again. Changing the date range resets to the busiest category.</li>
-      <li><strong>Bar charts</strong> by Category, Sub category, and Tag start collapsed ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â use the section chips to expand them.</li>
-      <li>Supports <strong>Day / Week / Month / Custom / All</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â same navigation as Entries.</li>
+      <li><strong>Bar charts</strong> by Category, Sub category, and Tag start collapsed — use the section chips to expand them.</li>
+      <li>Supports <strong>Day / Week / Month / Custom / All</strong> — same navigation as Entries.</li>
       <li><strong>Export CSV</strong> at the bottom exports entries for your current report view (date range and filters) as a spreadsheet-ready file, including Details.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Click a large slice on the overview pie, or a small category chip, to see where time went inside that category.</span>
+    <span class="help-tip">💡 Click a large slice on the overview pie, or a small category chip, to see where time went inside that category.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã¢â‚¬Å¡ Categories, Sub Categories & Tags', body: `
-    <p>Everything lives in one unified tree in the <strong>Manage</strong> tab ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â categories as bold headers, sub categories nested inside them, and entries inside those.</p>
+  { title: '🗂 Categories, Sub Categories & Tags', body: `
+    <p>Everything lives in one unified tree in the <strong>Manage</strong> tab — categories as bold headers, sub categories nested inside them, and entries inside those.</p>
     <ul>
       <li><strong>View buttons</strong> at the top control what is visible: <em>All</em> expands everything including entries, <em>Cats</em> collapses to category headers only, <em>Sub cats</em> shows cats and sub cats (the default), <em>Clear</em> collapses everything back, <em>Default</em> returns to Sub cats view. Hover any button for 5 seconds to see a description.</li>
       <li><strong>Collapse / expand a category</strong> by clicking its name. This shows or hides its sub categories.</li>
-      <li><strong>Entry count badge</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the pill number on each sub category shows how many entries it has. Click it (or click the sub category name) to expand the entries inline below it, branching with connecting lines.</li>
-      <li><strong>Move an entry</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â with entries expanded, click <em>Move toÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</em> on any entry. Choose a destination sub category; a confirmation shows the full move including the new category if it is different. Click Move to apply.</li>
-      <li><strong>Reorder sub categories</strong> by dragging the ÃƒÂ¢Ã‚Â Ã‚Â¿ grip to a new position within the same category.</li>
+      <li><strong>Entry count badge</strong> — the pill number on each sub category shows how many entries it has. Click it (or click the sub category name) to expand the entries inline below it, branching with connecting lines.</li>
+      <li><strong>Move an entry</strong> — with entries expanded, click <em>Move to…</em> on any entry. Choose a destination sub category; a confirmation shows the full move including the new category if it is different. Click Move to apply.</li>
+      <li><strong>Reorder sub categories</strong> by dragging the ⠿ grip to a new position within the same category.</li>
       <li><strong>Move a sub category</strong> to a different category by dragging it onto another category header or body.</li>
-      <li><strong>Merge sub categories</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â drag one sub category card on top of another. All entries are reassigned and the source sub category is removed. This cannot be undone.</li>
-      <li><strong>Merge categories</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â drag one category header onto another. All sub categories and entries move across and the source category is removed. Name collisions are flagged in the confirmation.</li>
-      <li><strong>Rename</strong> anything ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â tap Rename, edit in place, then press Enter or click the tick.</li>
+      <li><strong>Merge sub categories</strong> — drag one sub category card on top of another. All entries are reassigned and the source sub category is removed. This cannot be undone.</li>
+      <li><strong>Merge categories</strong> — drag one category header onto another. All sub categories and entries move across and the source category is removed. Name collisions are flagged in the confirmation.</li>
+      <li><strong>Rename</strong> anything — tap Rename, edit in place, then press Enter or click the tick.</li>
       <li>Deleting a category unlinks its sub categories but does not delete them or their entries.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Keep categories broad (Design, Dev, Admin) and sub categories specific (UI work, API fixes, Invoicing) for the most useful reports.</span>
+    <span class="help-tip">💡 Keep categories broad (Design, Dev, Admin) and sub categories specific (UI work, API fixes, Invoicing) for the most useful reports.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ Date picker & calendar', body: `
-    <p>The Log tab has a full calendar ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â click the date button to open it.</p>
+  { title: '📅 Date picker & calendar', body: `
+    <p>The Log tab has a full calendar — click the date button to open it.</p>
     <ul>
       <li>Days <strong>with entries</strong> are highlighted; days without entries are dimmed but still selectable.</li>
       <li>Future dates and dates more than two years ago are blocked everywhere in the app.</li>
-      <li>The Log date shows <strong>"Today ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Mon 12 May"</strong> when on today so you always know the date at a glance.</li>
-      <li>The Entries bar label adapts to context: <strong>Today</strong> (day = today), <strong>Mon 12 May</strong> (specific past day), <strong>5ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“11 May</strong> (week), <strong>May 2026</strong> (month).</li>
+      <li>The Log date shows <strong>"Today — Mon 12 May"</strong> when on today so you always know the date at a glance.</li>
+      <li>The Entries bar label adapts to context: <strong>Today</strong> (day = today), <strong>Mon 12 May</strong> (specific past day), <strong>5–11 May</strong> (week), <strong>May 2026</strong> (month).</li>
       <li>A glowing border on the date bar indicates you're viewing a past period, not the current one.</li>
     </ul>
   ` },
-  { title: 'ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€ Test mode', body: `
+  { title: '⚗ Test mode', body: `
     <p>Test mode loads a <strong>realistic sample dataset</strong> so you can explore every feature safely.</p>
     <ul>
-      <li>Covers a <strong>rolling two-year window</strong> ending today ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Reports, gaps, and charts are always current and realistic.</li>
-      <li>A <strong>fresh dataset is generated every entry</strong> into test mode ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â nothing carries over between sessions.</li>
+      <li>Covers a <strong>rolling two-year window</strong> ending today — Reports, gaps, and charts are always current and realistic.</li>
+      <li>A <strong>fresh dataset is generated every entry</strong> into test mode — nothing carries over between sessions.</li>
       <li>Your real data is completely untouched the entire time.</li>
       <li>A coloured banner across the top confirms you're in test mode. Click the banner to exit.</li>
-      <li>All changes in test mode ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â new entries, edits, dismissals ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â <strong>cannot be saved</strong> and are gone when you leave.</li>
-      <li>Enable from the <strong>Manage</strong> tab ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a confirmation modal appears first.</li>
+      <li>All changes in test mode — new entries, edits, dismissals — <strong>cannot be saved</strong> and are gone when you leave.</li>
+      <li>Enable from the <strong>Manage</strong> tab — a confirmation modal appears first.</li>
     </ul>
-    <span class="help-tip">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¡ Test mode is the best way to explore Reports, Grid Edit, and Gaps without any risk to real data.</span>
+    <span class="help-tip">💡 Test mode is the best way to explore Reports, Grid Edit, and Gaps without any risk to real data.</span>
   ` },
-  { title: 'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¨ Themes', body: `
-    <p>Five themes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â tap the coloured dots in the title bar to switch instantly.</p>
+  { title: '🎨 Themes', body: `
+    <p>Five themes — tap the coloured dots in the title bar to switch instantly.</p>
     <ul>
-      <li><strong>Space</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â deep purple, galactic star-field.</li>
-      <li><strong>Sakura</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â soft pinks, cherry blossom sky.</li>
-      <li><strong>Woodland</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â dark greens, layered forest scene.</li>
-      <li><strong>Aurora</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â deep teal, northern lights atmosphere.</li>
-      <li><strong>Castle</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â warm amber and burnt orange tones.</li>
+      <li><strong>Space</strong> — deep purple, galactic star-field.</li>
+      <li><strong>Sakura</strong> — soft pinks, cherry blossom sky.</li>
+      <li><strong>Woodland</strong> — dark greens, layered forest scene.</li>
+      <li><strong>Aurora</strong> — deep teal, northern lights atmosphere.</li>
+      <li><strong>Castle</strong> — warm amber and burnt orange tones.</li>
     </ul>
     <p>Your chosen theme is saved and restored automatically every session.</p>
   ` },
-  { title: 'ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ Controls & shortcuts', body: `
+  { title: '⚙ Controls & shortcuts', body: `
     <ul>
-      <li><strong>Expand / collapse</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â two chevron buttons sit in the title bar, always visible. The left chevron (ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹) collapses to narrow; the right chevron (ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº) expands to wide. Both are always shown so you can switch instantly.</li>
-      <li><strong>? Help</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â this panel. Clicking ? always expands the app to wide view first so you have room to read, then opens the guide.</li>
-      <li><strong>Always on top</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cadence permanently floats above all other windows. This is fixed behaviour ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no toggle needed.</li>
-      <li><strong>Screen anchor</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â in Manage ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ System, choose whether the app snaps to the Left or Right edge of your screen. The setting is remembered across sessions.</li>
-      <li><strong>Keyboard flow on Log tab:</strong> Tab moves between fields in order. Press Enter on the End time field to submit the entry immediately ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no need to click Save. Press Enter on Description to jump to the next empty field.</li>
-      <li><strong>Start with Windows</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â toggle in Manage ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ System so Cadence launches automatically at login.</li>
-      <li><strong>Export CSV</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â in Reports. Downloads entries for the current report view as a spreadsheet file, including Details.</li>
-      <li><strong>Delete all entries</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â in Manage, behind a confirmation requiring you to type DELETE. A CSV backup is downloaded automatically before anything is erased.</li>
-      <li>The <strong>quote ribbon</strong> at the top cycles through a curated collection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â click it for a new one.</li>
+      <li><strong>Expand / collapse</strong> — two chevron buttons sit in the title bar, always visible. The left chevron (‹) collapses to narrow; the right chevron (›) expands to wide. Both are always shown so you can switch instantly.</li>
+      <li><strong>? Help</strong> — this panel. Clicking ? always expands the app to wide view first so you have room to read, then opens the guide.</li>
+      <li><strong>Always on top</strong> — Cadence permanently floats above all other windows. This is fixed behaviour — no toggle needed.</li>
+      <li><strong>Screen anchor</strong> — in Manage → System, choose whether the app snaps to the Left or Right edge of your screen. The setting is remembered across sessions.</li>
+      <li><strong>Keyboard flow on Log tab:</strong> Tab moves between fields in order. Press Enter on the End time field to submit the entry immediately — no need to click Save. Press Enter on Description to jump to the next empty field.</li>
+      <li><strong>Start with Windows</strong> — toggle in Manage → System so Cadence launches automatically at login.</li>
+      <li><strong>Export CSV</strong> — in Reports. Downloads entries for the current report view as a spreadsheet file, including Details.</li>
+      <li><strong>Delete all entries</strong> — in Manage, behind a confirmation requiring you to type DELETE. A CSV backup is downloaded automatically before anything is erased.</li>
+      <li>The <strong>quote ribbon</strong> at the top cycles through a curated collection — click it for a new one.</li>
     </ul>
   ` },
 ];
@@ -824,7 +824,7 @@ window.toggleStartup = async function() {
 };
 initStartupBtn();
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Export / Import JSON ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Export / Import JSON ──────────────────────────────────────────────────────
 window.exportJSON = async function() {
   const now = new Date();
   const pad = n => String(n).padStart(2,'0');
@@ -837,7 +837,7 @@ window.exportJSON = async function() {
 window.importJSON = async function() {
   showModal(
     'Import data from JSON',
-    `<p style="font-size:10px;line-height:1.55;">This will <b>replace all your current entries, categories and sub categories</b> with the data from the chosen file. This cannot be undone ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â export a backup first if you need one.</p>`,
+    `<p style="font-size:10px;line-height:1.55;">This will <b>replace all your current entries, categories and sub categories</b> with the data from the chosen file. This cannot be undone — export a backup first if you need one.</p>`,
     { fn: async () => {
       const result = await ipcRenderer.invoke('import-data');
       if (!result.ok) { showToast('Import cancelled.'); return; }
@@ -851,7 +851,7 @@ window.importJSON = async function() {
       P.length = 0; P.push(...parsed.P);
       if (parsed.T) T.splice(0, T.length, ...parsed.T);
       sv(); render();
-      showToast('Import successful ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ' + E.length + ' entries loaded.');
+      showToast('Import successful — ' + E.length + ' entries loaded.');
     }},
     { confirm: 'Yes, replace my data', cancel: 'Cancel' }
   );
@@ -859,11 +859,11 @@ window.importJSON = async function() {
 
 // Set anchor toggle button label on load
 updateAnchorBtn();
-// Initialise manage tree view state ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â always start on default
+// Initialise manage tree view state — always start on default
 applyManageView('default');
 markActiveCttBtn('default');
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Testing mode ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Testing mode ─────────────────────────────────────────────────────────────
 function applyTestUI() {
   const btn = document.getElementById('test-mode-btn');
   const banner = document.getElementById('test-banner');
@@ -893,27 +893,27 @@ function exitTestMode() {
 window.toggleTestMode = function() {
   if (!testingMode) {
     showModal(
-      'ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€ Enter test mode?',
+      '⚗ Enter test mode?',
       `<p style="margin:0 0 8px;line-height:1.5;">Test mode loads a set of <strong>sample data</strong> so you can explore every feature safely:</p>
       <ul style="margin:0 0 8px;padding-left:16px;line-height:1.8;font-size:10px;">
         <li>Pre-filled entries covering the <strong>last two years</strong></li>
         <li>Sample categories, sub categories &amp; tags already set up</li>
-        <li>Completely <strong>isolated</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â your real data is untouched</li>
-        <li>Changes are <strong>never saved</strong> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a fresh dataset generates each time</li>
+        <li>Completely <strong>isolated</strong> — your real data is untouched</li>
+        <li>Changes are <strong>never saved</strong> — a fresh dataset generates each time</li>
       </ul>`,
       { fn: enterTestMode },
       { confirm: 'Yes, please enter test mode', cancel: 'No, thank you' }
     );
     return;
   }
-  // Exiting ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â show confirmation popup
+  // Exiting — show confirmation popup
   const ov = document.createElement('div'); ov.className = 'del-overlay';
   ov.innerHTML = `<div class="tm-box">
-    <h3>ÃƒÂ¢Ã…Â¡Ã¢â‚¬â€ Leave testing mode?</h3>
-    <p>You'll return to your real data. Test mode changes are never saved ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â next time you enter, a fresh dataset is generated.</p>
+    <h3>⚗ Leave testing mode?</h3>
+    <p>You'll return to your real data. Test mode changes are never saved — next time you enter, a fresh dataset is generated.</p>
     <div style="display:flex;flex-direction:column;gap:6px;">
-      <button class="tm-btn tm-btn-leave" id="tm-leave">Leave testing mode ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â changes cannot be saved</button>
-      <button class="tm-btn tm-btn-save" id="tm-cancel">Cancel ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stay in testing mode</button>
+      <button class="tm-btn tm-btn-leave" id="tm-leave">Leave testing mode — changes cannot be saved</button>
+      <button class="tm-btn tm-btn-save" id="tm-cancel">Cancel — stay in testing mode</button>
     </div>
   </div>`;
   document.body.appendChild(ov);
@@ -923,7 +923,7 @@ window.toggleTestMode = function() {
 
 applyTestUI();
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Duplicate / similarity helpers ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Duplicate / similarity helpers ────────────────────────────────────────────
 function _lev(a, b) {
   const m = a.length, n = b.length;
   if (!m) return n; if (!n) return m;
@@ -943,7 +943,7 @@ function findSimilar(name, list) {
   return null;
 }
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Combobox engine ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Combobox engine ───────────────────────────────────────────────────────────
 function setComboVal(id, val) {
   const el = document.getElementById(id);
   if (el) { el.value = val; el.dataset.confirmed = val; }
@@ -974,7 +974,7 @@ function initCombo(cfg) {
     const list = f ? cfg.getItems().filter(i => i.toLowerCase().includes(f)) : cfg.getItems();
     let h = `<div class="combo-add-opt">+ ${cfg.addLabel}</div>`;
     h += list.map(i => `<div class="combo-opt${i===el.dataset.confirmed?' combo-hi':''}" data-v="${i.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${i}</div>`).join('');
-    if (!list.length && f) h += `<div class="combo-empty">No matches ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â use + above to add</div>`;
+    if (!list.length && f) h += `<div class="combo-empty">No matches — use + above to add</div>`;
     dropEl.innerHTML = h;
     dropEl.querySelector('.combo-add-opt').addEventListener('mousedown', e => { e.preventDefault(); showAddNew(); });
     dropEl.querySelectorAll('.combo-opt').forEach(opt => {
@@ -986,8 +986,8 @@ function initCombo(cfg) {
     if (!dropEl) return;
     dropEl.innerHTML = `<div class="combo-new-wrap">
       <div style="font-size:9px;color:var(--muted);padding:2px 4px 6px;">Category for "<b>${projectName}</b>"</div>
-      <input class="combo-new-inp" placeholder="CategoryÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" autocomplete="off" spellcheck="false">
-      <div class="combo-new-hint">Select or type Ãƒâ€šÃ‚Â· Enter to confirm Ãƒâ€šÃ‚Â· Esc to cancel</div>
+      <input class="combo-new-inp" placeholder="Category…" autocomplete="off" spellcheck="false">
+      <div class="combo-new-hint">Select or type · Enter to confirm · Esc to cancel</div>
     </div>`;
     const ni = dropEl.querySelector('.combo-new-inp');
     const listEl = document.createElement('div');
@@ -1025,8 +1025,8 @@ function initCombo(cfg) {
   function showAddNew() {
     if (!dropEl) return;
     dropEl.innerHTML = `<div class="combo-new-wrap">
-      <input class="combo-new-inp" placeholder="New nameÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" autocomplete="off" spellcheck="false">
-      <div class="combo-new-hint">Enter to add Ãƒâ€šÃ‚Â· Esc to cancel</div>
+      <input class="combo-new-inp" placeholder="New name…" autocomplete="off" spellcheck="false">
+      <div class="combo-new-hint">Enter to add · Esc to cancel</div>
     </div>`;
     const ni = dropEl.querySelector('.combo-new-inp');
     ni.focus();
@@ -1039,10 +1039,10 @@ function initCombo(cfg) {
         e.preventDefault();
         const name = ni.value.trim();
         if (!name) return;
-        // Exact match ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â just pick the existing one, don't create a duplicate
+        // Exact match — just pick the existing one, don't create a duplicate
         const exact = cfg.getItems().find(i => i.toLowerCase() === name.toLowerCase());
         if (exact) { pick(exact); return; }
-        // Similar match ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ask before creating
+        // Similar match — ask before creating
         const sim = findSimilar(name, cfg.getItems());
         if (sim) {
           const typeLabel = cfg.addLabel.replace(/^add new\s*/i, '');
@@ -1055,7 +1055,7 @@ function initCombo(cfg) {
                 // Show category picker in a follow-up modal
                 const opts = C.map(c=>`<option value="${c.replace(/"/g,'&quot;')}">${c}</option>`).join('');
                 showModal(`Category for "${name}"`,
-                  `<select id="dup-cat" ${_modalInput()}><option value="">ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â category ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</option>${opts}</select>`,
+                  `<select id="dup-cat" ${_modalInput()}><option value="">— category —</option>${opts}</select>`,
                   { fn: () => {
                     const cat=(document.getElementById('dup-cat')?.value||'').trim();
                     if (!cat) return;
@@ -1169,7 +1169,7 @@ function bindSuggestFieldKeynav(fieldId) {
 }
 bindSuggestFieldKeynav('desc');
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Enter-key field navigation ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Enter-key field navigation ────────────────────────────────────────────────
 (function initFieldNav() {
   // Ordered list of skippable fields between desc and start
   const skipable = ['project','cat-sel'];
@@ -1193,7 +1193,7 @@ bindSuggestFieldKeynav('desc');
     });
   }
 
-  // End field: Enter is handled only by endFieldKeydown (fill time / submit) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â do not duplicate here or addEntry runs twice.
+  // End field: Enter is handled only by endFieldKeydown (fill time / submit) — do not duplicate here or addEntry runs twice.
   ['desc','project','cat-sel','start'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1207,7 +1207,7 @@ let anchorPending = null;
 
 function updateAnchorBtn() {
   const btn = document.getElementById('anchor-toggle-btn');
-  if (btn) btn.textContent = appAnchor === 'left' ? 'ÃƒÂ¢Ã…Â Ã‚Â£ Left' : 'Right ÃƒÂ¢Ã…Â Ã‚Â¢';
+  if (btn) btn.textContent = appAnchor === 'left' ? '⊣ Left' : 'Right ⊢';
 }
 
 window.promptAnchor = function() {
@@ -1231,7 +1231,7 @@ window.confirmAnchor = function() {
   updateAnchorBtn();
 };
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Subcategory entry viewer ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Subcategory entry viewer ──────────────────────────────────────────────────
 
 window.fmtT = function(el) {
   let v = el.value.replace(/[^0-9]/g, '');
@@ -1267,8 +1267,8 @@ function entriesBarLabel(dateStr, mode) {
     const {mon, sun} = weekBounds(dateStr);
     const dm = new Date(mon + 'T12:00:00'), ds = new Date(sun + 'T12:00:00');
     if (dm.getMonth() === ds.getMonth())
-      return dm.getDate() + 'ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“' + ds.getDate() + ' ' + ds.toLocaleDateString('en-NZ',{month:'short', year:'numeric'});
-    return dm.toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) + ' ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ ' + ds.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'});
+      return dm.getDate() + '–' + ds.getDate() + ' ' + ds.toLocaleDateString('en-NZ',{month:'short', year:'numeric'});
+    return dm.toLocaleDateString('en-NZ',{day:'numeric',month:'short'}) + ' – ' + ds.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'});
   }
   if (dateStr === today) return 'Today';
   return new Date(dateStr + 'T12:00:00').toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
@@ -1291,7 +1291,7 @@ function isBreak(e) { return e.cat === 'Break' || e.proj === 'Break'; }
 function fmt(m) { if(m<=0) return '0m'; const h=Math.floor(m/60),n=m%60; return h>0?h+'h '+n+'m':n+'m'; }
 function mins(t) { if(!t||!t.includes(':')) return -1; const[h,m]=t.split(':').map(Number); if(isNaN(h)||isNaN(m)||h>23||m>59) return -1; return h*60+m; }
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Dismissed gaps ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Dismissed gaps ────────────────────────────────────────────────────────────
 let dismissedGaps = new Set(JSON.parse(dbGet('tt_dismissed_gaps') || '[]'));
 
 function gapKey(date, gapStart, gapEnd) { return `${date}|${gapStart}|${gapEnd}`; }
@@ -1309,9 +1309,9 @@ function gapIndicator(date, gapStart, gapEnd) {
   const esc = s => s.replace(/'/g,"\\'");
   return `<div class="entry-gap">
     <div class="entry-gap-line"></div>
-    <span class="entry-gap-label">ÃƒÂ¢Ã‚ÂÃ‚Â± ${fmt(em-sm)} gap &mdash; ${gapStart} to ${gapEnd}</span>
-    <button class="gap-btn gap-fill" onclick="window.fillGap('${esc(date)}','${esc(gapStart)}','${esc(gapEnd)}')" title="Log this time">ÃƒÂ¢Ã…â€œÃ‚Â</button>
-    <button class="gap-btn gap-dismiss" onclick="window.dismissGap('${esc(date)}','${esc(gapStart)}','${esc(gapEnd)}')" title="Dismiss gap">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>
+    <span class="entry-gap-label">⏱ ${fmt(em-sm)} gap &mdash; ${gapStart} to ${gapEnd}</span>
+    <button class="gap-btn gap-fill" onclick="window.fillGap('${esc(date)}','${esc(gapStart)}','${esc(gapEnd)}')" title="Log this time">✏</button>
+    <button class="gap-btn gap-dismiss" onclick="window.dismissGap('${esc(date)}','${esc(gapStart)}','${esc(gapEnd)}')" title="Dismiss gap">✕</button>
     <div class="entry-gap-line"></div>
   </div>`;
 }
@@ -1351,7 +1351,7 @@ function sortNewestFirst(entries) {
   });
 }
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Calendar picker ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Calendar picker ──────────────────────────────────────────────────────────
 let calView = new Date();
 
 function calFmt(d) {
@@ -1474,7 +1474,7 @@ function syncEntriesDayBar() {
   const displayBtn = document.getElementById('entries-day-display');
   if (displayBtn) {
     displayBtn.textContent = entriesBarLabel(entriesFilterDate, entriesFilterMode);
-    displayBtn.title = entriesFilterDate !== today ? 'Click to pick a date ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â double-click for Today' : 'Click to pick a date';
+    displayBtn.title = entriesFilterDate !== today ? 'Click to pick a date — double-click for Today' : 'Click to pick a date';
     displayBtn.ondblclick = function(ev) {
       ev.preventDefault();
       resetEntriesFilterToToday();
@@ -1502,7 +1502,7 @@ function syncEntriesDayBar() {
   else if (entriesFilterMode === 'month') { prevD=addMonthStr(entriesFilterDate,-1); nextD=addMonthStr(entriesFilterDate,1); }
   else { prevD=addCalendarDaysStr(entriesFilterDate,-1); nextD=addCalendarDaysStr(entriesFilterDate,1); }
   prev.disabled = prevD < minDate;
-  next.disabled = entriesFilterDate >= today; // only disable when already on today ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â tomorrow has nothing to show
+  next.disabled = entriesFilterDate >= today; // only disable when already on today — tomorrow has nothing to show
 }
 
 // Close on outside click
@@ -1516,7 +1516,7 @@ document.addEventListener('click', function(e) {
 function afs() { if(!E.length) return; const l=E[0]; if(l.date===document.getElementById('date').value&&l.end){const s=document.getElementById('start');if(!s.value)s.value=l.end;} }
 
 window.filterProjects = function() {
-  // project is now a combobox input ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â value preserved automatically
+  // project is now a combobox input — value preserved automatically
 };
 
 function clearLogOutlines() {
@@ -1674,13 +1674,13 @@ window.editEntry = function(id) {
   document.querySelectorAll('.tab')[0].classList.add('active');
   document.getElementById('tab-log').classList.add('active');
   document.getElementById('add-btn').textContent='Save changes';
-  document.getElementById('status').textContent='Editing ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â update fields and save.';
+  document.getElementById('status').textContent='Editing — update fields and save.';
   document.getElementById('desc').focus();
   resetEntriesFilterToToday();
   render();
 };
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Smart learning auto-suggest ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Smart learning auto-suggest ──────────────────────────────────────────────
 const STOP = new Set();
 
 function extractWords(text) {
@@ -1724,7 +1724,7 @@ function highlightSuggest(idx) {
   items[suggestIdx].scrollIntoView({ block: 'nearest' });
 }
 
-/** Rank category / sub category pairs from current E + LEARN + names, given description text (trimmed, len ÃƒÂ¢Ã¢â‚¬Â°Ã‚Â¥ 2). */
+/** Rank category / sub category pairs from current E + LEARN + names, given description text (trimmed, len ≥ 2). */
 function rankCatProjFromDescription(val) {
   const words = extractWords(val);
   const scores = {};
@@ -1817,7 +1817,7 @@ window.descSuggest = function(val, sourceId) {
     if (cat) {
       const sp2 = document.createElement('span');
       sp2.className = 'suggest-proj';
-      sp2.textContent = proj ? cat + ' ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ' + proj : cat;
+      sp2.textContent = proj ? cat + ' › ' + proj : cat;
       item.appendChild(sp2);
     }
     item.onmousedown = ev => { ev.preventDefault(); applySuggestPick(item); };
@@ -1838,7 +1838,7 @@ window.descSuggest = function(val, sourceId) {
     if (proj) {
       const sp2 = document.createElement('span');
       sp2.className = 'suggest-proj';
-      sp2.textContent = 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ' + proj;
+      sp2.textContent = '› ' + proj;
       item.appendChild(sp2);
     }
     item.onmousedown = ev => { ev.preventDefault(); applySuggestPick(item); };
@@ -1867,7 +1867,7 @@ window.openAddCat = function() {
     { fn: () => {
       const v=(document.getElementById('m-cat')?.value||'').trim();
       if (!v) return;
-      if (v.toLowerCase()==='uncategorised') { showToast('"Uncategorised" is reserved ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â choose a different name.'); return; }
+      if (v.toLowerCase()==='uncategorised') { showToast('"Uncategorised" is reserved — choose a different name.'); return; }
       const sim = findSimilar(v, C);
       if (sim && sim.exact) { showToast(`"${sim.match}" already exists.`); return; }
       if (sim && !sim.exact) {
@@ -1885,7 +1885,7 @@ window.openAddCat = function() {
 };
 window.openAddProj = function() {
   const opts = C.map(c=>`<option value="${c.replace(/"/g,'&quot;')}">${c}</option>`).join('');
-  showModal('Add Sub Category', `<select id="m-proj-cat" ${_modalInput()}><option value="">ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â category ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</option>${opts}</select><input id="m-proj" placeholder="Sub category name" autocomplete="off" ${_modalInput()}>`,
+  showModal('Add Sub Category', `<select id="m-proj-cat" ${_modalInput()}><option value="">— category —</option>${opts}</select><input id="m-proj" placeholder="Sub category name" autocomplete="off" ${_modalInput()}>`,
     { fn: () => {
       const cat=(document.getElementById('m-proj-cat')?.value||'').trim();
       const name=(document.getElementById('m-proj')?.value||'').trim();
@@ -1954,7 +1954,7 @@ window.cr = function(){ren={};render();};
 window.dr = function(type,old) {
   const el=document.getElementById('ri-'+type+'-'+old),val=el?el.value.trim():'';
   if(!val||val===old){ren={};render();return;}
-  if(type==='cat'&&val.toLowerCase()==='uncategorised'){showToast('"Uncategorised" is reserved ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â choose a different name.');ren={};render();return;}
+  if(type==='cat'&&val.toLowerCase()==='uncategorised'){showToast('"Uncategorised" is reserved — choose a different name.');ren={};render();return;}
   if(type==='cat'){
     C=C.map(c=>c===old?val:c);P=P.map(p=>({...p,cat:p.cat===old?val:p.cat}));E=E.map(e=>({...e,cat:e.cat===old?val:e.cat}));
     if(expandedCats.has(old)){expandedCats.delete(old);expandedCats.add(val);}
@@ -1990,7 +1990,7 @@ window.delCat = function(c) {
   }
   showModal(
     `Delete category "${c}"?`,
-    `<b>${c}</b> will be permanently removed.${projCount?' Its <b>'+projCount+'</b> sub categor'+(projCount===1?'y':'ies')+' will become uncategorised ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â their entries are untouched.':' It has no sub categories.'} This cannot be undone.`,
+    `<b>${c}</b> will be permanently removed.${projCount?' Its <b>'+projCount+'</b> sub categor'+(projCount===1?'y':'ies')+' will become uncategorised — their entries are untouched.':' It has no sub categories.'} This cannot be undone.`,
     { fn: () => { C=C.filter(x=>x!==c); P=P.map(p=>p.cat===c?{...p,cat:''}:p); expandedCats.delete(c); sv(); render(); } },
     { cancel: 'No, keep it', confirm: 'Yes, delete category' }
   );
@@ -2079,7 +2079,7 @@ window.showDeleteAll = function() {
   const today = new Date().toISOString().slice(0,10);
   const ov = document.createElement('div'); ov.className='del-overlay';
   ov.innerHTML=`<div class="del-box">
-    <h3>ÃƒÂ¢Ã…Â¡Ã‚Â  Delete all entries</h3>
+    <h3>⚠ Delete all entries</h3>
     <p>This will permanently delete all <strong>${n}</strong> entr${n===1?'y':'ies'}. A CSV backup will be downloaded automatically.<br><br>This cannot be undone.</p>
     <p style="margin-bottom:5px;font-size:10px;">Type <strong>DELETE</strong> to enable the confirm button:</p>
     <input id="del-confirm-input" type="text" placeholder="DELETE" autocomplete="off" spellcheck="false">
@@ -2108,7 +2108,7 @@ window.showDeleteAll = function() {
 };
 
 function rdds() {
-  // cat-sel, project, tag1, tag2 are combobox inputs ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â validate values against current data
+  // cat-sel, project, tag1, tag2 are combobox inputs — validate values against current data
   const catEl=document.getElementById('cat-sel');
   if(catEl.value&&!C.includes(catEl.value)){catEl.value='';catEl.dataset.confirmed='';}
   const projEl=document.getElementById('project');
@@ -2120,7 +2120,7 @@ function rmng() {
   const uP={},uT={};
   E.forEach(e=>{if(e.proj)uP[e.proj]=(uP[e.proj]||0)+1;e.tags.forEach(t=>{uT[t]=(uT[t]||0)+1;});});
 
-  // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Unified category tree ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+  // ── Unified category tree ────────────────────────────────────────────────
   const treeEl = document.getElementById('cat-tree');
   if (!treeEl) { buildTagList(uT); return; }
 
@@ -2140,13 +2140,13 @@ function rmng() {
 
   function buildEntries(projName) {
     const entries = E.filter(e => e.proj === projName);
-    if (!entries.length) return `<div class="entry-badge-wrap"><span style="font-size:9px;color:var(--muted);">No entries yet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â drag sub categories here to move them</span></div>`;
+    if (!entries.length) return `<div class="entry-badge-wrap"><span style="font-size:9px;color:var(--muted);">No entries yet — drag sub categories here to move them</span></div>`;
     // Deduplicate by trimmed description
     const counts = {};
     entries.forEach(e => { const k=(e.desc||'(no description)').trim(); counts[k]=(counts[k]||0)+1; });
     const badges = Object.entries(counts).map(([desc, n]) => {
       const dEsc = desc.replace(/"/g,'&quot;');
-      return `<div class="entry-badge" draggable="true" data-desc="${dEsc}" data-from="${projName.replace(/"/g,'&quot;')}"><span class="ebg">ÃƒÂ¢Ã‚Â Ã‚Â¿</span>${desc}${n>1?`<span class="ebc">ÃƒÆ’Ã¢â‚¬â€${n}</span>`:''}</div>`;
+      return `<div class="entry-badge" draggable="true" data-desc="${dEsc}" data-from="${projName.replace(/"/g,'&quot;')}"><span class="ebg">⠿</span>${desc}${n>1?`<span class="ebc">×${n}</span>`:''}</div>`;
     }).join('');
     return `<div class="entry-badge-wrap">${badges}</div>`;
   }
@@ -2162,7 +2162,7 @@ function rmng() {
       const hdr = editMode
         ? `<div class="subcat-row-hdr" style="cursor:default;"><input class="ri" id="ri-proj-${pEsc}" value="${p.name}" onkeydown="if(event.key==='Enter')window.dr('proj','${pEsc}')" style="flex:1"><button class="btn-sm" onclick="window.dr('proj','${pEsc}')">&#10003;</button><button class="btn-ghost" onclick="window.cr()">&#10005;</button></div>`
         : `<div class="subcat-row-hdr" draggable="true" data-proj="${pNameEsc}">
-            <span class="drag-grip" style="font-size:11px;opacity:0.3;user-select:none;letter-spacing:-1px;">ÃƒÂ¢Ã‚Â Ã‚Â¿</span>
+            <span class="drag-grip" style="font-size:11px;opacity:0.3;user-select:none;letter-spacing:-1px;">⠿</span>
             <span class="subcat-row-name" onclick="window.toggleSubcat('${pEsc}')">${p.name}</span>
             <button class="mi-count-btn" onclick="window.toggleSubcat('${pEsc}')" title="Click to view entries">${count}</button>
             <button class="btn-ghost" style="font-size:9px;padding:1px 5px;" onclick="window.sr('proj','${pEsc}')">Rename</button>
@@ -2185,14 +2185,14 @@ function rmng() {
       : `<span class="cat-node-chev">&#9658;</span>
          <span class="cat-node-name" onclick="window.toggleCat('${catEsc}')">${cat}</span>
          <span class="cat-node-total" title="${subcatCount} sub cat${subcatCount===1?'':'s'}">${totalEntries} entries</span>
-         <button class="cat-add-btn" onclick="event.stopPropagation();window.addSubcatToCat('${catEsc}')">ÃƒÂ¯Ã‚Â¼Ã¢â‚¬Â¹<span class="ctt-tip">Click here to add a sub category to ${cat}</span></button>
+         <button class="cat-add-btn" onclick="event.stopPropagation();window.addSubcatToCat('${catEsc}')">＋<span class="ctt-tip">Click here to add a sub category to ${cat}</span></button>
          <button class="btn-ghost" style="font-size:9px;padding:1px 5px;" onclick="event.stopPropagation();window.sr('cat','${catEsc}')">Rename</button>
          <button class="btn-danger" style="font-size:9px;padding:1px 5px;" onclick="event.stopPropagation();window.delCat('${catEsc}')">Del</button>`;
     const body = isOpen ? `<div class="cat-node-body">${buildSubcats(cat)}</div>` : '';
     return `<div class="cat-node${isOpen?' open':''}" draggable="true" data-cat="${catNameEsc}">
       <div class="cat-node-hdr">${hdrContent}</div>${body}
     </div>`;
-  }).join('') : `<div class="empty">No categories yet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â add one above</div>`;
+  }).join('') : `<div class="empty">No categories yet — add one above</div>`;
 
   // Wire subcat drag: merge & move-to-cat
   let dragProjName = null;
@@ -2229,7 +2229,7 @@ function rmng() {
           E.forEach(e=>{ if(e.proj===src){ e.proj=tgt; const tp=P.find(p=>p.name===tgt); if(tp)e.cat=tp.cat; }});
           P.splice(P.findIndex(p=>p.name===src),1); sv(); render();
         }},
-        { cancel:"Cancel ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â keep them separate", confirm:`Yes, merge "${src}" into "${tgt}"` }
+        { cancel:"Cancel — keep them separate", confirm:`Yes, merge "${src}" into "${tgt}"` }
       );
     });
   });
@@ -2260,7 +2260,7 @@ function rmng() {
       // Check name collisions
       const tgtSubcatNames = new Set(P.filter(p=>p.cat===tgtCat).map(p=>p.name));
       const collisions = srcSubcats.filter(p=>tgtSubcatNames.has(p.name)).map(p=>p.name);
-      const collisionNote = collisions.length ? `<br><b>Warning:</b> sub categories with the same name exist in both: <em>${collisions.join(', ')}</em> ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â these will both remain (you can merge them manually after).` : '';
+      const collisionNote = collisions.length ? `<br><b>Warning:</b> sub categories with the same name exist in both: <em>${collisions.join(', ')}</em> — these will both remain (you can merge them manually after).` : '';
       showModal(`Merge category "${srcCat}" into "${tgtCat}"?`,
         `Everything inside <b>${srcCat}</b> will move into <b>${tgtCat}</b>: <b>${srcSubcats.length}</b> sub categor${srcSubcats.length===1?'y':'ies'} and <b>${srcEntries}</b> entr${srcEntries===1?'y':'ies'}. <b>${srcCat}</b> will then be permanently removed.${collisionNote} This cannot be undone.`,
         { fn: () => {
@@ -2300,7 +2300,7 @@ function rmng() {
     });
   });
 
-  // Wire entry badge drag ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ drop onto subcat header
+  // Wire entry badge drag → drop onto subcat header
   let dragEntryDesc = null, dragEntryFromProj = null;
   const clearEntryDrop = () => treeEl.querySelectorAll('.entry-drop-target').forEach(el=>el.classList.remove('entry-drop-target'));
   const clearBadgeDrop = () => treeEl.querySelectorAll('.badge-drop-target').forEach(el=>el.classList.remove('badge-drop-target'));
@@ -2363,7 +2363,7 @@ function rmng() {
       const tProj = crossSubcat ? P.find(p=>p.name===tgtProj) : null;
       const fromCat = srcMatches[0].cat||'Uncategorised';
       const toCat = tProj?.cat||fromCat;
-      const moveNote = crossSubcat ? ` They will also move from sub category <b>${srcProj}</b> to <b>${tgtProj}</b>${toCat!==fromCat?` (category: <b>${fromCat}</b> ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ <b>${toCat}</b>)`:''}. ` : ' ';
+      const moveNote = crossSubcat ? ` They will also move from sub category <b>${srcProj}</b> to <b>${tgtProj}</b>${toCat!==fromCat?` (category: <b>${fromCat}</b> → <b>${toCat}</b>)`:''}. ` : ' ';
       showModal(
         `Merge descriptions?`,
         `All <b>${srcMatches.length}</b> entr${srcMatches.length===1?'y':'ies'} currently described as <b>"${srcDesc}"</b> will be renamed to <b>"${tgtDesc}"</b>.${moveNote}This cannot be undone.`,
@@ -2428,7 +2428,7 @@ function buildTagList(uT) {
 
 // Inline entry move handlers
 
-// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Reports ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+// ── Reports ───────────────────────────────────────────────────────────────────
 let rptMode = 'day';
 let rptAnchor = calFmt(new Date());
 let rptCustomStart = null, rptCustomEnd = null;
@@ -2501,7 +2501,7 @@ function rptNavArrows(label, calTarget) {
   else { prevD=addMonthStr(rptAnchor,-1); nextD=addMonthStr(rptAnchor,1); }
   const pd=b&&prevD<b.min, nd=nextD>today;
   return `<button class="entries-day-arrow"${pd?' disabled':''} onclick="window.rptNav(-1)">&#9664;</button>`
-       + `<div class="rpt-field" style="flex:1" onclick="openRptCal(this,'${calTarget}')"><span class="rpt-field-lbl">${label}</span><span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦</span></div>`
+       + `<div class="rpt-field" style="flex:1" onclick="openRptCal(this,'${calTarget}')"><span class="rpt-field-lbl">${label}</span><span>📅</span></div>`
        + `<button class="entries-day-arrow"${nd?' disabled':''} onclick="window.rptNav(1)">&#9654;</button>`;
 }
 
@@ -2511,18 +2511,18 @@ function updateRptRange() {
     row.innerHTML=rptNavArrows(fmtDs(rptAnchor,'long'),'anchor');
   } else if (rptMode==='week') {
     const {monDate,sunDate}=weekBounds(rptAnchor);
-    const lbl=monDate.toLocaleDateString('en-NZ',{day:'numeric',month:'short'})+' ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ '+sunDate.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'});
+    const lbl=monDate.toLocaleDateString('en-NZ',{day:'numeric',month:'short'})+' – '+sunDate.toLocaleDateString('en-NZ',{day:'numeric',month:'short',year:'numeric'});
     row.innerHTML=rptNavArrows(lbl,'anchor');
   } else if (rptMode==='month') {
     row.innerHTML=rptNavArrows(fmtDs(rptAnchor,'month'),'month');
   } else if (rptMode==='custom') {
-    row.innerHTML=`<div class="rpt-field" onclick="openRptCal(this,'custom-start')"><span class="rpt-field-lbl">${rptCustomStart?fmtDs(rptCustomStart,'short'):'Start date'}</span><span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦</span></div><div class="rpt-field" onclick="openRptCal(this,'custom-end')"><span class="rpt-field-lbl">${rptCustomEnd?fmtDs(rptCustomEnd,'short'):'End date'}</span><span>ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦</span></div>`;
+    row.innerHTML=`<div class="rpt-field" onclick="openRptCal(this,'custom-start')"><span class="rpt-field-lbl">${rptCustomStart?fmtDs(rptCustomStart,'short'):'Start date'}</span><span>📅</span></div><div class="rpt-field" onclick="openRptCal(this,'custom-end')"><span class="rpt-field-lbl">${rptCustomEnd?fmtDs(rptCustomEnd,'short'):'End date'}</span><span>📅</span></div>`;
   } else {
     const dates=E.map(e=>e.date).filter(Boolean).sort();
     const f=dates[0]||null, l=dates[dates.length-1]||null;
     const lbl=f?(f===l?fmtDs(f,'long'):fmtDs(f,'short')+' to '+fmtDs(l,'short')):'No entries';
-    const tip='Showing all entries ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â select another view to filter by date.';
-    row.innerHTML=`<div class="rpt-field readonly" onclick="showRptTip(this,'${tip}')"><span class="rpt-field-lbl">${lbl}</span><span style="font-size:9px;opacity:0.6;">ÃƒÂ¢Ã¢â‚¬Å“Ã‹Å“</span></div>`;
+    const tip='Showing all entries — select another view to filter by date.';
+    row.innerHTML=`<div class="rpt-field readonly" onclick="showRptTip(this,'${tip}')"><span class="rpt-field-lbl">${lbl}</span><span style="font-size:9px;opacity:0.6;">ⓘ</span></div>`;
   }
 }
 
@@ -2602,7 +2602,7 @@ function drawRptCal(trigEl) {
   }
   document.body.appendChild(pop);
 
-  // Smart repositioning ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â keep calendar on-screen regardless of app position
+  // Smart repositioning — keep calendar on-screen regardless of app position
   const pr = pop.getBoundingClientRect();
   if (pr.right > window.innerWidth - 4) {
     pop.style.left = Math.max(4, window.innerWidth - pr.width - 4) + 'px';
@@ -2792,9 +2792,9 @@ function getEntriesFiltered(base) {
 
 function entryCard(e) {
   const hasNotes = e.notes && e.notes.trim();
-  const notesToggle = hasNotes ? `<button class="entry-notes-toggle" id="ent-${e.id}" onclick="window.toggleEntryNotes(${e.id})" title="Show / hide details">ÃƒÂ¢Ã¢â‚¬â€œÃ‚Â¾</button>` : '';
+  const notesToggle = hasNotes ? `<button class="entry-notes-toggle" id="ent-${e.id}" onclick="window.toggleEntryNotes(${e.id})" title="Show / hide details">▾</button>` : '';
   const notesRow = hasNotes ? `<div class="entry-notes" id="en-${e.id}">${e.notes.replace(/</g,'&lt;')}</div>` : '';
-  return `<div class="entry ${isBreak(e)?'is-break':''}"><div class="entry-top"><span class="entry-desc">${isBreak(e)?'<span class="break-badge">break</span>':e.cat?`<span class="cat-badge">${e.cat}</span>`:''}${e.desc}${e.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</span><span class="entry-dur">${fmt(e.dur)}</span>${notesToggle}<button class="edit-btn" onclick="window.editEntry(${e.id})" title="Edit">ÃƒÂ¢Ã…â€œÃ…Â½</button><button class="del" onclick="window.del(${e.id})">&#10005;</button></div><div class="entry-meta">${e.date} &middot; ${e.start}&ndash;${e.end}${e.proj?' &middot; '+e.proj:''}</div>${notesRow}</div>`;
+  return `<div class="entry ${isBreak(e)?'is-break':''}"><div class="entry-top"><span class="entry-desc">${isBreak(e)?'<span class="break-badge">break</span>':e.cat?`<span class="cat-badge">${e.cat}</span>`:''}${e.desc}${e.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</span><span class="entry-dur">${fmt(e.dur)}</span>${notesToggle}<button class="edit-btn" onclick="window.editEntry(${e.id})" title="Edit">✎</button><button class="del" onclick="window.del(${e.id})">&#10005;</button></div><div class="entry-meta">${e.date} &middot; ${e.start}&ndash;${e.end}${e.proj?' &middot; '+e.proj:''}</div>${notesRow}</div>`;
 }
 
 window.toggleEntryNotes = function(id) {
@@ -2809,7 +2809,7 @@ window.toggleEntryNotes = function(id) {
 function render() {
   if (gridEditMode) return;
   rdds(); rmng();
-  // Date-filtered entries (before chip filter) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â chips only show what's in current period
+  // Date-filtered entries (before chip filter) — chips only show what's in current period
   const fDate = getEntriesFiltered(E);
   const ac=[...new Set(fDate.map(e=>e.cat).filter(Boolean))],at=[...new Set(fDate.flatMap(e=>e.tags))];
   const allItems=[...ac,...at];
@@ -2833,8 +2833,8 @@ function render() {
     const chipFiltered = activeChips.size > 0 && fDate.length > 0;
     const wrongDay = entriesFilterMode === 'day' && entriesFilterDate !== today;
     let msg = E.length ? 'No entries in this range' : 'No entries yet';
-    if (chipFiltered) msg = 'No entries match the selected filters ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â tap Clear on the chips above';
-    else if (wrongDay && E.some(e => e.date === today)) msg = 'Nothing logged for this day ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â double-click the date bar for Today';
+    if (chipFiltered) msg = 'No entries match the selected filters — tap Clear on the chips above';
+    else if (wrongDay && E.some(e => e.date === today)) msg = 'Nothing logged for this day — double-click the date bar for Today';
     elList.innerHTML = `<div class="empty">${msg}</div>`;
   } else {
     // Helper: render a sorted-newest-first day's entries with gap indicators
@@ -2942,8 +2942,8 @@ window.saveGridEdit = function() {
 window.discardGridEdit = function() { exitGridEdit(true); };
 
 function allProjOpts(selected) {
-  return '<option value="">ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</option>'
-    + '<option value="__new__">ÃƒÂ¯Ã‚Â¼Ã¢â‚¬Â¹ New sub categoryÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</option>'
+  return '<option value="">—</option>'
+    + '<option value="__new__">＋ New sub category…</option>'
     + P.map(p => `<option value="${p.name.replace(/"/g,'&quot;')}"${p.name===selected?' selected':''}>${p.name}</option>`).join('');
 }
 
@@ -2955,20 +2955,20 @@ function renderGrid() {
   day.sort((a,b) => { if(!a.start&&!b.start)return 0; if(!a.start)return 1; if(!b.start)return -1; return b.start.localeCompare(a.start); });
   const rows = day.map((e, i) => {
     const isGap = !!e._isGap;
-    const catOpts = '<option value="">ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â</option>' + C.map(c => `<option value="${c.replace(/"/g,'&quot;')}"${c===e.cat?' selected':''}>${c}</option>`).join('');
+    const catOpts = '<option value="">—</option>' + C.map(c => `<option value="${c.replace(/"/g,'&quot;')}"${c===e.cat?' selected':''}>${c}</option>`).join('');
     const notesRow = (!isGap && e.notes) ? `<tr class="grid-notes-row"><td colspan="6"><textarea class="gd-notes" data-i="${i}" rows="1">${(e.notes||'').replace(/</g,'&lt;')}</textarea></td></tr>` : '';
-    return `<tr${isGap?' class="grid-gap-row" title="Gap in your day ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â fill in to log this time"':''}>
-      <td><input class="gd-f" data-i="${i}" data-f="desc" value="${e.desc.replace(/"/g,'&quot;').replace(/</g,'&lt;')}" placeholder="${isGap?'Gap ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â fill in to log':''}"></td>
+    return `<tr${isGap?' class="grid-gap-row" title="Gap in your day — fill in to log this time"':''}>
+      <td><input class="gd-f" data-i="${i}" data-f="desc" value="${e.desc.replace(/"/g,'&quot;').replace(/</g,'&lt;')}" placeholder="${isGap?'Gap — fill in to log':''}"></td>
       <td><select class="gd-proj" data-i="${i}">${allProjOpts(e.proj)}</select></td>
       <td><select class="gd-cat" data-i="${i}">${catOpts}</select></td>
       <td><input class="gd-f gd-t" data-i="${i}" data-f="start" value="${e.start}" maxlength="5"></td>
       <td><input class="gd-f gd-t" data-i="${i}" data-f="end" value="${e.end}" maxlength="5"></td>
-      <td class="grid-dur" data-i="${i}">${isGap ? `<button class="gap-grid-del" onclick="window.gridDeleteGapRow(${i})" title="Dismiss gap">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢</button>` : (e.dur ? fmt(e.dur) : '')}</td>
+      <td class="grid-dur" data-i="${i}">${isGap ? `<button class="gap-grid-del" onclick="window.gridDeleteGapRow(${i})" title="Dismiss gap">✕</button>` : (e.dur ? fmt(e.dur) : '')}</td>
     </tr>${notesRow}`;
   }).join('');
   el.innerHTML = `<table class="grid-table">
     <thead><tr><th>Description</th><th>Sub category</th><th>Category</th><th>Start</th><th>End</th><th></th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="6" class="empty" style="text-align:center;padding:12px;">No entries ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â use + Add entry below</td></tr>'}</tbody>
+    <tbody>${rows || '<tr><td colspan="6" class="empty" style="text-align:center;padding:12px;">No entries — use + Add entry below</td></tr>'}</tbody>
   </table>
   <div class="grid-actions">
     <button class="btn-add-row" onclick="window.gridAddRow()" style="flex:1;padding:5px;font-size:10px;background:var(--surface);color:var(--accent);border:1px dashed var(--accent);border-radius:4px;cursor:pointer;">+ Add entry</button>
@@ -3007,7 +3007,7 @@ function renderGrid() {
         const name = prompt('New sub category name:');
         if (!name || !name.trim()) { sel.value = gridDayEntries()[i].proj || ''; return; }
         const trimmed = name.trim();
-        const catName = prompt('Category for "' + trimmed + '" (required):\n(' + (C.length ? C.join(', ') : 'no categories yet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â type a new one') + ')');
+        const catName = prompt('Category for "' + trimmed + '" (required):\n(' + (C.length ? C.join(', ') : 'no categories yet — type a new one') + ')');
         if (!catName || !catName.trim()) { sel.value = gridDayEntries()[i].proj || ''; return; }
         const cat = C.find(c => c.toLowerCase() === catName.trim().toLowerCase()) || catName.trim();
         if (!P.find(p => p.name.toLowerCase() === trimmed.toLowerCase())) { P.push({name:trimmed, cat}); if(!C.includes(cat)) C.push(cat); sv(); }

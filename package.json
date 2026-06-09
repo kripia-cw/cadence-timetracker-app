@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "test": "playwright test",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "postinstall": "electron-rebuild -f -w better-sqlite3"
   },
   "devDependencies": {
     "@electron/rebuild": "^4.0.4",
