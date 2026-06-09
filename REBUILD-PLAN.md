@@ -67,6 +67,7 @@ We use Playwright for automated end-to-end testing. Before anything merges to `m
 5. Switch between all four tabs — no blank screens, no bleed
 6. Switch themes — app updates correctly, persists on relaunch
 7. Data persists — close and reopen the app, entries still there
+8. Historical entries visible — entries from previous days/weeks/months appear correctly in the Entries tab under the right date filters (day, week, month, all)
 
 If any test fails, it does not merge. Fix it first.
 
