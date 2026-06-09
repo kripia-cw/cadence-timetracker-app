@@ -138,6 +138,10 @@ ipcMain.on('get-db-path', (event) => {
   event.returnValue = path.join(app.getPath('userData'), 'cadence.db')
 })
 
+ipcMain.on('get-app-path', (event) => {
+  event.returnValue = __dirname
+})
+
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {

@@ -306,7 +306,7 @@ test('theme switching — body class and active button update correctly', async 
 
     for (const theme of ['sakura', 'woodland', 'aurora', 'castle', 'space']) {
       await win.evaluate(t => window.setTheme(t), theme);
-      await win.waitForTimeout(200);
+      await win.waitForTimeout(500);
 
       const bodyClass = await win.evaluate(() => document.body.className);
       expect(bodyClass).toBe(theme);
@@ -324,6 +324,10 @@ test('theme switching — body class and active button update correctly', async 
           .map(b => b.title);
       }, theme);
       expect(otherActive).toHaveLength(0);
+
+      // Background image should be a data URL (jpeg) for all themes
+      const bgImage = await win.evaluate(() => document.body.style.backgroundImage);
+      expect(bgImage).toMatch(/^url\("data:image\/jpeg;base64,/);
 
       // Screenshot every theme — open test-results/screenshots/ after a run to visually verify
       await win.screenshot({ path: `test-results/screenshots/theme-${theme}.png` });
