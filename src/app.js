@@ -631,7 +631,7 @@ window.setTheme = function(t) {
   } else if (['aurora', 'castle', 'sakura', 'woodland'].includes(t)) {
     if (!_themeImgCache[t]) {
       try {
-        const imgPath = _path.join(__dirname, '..', t + '.jpg');
+        const imgPath = _path.join(__dirname, t + '.jpg');
         const b64 = _fs.readFileSync(imgPath).toString('base64');
         _themeImgCache[t] = 'url("data:image/jpeg;base64,' + b64 + '")';
       } catch(e) { _themeImgCache[t] = ''; }
