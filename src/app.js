@@ -625,10 +625,15 @@ window.setTheme = function(t) {
   document.body.className = t;
   dbSet('tt_theme', t);
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.classList.contains(t)));
-  // Space uses an embedded data URL so it needs to be set explicitly.
-  // All other themes use the gradient fallbacks defined in the CSS — clearing
-  // the inline style lets those gradients show through.
-  document.body.style.backgroundImage = t === 'space' ? 'url("' + SPACE_IMG + '")' : '';
+  const _imgRoot = 'file:///' + _path.join(__dirname, '..').replace(/\\/g, '/');
+  const bgImages = {
+    space:    'url("' + SPACE_IMG + '")',
+    aurora:   'url("' + _imgRoot + '/aurora.jpg")',
+    castle:   'url("' + _imgRoot + '/castle.jpg")',
+    sakura:   'url("' + _imgRoot + '/sakura.jpg")',
+    woodland: 'url("' + _imgRoot + '/woodland.jpg")',
+  };
+  document.body.style.backgroundImage = bgImages[t] || '';
 };
 
 window.resizeApp = function(mode) {
