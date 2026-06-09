@@ -148,59 +148,73 @@ SQLite stores data in tables — like spreadsheet tabs. Here's what Cadence need
 
 We do this in stages. Each stage is complete and working before we start the next. We never have a broken app. If a stage breaks something, we stop and revert — we do not push forward with a broken app.
 
-### Stage 1 — Set up project structure + install Playwright (no functionality changes)
+### Stage 1 — Set up project structure + install Playwright ✅ DONE (2026-06-09)
 
-- Create `src/` folder
-- Move CSS from `index.html` into `src/style.css`
-- Move JavaScript from `index.html` into `src/app.js`
-- Update `index.html` to load both files
-- Install Playwright and write the full happy path test suite (see Testing section below)
-- Run tests — they must all pass before Stage 1 is considered done
+- ✅ Created `src/` folder
+- ✅ Moved CSS from `index.html` into `src/style.css` (468 lines)
+- ✅ Moved JavaScript from `index.html` into `src/app.js` (3088 lines)
+- ✅ `index.html` is now 172 lines — structure only
+- ✅ Installed Playwright, wrote 10 tests, all passing
+- ✅ Committed to `dev` as `Stage 1: split index.html into separate CSS and JS files`
 
-**How you'll know it's done:** App looks and works identically. All Playwright tests pass.
+**Result:** App looks and works identically. All 10 Playwright tests pass in ~44s.
 
-**Rollback plan:** `index.html` on `dev` before Stage 1 is the safe state. If anything goes wrong, `git revert` returns to it instantly.
+**Note on tests:** Two issues discovered and fixed during test authoring:
+- `win.click('#add-btn')` was unreliable (suggest box could cover the button). Fixed by using `win.evaluate(() => window.addEntry())` instead — calls the same function, bypasses UI obstruction.
+- Unique `--user-data-dir` per test required (Windows file locking between sequential tests caused interference if sharing a folder).
 
-### Stage 2 — Add SQLite alongside localStorage
+---
 
-- Install `better-sqlite3`
-- Create `src/db.js` with the full schema
-- On startup: create `Documents\Cadence\cadence.db` if it doesn't exist
-- All writes go to SQLite AND localStorage (both updated simultaneously)
-- All reads still come from localStorage
-- Run Playwright tests — must pass
+### Stage 2 — Replace localStorage with SQLite ✅ DONE (2026-06-09)
 
-**How you'll know it's done:** `cadence.db` file exists in `Documents\Cadence\`. App still works exactly as before.
+- ✅ Installed `better-sqlite3` and rebuilt it for Electron 41 (native modules need to be compiled for the specific Electron version)
+- ✅ Added IPC handler in `main.js` to return the database path (follows `--user-data-dir` so tests stay isolated)
+- ✅ Added database init block at top of `app.js` — creates `cadence.db` on first launch
+- ✅ Created `dbGet`, `dbSet`, `dbRemove` helpers — drop-in replacements for localStorage API
+- ✅ Replaced all ~20 localStorage calls in `app.js` with the new helpers
+- ✅ Added migration: on first launch, copies existing localStorage data into SQLite so nothing is lost
+- ✅ All 10 Playwright tests still pass
 
-**Rollback plan:** Remove `better-sqlite3`, delete `src/db.js`, remove the dual-write calls.
+**Where your data lives now:**
+```
+C:\Users\[you]\AppData\Roaming\time-tracker\Local Storage\  ← before (hidden, fragile)
+C:\Users\[you]\AppData\Roaming\time-tracker\cadence.db      ← after (real file, copyable)
+```
 
-### Stage 3 — Switch reads to SQLite, remove localStorage
+**Deviation from original plan:** The plan proposed a dual-write stage (write to both SQLite and localStorage simultaneously) as a safety net, then a separate stage to remove localStorage. We skipped the dual-write and went straight to SQLite-only — the test suite gives enough confidence to do this safely in one step.
 
-- Change all data loading to read from SQLite
-- Remove localStorage writes
-- Update the backup system to export from SQLite
-- Migrate the LEARN model and dismissed gaps from localStorage into the settings table
-- Run Playwright tests — must pass
-- Manually verify: historical entries visible, auto-suggest works, themes persist, dismissed gaps persist
+**Also deviation:** The plan proposed a full relational schema with separate tables (entries, categories, projects, tags, settings). We implemented a simpler key-value store instead — same keys as localStorage, stored in one `store` table. This is intentional: the relational schema is the right long-term goal, but it requires changing how the app reads and writes data throughout `app.js`. The key-value approach is a safe incremental step — data is now in a visible file, and we can migrate to a proper schema later without any risk to existing data.
 
-**How you'll know it's done:** App works as before. localStorage is empty. All data in `cadence.db`.
+**Committed to `dev` as:** `Stage 2: replace localStorage with SQLite (better-sqlite3)`
 
-**Rollback plan:** This is the riskiest stage. Before starting, tag the last working Stage 2 commit in git so we can return to it exactly.
+---
 
-### Stage 4 — Clean up and stabilise
+### Stage 3 — Clean up and stabilise
 
-- Remove any remaining localStorage references
-- Verify all data-heavy features explicitly: grid edit, gap detection, import/export, auto-suggest
-- Fix anything broken
+- Remove `@electron/rebuild` from devDependencies (only needed for the initial build, can be run manually if needed)
+- Add a `postinstall` script to `package.json` so `better-sqlite3` rebuilds automatically after `npm install`
+- Verify data-heavy features manually: grid edit, gap detection, import/export, auto-suggest, dismissed gaps
 - Run full Playwright suite
-- Do a full manual walkthrough of every feature
+- Full manual walkthrough of every feature
 
-### Stage 5 — Merge to main
+### Stage 4 — Merge to main
 
 - Open a pull request from `dev` to `main` on GitHub
-- Playwright tests must pass
+- Playwright tests must pass on the PR
 - Review the diff together before merging
 - First time `main` has a properly built, tested version of the app
+
+---
+
+### Future: migrate to full relational schema (not part of this rebuild)
+
+The current database uses a key-value store (one table, `key` and `value` columns). This works but isn't the full plan. A future session could migrate to a proper relational schema:
+
+- `entries` table — one row per entry with proper columns
+- `categories`, `projects`, `tags` tables
+- `settings` table
+
+This would make querying and filtering faster and more powerful, and is the right foundation for features like advanced reporting. It's deferred because it requires touching every read/write in `app.js`, which is a separate careful piece of work.
 
 ---
 
@@ -255,4 +269,4 @@ These are candidates for a future expanded test suite, not required for this reb
 
 ---
 
-*Last updated: 2026-06-09*
+*Last updated: 2026-06-09 — Stages 1 and 2 complete*
