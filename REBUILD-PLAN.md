@@ -47,15 +47,30 @@ main.js           — Electron window setup (stays mostly as-is)
 
 The hourly JSON backups to `Documents\Cadence Backups\` that we already built stay. They now export from SQLite instead of localStorage. You'll always have a human-readable backup alongside the database.
 
-### 4. Proper git workflow
+### 4. Proper git workflow with automated testing
 
 **Before:** Changes made directly, committed inconsistently, no clear rules.
 
 **After:**
 - All work happens on `dev`
 - Each piece of work is its own commit with a clear message explaining why
-- `main` only receives tested, working code via a pull request
+- `main` only receives code that has passed the Playwright test suite
 - Before any significant change, the plan is written down first
+
+**The testing gate:**
+We use Playwright for automated end-to-end testing. Before anything merges to `main`, the test suite must pass. The tests cover the happy path — the core flows a real user takes every day:
+
+1. App opens and displays correctly
+2. Add a time entry — fills all fields, saves, appears in Entries tab
+3. Edit an existing entry — changes save correctly
+4. Delete an entry — confirmation appears, entry is removed
+5. Switch between all four tabs — no blank screens, no bleed
+6. Switch themes — app updates correctly, persists on relaunch
+7. Data persists — close and reopen the app, entries still there
+
+If any test fails, it does not merge. Fix it first.
+
+Playwright will be introduced at the start of Stage 1 so testing is part of the workflow from day one, not bolted on at the end.
 
 ---
 
