@@ -627,6 +627,13 @@ body.space{
 
 <script>
 const { ipcRenderer } = require('electron');
+
+async function doBackup() {
+  if (testingMode) return; // never back up sample data
+  await ipcRenderer.invoke('backup-data', JSON.stringify(E));
+}
+setInterval(doBackup, 60 * 60 * 1000); // every hour while app is open
+
 // Restore saved anchor side on load
 (function() { const a = localStorage.getItem('tt_anchor'); if (a) ipcRenderer.send('snap-to-edge', a); })();
 
@@ -1009,11 +1016,21 @@ const QUOTES = [
 ];
 
 let testingMode = false; // always start as false; enterTestMode() regenerates fresh data
-let E = JSON.parse(localStorage.getItem('tt_e') || '[]');
-let LEARN = JSON.parse(localStorage.getItem('tt_learn') || '{}');
-let C = JSON.parse(localStorage.getItem('tt_c') || 'null') || DD.categories;
-let P = JSON.parse(localStorage.getItem('tt_p') || 'null') || DD.projects;
-let T = JSON.parse(localStorage.getItem('tt_t') || 'null') || DD.tags;
+
+function safeLoad(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key) || 'null') ?? fallback; }
+  catch(e) {
+    console.error('Corrupted data for ' + key + ':', e);
+    showToast('⚠ Could not load ' + key + ' — data may be corrupted. Your backup is in Documents/Cadence Backups.');
+    return fallback;
+  }
+}
+
+let E = safeLoad('tt_e', []);
+let LEARN = safeLoad('tt_learn', {});
+let C = safeLoad('tt_c', null) || DD.categories;
+let P = safeLoad('tt_p', null) || DD.projects;
+let T = safeLoad('tt_t', null) || DD.tags;
 let activeChips = new Set(), ren = {}, quoteIdx = null, editingId = null, editReturnScroll = 0;
 let appAnchor = localStorage.getItem('tt_anchor') || 'right';
 // ── Manage tree view state ────────────────────────────────────────────────────
@@ -2186,7 +2203,7 @@ window.addEntry = function() {
     document.querySelector('.content').scrollTop = editReturnScroll;
     return false;
   } else {
-    E.unshift({id:Date.now(),notes,desc,cat,proj,date,start,end,dur:em-sm,tags});
+    E.unshift({id:Date.now()+Math.random(),notes,desc,cat,proj,date,start,end,dur:em-sm,tags});
   }
   sv();
   document.getElementById('desc').value='';document.getElementById('end').value='';
@@ -2200,7 +2217,16 @@ window.addEntry = function() {
   return true;
 };
 
-window.del = function(id) { if(confirm('Delete?')){E=E.filter(e=>e.id!==id);sv();render();} };
+window.del = function(id) {
+  const entry = E.find(e => e.id === id);
+  const label = entry ? `"${entry.desc}"` : 'this entry';
+  showModal(
+    'Delete entry?',
+    `${label} will be permanently deleted. This cannot be undone.`,
+    { fn: () => { E = E.filter(e => e.id !== id); sv(); render(); } },
+    { confirm: 'Yes, delete entry', cancel: 'Cancel' }
+  );
+};
 
 window.fillGap = function(date, start, end) {
   // Switch to Log tab and pre-fill the gap's time range
@@ -3593,7 +3619,7 @@ function renderGrid() {
 
 window.gridAddRow = function() {
   if (!gridDraft[entriesFilterDate]) gridDraft[entriesFilterDate] = [];
-  gridDraft[entriesFilterDate].push({id: Date.now(), desc: '', cat: '', proj: '', date: entriesFilterDate, start: '', end: '', dur: 0, tags: []});
+  gridDraft[entriesFilterDate].push({id: Date.now()+Math.random(), desc: '', cat: '', proj: '', date: entriesFilterDate, start: '', end: '', dur: 0, tags: []});
   renderGrid();
   const rows = document.querySelectorAll('#entries-list .grid-table tbody tr');
   if (rows.length) rows[rows.length-1].querySelector('input').focus();
@@ -3658,6 +3684,8 @@ resetEntriesFilterToToday();
 initQuote();
 startClock();
 render();
+doBackup(); // backup on startup, after data is loaded
+window.addEventListener('beforeunload', doBackup);
 (function wireStartField() {
   const s = document.getElementById('start');
   if (!s) return;
