@@ -621,19 +621,25 @@ function startClock() {
   setInterval(tick, 1000);
 }
 
+const _themeImgCache = {};
 window.setTheme = function(t) {
   document.body.className = t;
   dbSet('tt_theme', t);
   document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.classList.contains(t)));
-  const _imgRoot = 'file:///' + _path.join(__dirname, '..').replace(/\\/g, '/');
-  const bgImages = {
-    space:    'url("' + SPACE_IMG + '")',
-    aurora:   'url("' + _imgRoot + '/aurora.jpg")',
-    castle:   'url("' + _imgRoot + '/castle.jpg")',
-    sakura:   'url("' + _imgRoot + '/sakura.jpg")',
-    woodland: 'url("' + _imgRoot + '/woodland.jpg")',
-  };
-  document.body.style.backgroundImage = bgImages[t] || '';
+  if (t === 'space') {
+    document.body.style.backgroundImage = 'url("' + SPACE_IMG + '")';
+  } else if (['aurora', 'castle', 'sakura', 'woodland'].includes(t)) {
+    if (!_themeImgCache[t]) {
+      try {
+        const imgPath = _path.join(__dirname, '..', t + '.jpg');
+        const b64 = _fs.readFileSync(imgPath).toString('base64');
+        _themeImgCache[t] = 'url("data:image/jpeg;base64,' + b64 + '")';
+      } catch(e) { _themeImgCache[t] = ''; }
+    }
+    document.body.style.backgroundImage = _themeImgCache[t];
+  } else {
+    document.body.style.backgroundImage = '';
+  }
 };
 
 window.resizeApp = function(mode) {
