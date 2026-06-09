@@ -131,6 +131,12 @@ ipcMain.handle('backup-data', async (event, payload) => {
   }
 })
 
+// Returns the database file path so the renderer can open it with better-sqlite3.
+// Using userData means it automatically follows --user-data-dir (important for tests).
+ipcMain.on('get-db-path', (event) => {
+  event.returnValue = path.join(app.getPath('userData'), 'cadence.db')
+})
+
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
