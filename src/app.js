@@ -1036,7 +1036,12 @@ function initCombo(cfg) {
       <div class="combo-new-hint">Enter to add · Esc to cancel</div>
     </div>`;
     const ni = dropEl.querySelector('.combo-new-inp');
+    // Prefill with whatever was already typed in the field, so it doesn't need retyping
+    ni.value = (el.value || '').trim();
+    const _sim0 = findSimilar(ni.value.trim(), cfg.getItems());
+    ni.style.borderColor = (_sim0 && _sim0.exact) ? '#e44' : '';
     ni.focus();
+    ni.setSelectionRange(ni.value.length, ni.value.length);
     ni.addEventListener('input', () => {
       const sim = findSimilar(ni.value.trim(), cfg.getItems());
       ni.style.borderColor = (sim && sim.exact) ? '#e44' : '';
@@ -1059,6 +1064,9 @@ function initCombo(cfg) {
             `<b>${sim.match}</b> already exists.<br>Still create <b>${name}</b>?`,
             { fn: () => {
               if (cfg.addStep2) {
+                // If a category is already showing, auto-assign rather than asking again
+                const preset = cfg.getPresetCat ? cfg.getPresetCat() : '';
+                if (preset) { cfg.addItem(name, preset); pick(name); return; }
                 // Show category picker in a follow-up modal
                 const opts = C.map(c=>`<option value="${c.replace(/"/g,'&quot;')}">${c}</option>`).join('');
                 showModal(`Category for "${name}"`,
@@ -1080,7 +1088,12 @@ function initCombo(cfg) {
           );
           return;
         }
-        if (cfg.addStep2) { showAddStep2(name); return; }
+        if (cfg.addStep2) {
+          // If a category is already showing, auto-assign the new sub category to it
+          const preset = cfg.getPresetCat ? cfg.getPresetCat() : '';
+          if (preset) { cfg.addItem(name, preset); pick(name); return; }
+          showAddStep2(name); return;
+        }
         cfg.addItem(name);
         pick(name);
       }
@@ -1122,7 +1135,8 @@ function initCombo(cfg) {
 
 // Init all four combos
 initCombo({ id:'cat-sel',    getItems:()=>C,              addItem:name=>{C.push(name);sv();render();},             addLabel:'Add new category' });
-initCombo({ id:'project',    getItems:()=>P.map(p=>p.name), addItem:(name,cat)=>{P.push({name,cat:cat||''});sv();render();},  addLabel:'Add new sub category', addStep2:true });
+initCombo({ id:'project',    getItems:()=>P.map(p=>p.name), addItem:(name,cat)=>{P.push({name,cat:cat||''});sv();render();},  addLabel:'Add new sub category', addStep2:true,
+  getPresetCat:()=>{ const v=(document.getElementById('cat-sel')?.value||'').trim(); return v ? (C.find(c=>c.toLowerCase()===v.toLowerCase())||'') : ''; } });
 initCombo({ id:'tag1',       getItems:()=>T,              addItem:name=>{T.push(name);sv();render();},             addLabel:'Add new tag' });
 initCombo({ id:'tag2',       getItems:()=>T,              addItem:name=>{if(!T.includes(name)){T.push(name);sv();render();}}, addLabel:'Add new tag' });
 
@@ -2958,8 +2972,8 @@ function renderGrid() {
   const el = document.getElementById('entries-list');
   if (!gridDraft) return;
   const day = gridDayEntries();
-  // sort newest-first in-place so data-i indices match the sorted order
-  day.sort((a,b) => { if(!a.start&&!b.start)return 0; if(!a.start)return 1; if(!b.start)return -1; return b.start.localeCompare(a.start); });
+  // sort earliest-first (start of day → end) in-place so data-i indices match the sorted order
+  day.sort((a,b) => { if(!a.start&&!b.start)return 0; if(!a.start)return 1; if(!b.start)return -1; return a.start.localeCompare(b.start); });
   const rows = day.map((e, i) => {
     const isGap = !!e._isGap;
     const catOpts = '<option value="">—</option>' + C.map(c => `<option value="${c.replace(/"/g,'&quot;')}"${c===e.cat?' selected':''}>${c}</option>`).join('');
