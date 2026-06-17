@@ -2968,6 +2968,35 @@ function allProjOpts(selected) {
     + P.map(p => `<option value="${p.name.replace(/"/g,'&quot;')}"${p.name===selected?' selected':''}>${p.name}</option>`).join('');
 }
 
+// Add a new sub category from inside grid edit. If the row already shows a
+// category, auto-assign to it; otherwise ask for one. Uses a modal because
+// window.prompt() is unsupported in Electron.
+function gridNewSubcat(i) {
+  const rowCat = (gridDayEntries()[i].cat || '').trim();
+  const presetCat = rowCat ? (C.find(c => c.toLowerCase() === rowCat.toLowerCase()) || rowCat) : '';
+  const catField = presetCat ? '' :
+    `<select id="gnc-cat" ${_modalInput()}><option value="">— category —</option>${C.map(c=>`<option value="${c.replace(/"/g,'&quot;')}">${c}</option>`).join('')}</select>`;
+  const title = presetCat ? `Add sub category to "${presetCat}"` : 'Add sub category';
+  showModal(title,
+    `${catField}<input id="gnc-name" placeholder="Sub category name" autocomplete="off" ${_modalInput()}>`,
+    { fn: () => {
+        const name = (document.getElementById('gnc-name')?.value || '').trim();
+        if (!name) return;
+        const cat = presetCat || (document.getElementById('gnc-cat')?.value || '').trim();
+        if (!cat) { showToast('Select a category.'); return; }
+        if (!P.find(p => p.name.toLowerCase() === name.toLowerCase())) {
+          P.push({ name, cat });
+          if (!C.includes(cat)) C.push(cat);
+          sv();
+        }
+        gridDayEntries()[i].proj = name;
+        if (!gridDayEntries()[i].cat) gridDayEntries()[i].cat = cat;
+        renderGrid();
+    }},
+    { confirm: 'Add', cancel: 'Cancel' });
+  _focusModalInput('gnc-name');
+}
+
 function renderGrid() {
   const el = document.getElementById('entries-list');
   if (!gridDraft) return;
@@ -3025,16 +3054,10 @@ function renderGrid() {
     sel.addEventListener('change', () => {
       const i = +sel.dataset.i;
       if (sel.value === '__new__') {
-        const name = prompt('New sub category name:');
-        if (!name || !name.trim()) { sel.value = gridDayEntries()[i].proj || ''; return; }
-        const trimmed = name.trim();
-        const catName = prompt('Category for "' + trimmed + '" (required):\n(' + (C.length ? C.join(', ') : 'no categories yet — type a new one') + ')');
-        if (!catName || !catName.trim()) { sel.value = gridDayEntries()[i].proj || ''; return; }
-        const cat = C.find(c => c.toLowerCase() === catName.trim().toLowerCase()) || catName.trim();
-        if (!P.find(p => p.name.toLowerCase() === trimmed.toLowerCase())) { P.push({name:trimmed, cat}); if(!C.includes(cat)) C.push(cat); sv(); }
-        gridDayEntries()[i].proj = trimmed;
-        if (cat && !gridDayEntries()[i].cat) gridDayEntries()[i].cat = cat;
-        renderGrid();
+        // Revert the dropdown immediately; the modal collects the name.
+        // (window.prompt is unsupported in Electron and throws — must use a modal here.)
+        sel.value = gridDayEntries()[i].proj || '';
+        gridNewSubcat(i);
         return;
       }
       gridDayEntries()[i].proj = sel.value;
