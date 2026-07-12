@@ -1,8 +1,10 @@
 const { app, BrowserWindow, screen, ipcMain, dialog } = require('electron')
 const fs = require('fs')
 const path = require('path')
+const { createCaptureService } = require('./src/capture')
 
 let win
+let capture = null
 
 function createWindow() {
   const display = screen.getPrimaryDisplay()
@@ -142,7 +144,45 @@ ipcMain.on('get-app-path', (event) => {
   event.returnValue = __dirname
 })
 
-app.whenReady().then(createWindow)
+// ── Auto-tracking capture IPC ───────────────────────────────────────────────
+ipcMain.handle('capture-status', () => {
+  if (!capture) return { tracking: false, started: false }
+  return capture.getStatus()
+})
+
+ipcMain.handle('capture-day-summary', (event, dateStr) => {
+  if (!capture) return null
+  const ds = dateStr || new Date().toISOString().slice(0, 10)
+  return capture.getDaySummary(ds)
+})
+
+ipcMain.handle('capture-start-manual-agent', (event, label, notes) => {
+  if (!capture) throw new Error('Capture not started')
+  return capture.startManualAgent(label, notes)
+})
+
+ipcMain.handle('capture-stop-manual-agent', (event, id) => {
+  if (!capture) throw new Error('Capture not started')
+  return capture.stopManualAgent(id)
+})
+
+function startCapture() {
+  const dbPath = path.join(app.getPath('userData'), 'cadence.db')
+  capture = createCaptureService(dbPath)
+  capture.start()
+}
+
+app.whenReady().then(() => {
+  startCapture()
+  createWindow()
+})
+
+app.on('before-quit', () => {
+  if (capture) {
+    try { capture.stop() } catch (e) { /* ignore */ }
+    capture = null
+  }
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()

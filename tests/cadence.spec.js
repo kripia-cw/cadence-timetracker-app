@@ -44,6 +44,7 @@ test('app launches with Log tab active', async () => {
 
     // Other panels should be hidden
     await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-review')).toBeHidden();
     await expect(win.locator('#tab-reports')).toBeHidden();
     await expect(win.locator('#tab-manage')).toBeHidden();
 
@@ -183,12 +184,14 @@ test('no panel bleed — only active tab content visible', async () => {
   try {
     // Log is active on launch — others hidden
     await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-review')).toBeHidden();
     await expect(win.locator('#tab-reports')).toBeHidden();
     await expect(win.locator('#tab-manage')).toBeHidden();
 
-    // Switch to Entries — log, reports, manage hidden
+    // Switch to Entries — log, reports, manage, review hidden
     await switchTab(win, 'entries');
     await expect(win.locator('#tab-log')).toBeHidden();
+    await expect(win.locator('#tab-review')).toBeHidden();
     await expect(win.locator('#tab-reports')).toBeHidden();
     await expect(win.locator('#tab-manage')).toBeHidden();
 
@@ -196,6 +199,7 @@ test('no panel bleed — only active tab content visible', async () => {
     await switchTab(win, 'reports');
     await expect(win.locator('#tab-log')).toBeHidden();
     await expect(win.locator('#tab-entries')).toBeHidden();
+    await expect(win.locator('#tab-review')).toBeHidden();
     await expect(win.locator('#tab-manage')).toBeHidden();
   } finally {
     await closeApp(app);
@@ -402,6 +406,32 @@ test('end time disabled until start time is entered', async () => {
 
     // End field should now be enabled
     await expect(win.locator('#end')).toBeEnabled();
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Capture skeleton: Review tab + manual agent ──────────────────────────
+test('review tab shows tracking status and can start/stop a manual agent', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await switchTab(win, 'review');
+    await expect(win.locator('#tab-review')).toBeVisible();
+    await expect(win.locator('#review-status')).toContainText(/Tracking|Capture/, { timeout: 10000 });
+
+    await win.fill('#review-agent-label', 'Spec agent test');
+    await win.click('button[onclick="window.startManualAgent()"]');
+    await win.waitForTimeout(600);
+    await expect(win.locator('#review-manual-list')).toContainText('Spec agent test');
+
+    await win.click('#review-manual-list button:has-text("Stop")');
+    await win.waitForTimeout(600);
+    await expect(win.locator('#review-manual-list')).toContainText('No manual agents running');
+
+    // Reports should show Attributed + Desk / presence labels
+    await switchTab(win, 'reports');
+    await expect(win.locator('#metrics')).toContainText('Attributed');
+    await expect(win.locator('#metrics')).toContainText('Desk / presence');
   } finally {
     await closeApp(app);
   }

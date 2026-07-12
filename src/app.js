@@ -2,6 +2,12 @@ const { ipcRenderer } = require('electron');
 const Database = require('better-sqlite3');
 const _fs = require('fs');
 const _path = require('path');
+// Electron script-tag requires resolve from app root — use absolute path.
+const {
+  gapsBetweenMerged,
+  presenceMinutes,
+  minsToHHMM,
+} = require(_path.join(ipcRenderer.sendSync('get-app-path'), 'src', 'capture', 'presence'));
 
 // Database init — data lives in userData/cadence.db (follows --user-data-dir for tests)
 const _dbPath = ipcRenderer.sendSync('get-db-path');
@@ -1337,21 +1343,31 @@ function gapIndicator(date, gapStart, gapEnd) {
   </div>`;
 }
 
+/** Overlap-aware gaps: union coverage first, then holes between merged blocks. */
+function dayEntryIntervals(entries) {
+  return entries.map(e => {
+    const sm = mins(e.start), em = mins(e.end);
+    if (sm < 0 || em < 0 || em <= sm) return null;
+    return [sm, em];
+  }).filter(Boolean);
+}
+
+function overlapAwareGaps(entries) {
+  return gapsBetweenMerged(dayEntryIntervals(entries), 5).map(([sm, em]) => ({
+    start: minsToHHMM(sm),
+    end: minsToHHMM(em),
+  }));
+}
+
 let _gapCounter = 0;
 function injectGridGapRows(entries, dateStr) {
   const sorted = [...entries].sort((a,b) => a.start.localeCompare(b.start)); // chrono
-  const result = [];
-  for (let i = 0; i < sorted.length; i++) {
-    result.push(sorted[i]);
-    if (i < sorted.length - 1) {
-      const sm = mins(sorted[i].end), em = mins(sorted[i+1].start);
-      if (sm >= 0 && em > sm + 5) { // gap > 5 min
-        const key = gapKey(dateStr, sorted[i].end, sorted[i+1].start);
-        if (!dismissedGaps.has(key)) { // skip dismissed gaps
-          result.push({ id: 'gap_' + (++_gapCounter), desc:'', cat:'', proj:'', date:dateStr, start:sorted[i].end, end:sorted[i+1].start, dur:0, tags:[], _isGap:true });
-        }
-      }
-    }
+  const result = [...sorted];
+  const gaps = overlapAwareGaps(sorted);
+  for (const g of gaps) {
+    const key = gapKey(dateStr, g.start, g.end);
+    if (dismissedGaps.has(key)) continue;
+    result.push({ id: 'gap_' + (++_gapCounter), desc:'', cat:'', proj:'', date:dateStr, start:g.start, end:g.end, dur:0, tags:[], _isGap:true });
   }
   // return newest-first
   return result.sort((a,b) => {
@@ -2052,6 +2068,11 @@ window.showTab = function(name,btn) {
     btn.classList.add('active');
     document.getElementById('tab-'+name).classList.add('active');
     if (name === 'log') clearLogOutlines();
+    if (name === 'review') {
+      reviewVisitedToday = calFmt(new Date());
+      hideReviewNudge();
+      renderReview();
+    }
     render();
   });
 };
@@ -2769,7 +2790,19 @@ function renderReports() {
   updateRptRange();
   const f=getRptEntries(), work=f.filter(e=>!isBreak(e)), brks=f.filter(e=>isBreak(e));
   const tot=work.reduce((a,e)=>a+e.dur,0), totB=brks.reduce((a,e)=>a+e.dur,0), days=new Set(work.map(e=>e.date)).size;
-  document.getElementById('metrics').innerHTML=`<div class="metric"><div class="metric-val">${fmt(tot)}</div><div class="metric-lbl">Work time</div></div><div class="metric"><div class="metric-val">${fmt(totB)}</div><div class="metric-lbl">Breaks</div></div><div class="metric"><div class="metric-val">${days}</div><div class="metric-lbl">Days</div></div><div class="metric"><div class="metric-val">${days>0?fmt(Math.round(tot/days)):'0m'}</div><div class="metric-lbl">Avg/day</div></div>`;
+  // Presence = union of intervals per day (desk time); attributed = sum of durations
+  const byDate = {};
+  work.forEach(e => {
+    if (!byDate[e.date]) byDate[e.date] = [];
+    const sm = mins(e.start), em = mins(e.end);
+    if (sm >= 0 && em > sm) byDate[e.date].push([sm, em]);
+  });
+  const presenceTot = Object.values(byDate).reduce((sum, iv) => sum + presenceMinutes(iv), 0);
+  document.getElementById('metrics').innerHTML=
+    `<div class="metric"><div class="metric-val">${fmt(tot)}</div><div class="metric-lbl">Attributed</div></div>`+
+    `<div class="metric"><div class="metric-val">${fmt(presenceTot)}</div><div class="metric-lbl">Desk / presence</div></div>`+
+    `<div class="metric"><div class="metric-val">${fmt(totB)}</div><div class="metric-lbl">Breaks</div></div>`+
+    `<div class="metric"><div class="metric-val">${days>0?fmt(Math.round(tot/days)):'0m'}</div><div class="metric-lbl">Avg attributed/day</div></div>`;
   function bars(g,id){const mx=Math.max(...Object.values(g),1);document.getElementById(id).innerHTML=Object.entries(g).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar-row"><div class="bar-name" title="${k}">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mx*100)}%"></div></div><div class="bar-val">${fmt(v)}</div></div>`).join('')||'<div class="empty">None</div>';}
   const bC={},bP={},bT={};
   work.forEach(e=>{if(e.cat)bC[e.cat]=(bC[e.cat]||0)+e.dur;if(e.proj)bP[e.proj]=(bP[e.proj]||0)+e.dur;e.tags.forEach(t=>{bT[t]=(bT[t]||0)+e.dur;});});
@@ -2858,14 +2891,13 @@ function render() {
     else if (wrongDay && E.some(e => e.date === today)) msg = 'Nothing logged for this day — double-click the date bar for Today';
     elList.innerHTML = `<div class="empty">${msg}</div>`;
   } else {
-    // Helper: render a sorted-newest-first day's entries with gap indicators
+    // Helper: render a sorted-newest-first day's entries with overlap-aware gap indicators
     function renderDayEntries(es) {
       const day = sortNewestFirst(es); // newest start time at top
-      let html = '';
-      for (let i = 0; i < day.length; i++) {
-        html += entryCard(day[i]);
-        if (i < day.length - 1) html += gapIndicator(day[i].date, day[i+1].end, day[i].start);
-      }
+      let html = day.map(e => entryCard(e)).join('');
+      // Gaps are listed after cards (same visual approach as before: between chrono neighbours via union)
+      const gaps = overlapAwareGaps(es);
+      for (const g of gaps) html += gapIndicator(es[0] ? es[0].date : entriesFilterDate, g.start, g.end);
       return html;
     }
     if (entriesFilterMode === 'day') {
@@ -3150,6 +3182,128 @@ window.addEventListener('beforeunload', doBackup);
   syncEndField();
 })();
 window.addEventListener('beforeunload', e => { if (gridEditMode) { e.preventDefault(); e.returnValue = ''; } });
+
+// ── Auto-tracking Review tab ──────────────────────────────────────────────────
+let reviewVisitedToday = '';
+let _reviewTimer = null;
+
+function fmtSpanClock(ts) {
+  if (!ts) return '…';
+  const d = new Date(ts);
+  return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+function hideReviewNudge() {
+  const el = document.getElementById('review-nudge');
+  if (el) el.classList.remove('show');
+}
+
+function maybeShowReviewNudge(summary) {
+  const el = document.getElementById('review-nudge');
+  if (!el) return;
+  const today = calFmt(new Date());
+  const hour = new Date().getHours();
+  const hasCapture = summary && summary.spans && summary.spans.length > 0;
+  const alreadyVisited = reviewVisitedToday === today;
+  // Light end-of-day nudge only — never noisy
+  if (hour >= 17 && hasCapture && !alreadyVisited) el.classList.add('show');
+  else el.classList.remove('show');
+}
+
+window.openReviewFromNudge = function() {
+  const btn = [...document.querySelectorAll('.tab')].find(t => (t.getAttribute('onclick')||'').includes("'review'"));
+  if (btn) window.showTab('review', btn);
+};
+
+async function renderReview() {
+  const statusEl = document.getElementById('review-status');
+  const metricsEl = document.getElementById('review-metrics');
+  const spansEl = document.getElementById('review-spans');
+  const manualEl = document.getElementById('review-manual-list');
+  if (!statusEl) return;
+  try {
+    const today = calFmt(new Date());
+    const [status, summary] = await Promise.all([
+      ipcRenderer.invoke('capture-status'),
+      ipcRenderer.invoke('capture-day-summary', today),
+    ]);
+    const fgOpen = status.openFg || 0;
+    const bgOpen = status.openBg || 0;
+    const err = (status.foreground && status.foreground.lastError) || (status.background && status.background.lastError);
+    statusEl.innerHTML = status.started
+      ? `<span class="ok">Tracking</span> · ${fgOpen} fg lane${fgOpen===1?'':'s'} open · ${bgOpen} bg · local only`
+      : 'Capture not running';
+    if (err) statusEl.innerHTML += `<div style="color:#e44;margin-top:4px;">${String(err).replace(/</g,'&lt;')}</div>`;
+    const fgOpenSpan = status.foreground && status.foreground.merger && status.foreground.merger.open;
+    if (status.started && !fgOpenSpan) {
+      statusEl.innerHTML += `<div style="margin-top:4px;color:var(--muted);">No foreground activity — consider logging a Break if you stepped away.</div>`;
+    }
+
+    const attr = summary ? summary.attributedMinutes : 0;
+    const pres = summary ? summary.presenceMinutes : 0;
+    metricsEl.innerHTML =
+      `<div class="metric"><div class="metric-val">${fmt(attr)}</div><div class="metric-lbl">Attributed (lanes)</div></div>`+
+      `<div class="metric"><div class="metric-val">${fmt(pres)}</div><div class="metric-lbl">Desk / presence</div></div>`;
+
+    const manuals = (status.manualAgents || []);
+    manualEl.innerHTML = manuals.length
+      ? manuals.map(a => `<div class="review-lane"><div class="review-lane-top"><span class="review-lane-app">${(a.label||'').replace(/</g,'&lt;')}</span><button class="btn-sm" onclick="window.stopManualAgent(${a.id})">Stop</button></div><div class="review-lane-meta">since ${fmtSpanClock(a.started_at)}</div></div>`).join('')
+      : '<div class="empty" style="padding:6px 0;">No manual agents running</div>';
+
+    const spans = (summary && summary.spans) ? [...summary.spans].reverse() : [];
+    if (!spans.length) {
+      spansEl.innerHTML = '<div class="empty">No capture yet today</div>';
+    } else {
+      spansEl.innerHTML = spans.slice(0, 30).map(s => {
+        const open = s.end_ts == null;
+        const lane = s.lane_type === 'bg' ? 'bg' : 'fg';
+        const title = (s.title || s.app || '(unknown)').replace(/</g,'&lt;');
+        const app = (s.app || '').replace(/</g,'&lt;');
+        return `<div class="review-lane"><div class="review-lane-top"><span class="review-lane-app">${title}</span><span class="review-badge ${lane}">${lane}${open?' · live':''}</span></div><div class="review-lane-meta">${app} · ${fmtSpanClock(s.start_ts)}–${open?'now':fmtSpanClock(s.end_ts)} · ${s.state||''}</div></div>`;
+      }).join('');
+    }
+    maybeShowReviewNudge(summary);
+  } catch (e) {
+    statusEl.textContent = 'Capture unavailable: ' + (e.message || e);
+  }
+}
+
+window.startManualAgent = async function() {
+  const input = document.getElementById('review-agent-label');
+  const label = (input && input.value || '').trim();
+  if (!label) { showToast('Name the agent / task first.'); return; }
+  try {
+    await ipcRenderer.invoke('capture-start-manual-agent', label, '');
+    if (input) input.value = '';
+    showToast('Background agent started.');
+    renderReview();
+  } catch (e) {
+    showToast(e.message || 'Could not start agent');
+  }
+};
+
+window.stopManualAgent = async function(id) {
+  try {
+    await ipcRenderer.invoke('capture-stop-manual-agent', id);
+    showToast('Agent stopped.');
+    renderReview();
+  } catch (e) {
+    showToast(e.message || 'Could not stop agent');
+  }
+};
+
+(function wireReviewRefresh() {
+  const tick = () => {
+    const panel = document.getElementById('tab-review');
+    if (panel && panel.classList.contains('active')) renderReview();
+    else {
+      // Still evaluate quiet end-of-day nudge without refreshing the whole tab
+      ipcRenderer.invoke('capture-day-summary', calFmt(new Date())).then(maybeShowReviewNudge).catch(() => {});
+    }
+  };
+  _reviewTimer = setInterval(tick, 15000);
+  setTimeout(tick, 1200);
+})();
 
 // Backdrop click closes modal
 document.getElementById('tt-modal').addEventListener('click', function(e) {

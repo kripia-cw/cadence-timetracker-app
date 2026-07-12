@@ -25,9 +25,11 @@
 
   <div id="tt-modal"><div class="modal-box" id="tt-modal-box"></div></div>
   <button id="test-banner" class="test-banner" onclick="window.toggleTestMode()" title="Click to exit test mode">⚗ TEST MODE ACTIVE — sample data only · tap to exit</button>
+  <button type="button" id="review-nudge" class="review-nudge" onclick="window.openReviewFromNudge()">Review today's capture</button>
   <div class="tabs">
     <button class="tab active" onclick="window.showTab('log',this)">Log</button>
     <button class="tab" onclick="window.showTab('entries',this)">Entries</button>
+    <button class="tab" onclick="window.showTab('review',this)">Review</button>
     <button class="tab" onclick="window.showTab('reports',this)">Reports</button>
     <button class="tab" onclick="window.showTab('manage',this)">Manage</button>
   </div>
@@ -74,6 +76,20 @@
       </div>
       <div class="chips" id="chips"></div>
       <div id="entries-list"><div class="empty">No entries yet</div></div>
+    </div>
+
+    <div id="tab-review" class="panel">
+      <div id="review-status" class="review-status">Starting capture…</div>
+      <div id="review-metrics" class="metrics"></div>
+      <div class="slbl">Manual agent</div>
+      <div class="review-agent-form">
+        <input id="review-agent-label" type="text" maxlength="80" placeholder="I'm running an agent on…" autocomplete="off">
+        <button class="btn-sm" onclick="window.startManualAgent()">Start</button>
+      </div>
+      <div id="review-manual-list"></div>
+      <div class="slbl" style="margin-top:8px;">Today's lanes</div>
+      <div id="review-spans"><div class="empty">No capture yet</div></div>
+      <p class="review-hint">Classification &amp; accept-into-entries come next. Capture is local-only.</p>
     </div>
 
     <div id="tab-reports" class="panel">

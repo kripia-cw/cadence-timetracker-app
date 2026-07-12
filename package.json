@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron .",
     "test": "playwright test",
+    "test:unit": "node --test tests/capture-unit.test.js",
     "test:headed": "playwright test --headed",
     "postinstall": "electron-rebuild -f -w better-sqlite3"
   },
@@ -16,6 +17,7 @@
     "playwright": "^1.60.0"
   },
   "dependencies": {
-    "better-sqlite3": "^12.10.0"
+    "better-sqlite3": "^12.10.0",
+    "koffi": "^3.1.1"
   }
 }
