@@ -838,7 +838,7 @@ window.exportJSON = async function() {
   const stamp = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
   const payload = JSON.stringify({ E, C, P, T }, null, 2);
   const result = await ipcRenderer.invoke('export-data', payload, `cadence-${stamp}.json`);
-  if (result.ok) showToast('Exported to ' + result.filePath);
+  if (result.ok) showToast('Exported to ' + result.filePath, revealAction(result.filePath));
   else showToast('Export cancelled.');
 };
 window.importJSON = async function() {
@@ -1547,11 +1547,26 @@ function clearLogOutlines() {
   });
 }
 
-function showToast(msg) {
+// Builds a toast action that reveals an exported file in the OS file manager
+function revealAction(filePath) {
+  return { label: '📂 Show in folder', onClick: () => ipcRenderer.invoke('reveal-file', filePath) };
+}
+
+function showToast(msg, action) {
   let t = document.getElementById('val-toast');
   if (!t) { t = document.createElement('div'); t.id='val-toast'; t.className='val-toast'; document.body.appendChild(t); }
-  t.textContent = msg; t.style.display = 'block';
-  clearTimeout(t._hide); t._hide = setTimeout(() => t.style.display='none', 3500);
+  t.textContent = msg;
+  if (action && action.label && typeof action.onClick === 'function') {
+    const link = document.createElement('button');
+    link.className = 'toast-link';
+    link.textContent = action.label;
+    link.onclick = action.onClick;
+    t.appendChild(document.createElement('br'));
+    t.appendChild(link);
+  }
+  t.style.display = 'block';
+  // Give the user longer to click when there's an action to act on
+  clearTimeout(t._hide); t._hide = setTimeout(() => t.style.display='none', action ? 8000 : 3500);
 }
 
 function showSaveFlash() {
@@ -2091,7 +2106,7 @@ window.exportCSV = async function() {
   const stamp = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
   const filename = `time-entries-${stamp}.csv`;
   const result = await ipcRenderer.invoke('export-data', csv, filename);
-  if (result.ok) showToast('Exported to ' + result.filePath);
+  if (result.ok) showToast('Exported to ' + result.filePath, revealAction(result.filePath));
   else showToast('Export failed.');
 };
 

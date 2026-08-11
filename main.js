@@ -1,4 +1,4 @@
-const { app, BrowserWindow, screen, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, screen, ipcMain, dialog, shell } = require('electron')
 const fs = require('fs')
 const path = require('path')
 
@@ -93,6 +93,13 @@ ipcMain.handle('export-data', async (event, payload, filename) => {
   const filePath = path.join(app.getPath('downloads'), filename || 'cadence-export.json')
   fs.writeFileSync(filePath, payload, 'utf8')
   return { ok: true, filePath }
+})
+
+// Open the OS file manager with the exported file highlighted
+ipcMain.handle('reveal-file', async (event, filePath) => {
+  if (!filePath || !fs.existsSync(filePath)) return { ok: false }
+  shell.showItemInFolder(filePath)
+  return { ok: true }
 })
 
 ipcMain.handle('import-data', async () => {
