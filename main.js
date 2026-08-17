@@ -4,16 +4,23 @@ const path = require('path')
 
 let win
 
+// The panel's width limits, in one place so the drag floor and the collapse
+// chevron can't drift apart. MIN_W is the narrowest the titlebar can get while
+// the close button still sits properly inside the right edge — any narrower and
+// it clips off screen, so this is a hard floor for dragging as well.
+const MIN_W = 200
+const MAX_W = 600
+
 function createWindow() {
   const display = screen.getPrimaryDisplay()
   const { width, height } = display.workAreaSize
 
   win = new BrowserWindow({
-    width: 200,
+    width: MIN_W,
     height: height,
-    minWidth: 200,
-    maxWidth: 600,
-    x: width - 200,
+    minWidth: MIN_W,
+    maxWidth: MAX_W,
+    x: width - MIN_W,
     y: 0,
     alwaysOnTop: true,
     frame: false,
@@ -41,9 +48,25 @@ function createWindow() {
   win.once('ready-to-show', bumpAboveNeighbors)
   win.on('focus', bumpAboveNeighbors)
 
-  // Snap to anchor edge on resize or any attempted move
+  // Refuse any drag that would take the panel outside the width limits.
+  // minWidth/maxWidth alone don't always hold on a scaled display, and once the
+  // window is narrower than MIN_W the close button clips off the right edge.
+  win.on('will-resize', (e, newBounds) => {
+    if (newBounds.width < MIN_W || newBounds.width > MAX_W) e.preventDefault()
+  })
+
+  // Snap to anchor edge on resize or any attempted move, clamping the width
+  // back inside the limits as a backstop for anything the guard above misses.
+  let clamping = false
   const snapToAnchor = () => {
-    const [w] = win.getSize()
+    let [w, h] = win.getSize()
+    const target = Math.min(Math.max(w, MIN_W), MAX_W)
+    if (target !== w && !clamping) {
+      clamping = true
+      win.setSize(target, h)
+      clamping = false
+      w = target
+    }
     const { width: sw } = screen.getPrimaryDisplay().workAreaSize
     const x = anchorSide === 'left' ? 0 : sw - w
     win.setPosition(x, 0)
@@ -60,7 +83,7 @@ ipcMain.on('resize-app', (event, mode) => {
   if (!win || win.isDestroyed()) return
   const { width: sw } = screen.getPrimaryDisplay().workAreaSize
   const [, h] = win.getSize()
-  const newW = mode === 'min' ? 200 : 600
+  const newW = mode === 'min' ? MIN_W : MAX_W
   win.setSize(newW, h)
   const x = anchorSide === 'left' ? 0 : sw - newW
   win.setPosition(x, 0)

@@ -406,3 +406,124 @@ test('end time disabled until start time is entered', async () => {
     await closeApp(app);
   }
 });
+
+// The panel's width limits. MIN_W must match MIN_W in main.js — 200px is the
+// narrowest the titlebar fits in, so nothing may take the window below it.
+const MIN_W = 200;
+const MAX_W = 600;
+
+// Helper: current window width, read from the main process
+async function winWidth(app) {
+  return app.evaluate(({ BrowserWindow }) => BrowserWindow.getAllWindows()[0].getSize()[0]);
+}
+
+// Helper: try to force the window to a width, return what we actually got
+async function tryResize(app, width) {
+  return app.evaluate(({ BrowserWindow }, w) => {
+    const win = BrowserWindow.getAllWindows()[0];
+    win.setSize(w, win.getSize()[1]);
+    return win.getSize()[0];
+  }, width);
+}
+
+// ─── Test 15: 200px is a hard floor for dragging ──────────────────────────
+// The bug this guards: the window could be dragged narrower than 200px, which
+// pushes the close button off the right edge and leaves no way to shut the app.
+test('manual resize cannot go below 200px', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // The declared floor is 200
+    const floor = await app.evaluate(({ BrowserWindow }) =>
+      BrowserWindow.getAllWindows()[0].getMinimumSize()[0]);
+    expect(floor).toBe(MIN_W);
+
+    // Every attempt to go narrower is refused, not honoured
+    for (const attempt of [199, 180, 165, 150, 100, 50]) {
+      expect(await tryResize(app, attempt)).toBe(MIN_W);
+    }
+
+    // And nothing can push it past the ceiling either
+    expect(await tryResize(app, 900)).toBeLessThanOrEqual(MAX_W);
+
+    // Put it back narrow for the checks below
+    await tryResize(app, MIN_W);
+    expect(await winWidth(app)).toBe(MIN_W);
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 16: Collapse chevron lands on the same 200px floor ──────────────
+test('collapse chevron goes to exactly 200px, matching the drag floor', async () => {
+  const { app, win } = await launchApp();
+  try {
+    // Launches at the narrow width
+    expect(await winWidth(app)).toBe(MIN_W);
+
+    // Expand wide, then collapse — must land exactly on the floor, not near it.
+    // (Expanding stops a little short of MAX_W on a scaled display; that quirk
+    // predates this change, so assert the range rather than the exact number.)
+    await win.evaluate(() => window.resizeApp('max'));
+    await win.waitForTimeout(400);
+    const wide = await winWidth(app);
+    expect(wide).toBeGreaterThan(MIN_W);
+    expect(wide).toBeLessThanOrEqual(MAX_W);
+
+    await win.evaluate(() => window.resizeApp('min'));
+    await win.waitForTimeout(400);
+    expect(await winWidth(app)).toBe(MIN_W);
+
+    // Collapsing again from an already-collapsed state changes nothing
+    await win.evaluate(() => window.resizeApp('min'));
+    await win.waitForTimeout(400);
+    expect(await winWidth(app)).toBe(MIN_W);
+  } finally {
+    await closeApp(app);
+  }
+});
+
+// ─── Test 17: The close button fits at the narrow width ───────────────────
+// This is why 200 is the floor — if a titlebar control grows, 200 stops being
+// wide enough and this test fails before the app ships with a clipped X.
+test('close button sits fully inside the panel at 200px', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await win.evaluate(() => window.resizeApp('min'));
+    await win.waitForTimeout(400);
+
+    const r = await win.evaluate(() => {
+      const tb = document.querySelector('.titlebar');
+      const clipped = [...tb.children]
+        .filter(k => {
+          const b = k.getBoundingClientRect();
+          return b.width > 0 && b.right > window.innerWidth + 0.5;
+        })
+        .map(k => k.className || k.tagName);
+      const close = document.querySelector('.close-btn').getBoundingClientRect();
+      return {
+        clipped,
+        closeRight: close.right,
+        closeWidth: close.width,
+        inner: window.innerWidth,
+        hScroll: document.documentElement.scrollWidth > document.documentElement.clientWidth,
+      };
+    });
+
+    // No titlebar control may run past the right edge
+    expect(r.clipped).toEqual([]);
+
+    // The close button in particular must be whole and inside the edge
+    expect(r.closeWidth).toBeGreaterThan(0);
+    expect(r.closeRight).toBeLessThanOrEqual(r.inner);
+
+    // And no horizontal scrollbar at the narrow width
+    expect(r.hScroll).toBe(false);
+
+    await win.screenshot({
+      path: 'test-results/screenshots/15-narrow-titlebar.png',
+      clip: { x: 0, y: 0, width: r.inner, height: 40 },
+    });
+  } finally {
+    await closeApp(app);
+  }
+});
