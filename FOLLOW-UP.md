@@ -44,3 +44,17 @@ Not urgent — app is tested and working. Do this before any significant new fea
 
 ## Design philosophy review
 The DESIGN-PHILOSOPHY.md was recovered from the qa branch and needs a proper review session with Kim. Some of it is off. Go through it section by section and rewrite it to reflect what the app actually is and what Kim actually wants from it. Don't do this unilaterally — it needs to be a conversation.
+
+---
+
+## Grid edit: Category / Sub category cells are still plain selects
+
+The Description column in Grid edit now has the full Log-tab auto-suggest (matching past
+descriptions plus ranked category / sub category hints, applied to the row on pick).
+
+What has not been brought across is the Log tab combo behaviour on the other two columns:
+there, Category and Sub category are type-to-filter comboboxes with an inline "Add new..."
+option. In the grid they are still ordinary <select> dropdowns, with "+ New sub category..."
+as a modal. That is fine for now and keeps rows compact, but if the category list keeps
+growing, converting those cells to the same combo engine (initCombo) is the next step.
+Worth deciding with Kim first, since it changes how a grid row is keyboard-driven.
