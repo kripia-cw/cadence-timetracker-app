@@ -22,6 +22,7 @@ Once running, the app pins itself to the right edge of your screen and stays on 
 - **Log** — capture what you're doing in seconds, with category, sub-category, tags, description and notes
 - **Auto-suggest** — start typing and Cadence offers matching past entries, and fills in the category and sub category. Works on the Log tab and in the Grid edit Description column
 - **Entries** — browse and edit everything you've logged, day by day
+- **Carry-on start time** — the Log tab's Start field always shows the latest end time of any entry on the selected day, so the next entry picks up where the last one finished. It updates after grid edits, deletes and out-of-order entries, and never overwrites a time you typed yourself
 - **Reports** — see where your time went, filtered by category or by project tag
 - **Grid edit** — bulk-edit entries in a spreadsheet-style view
 - **Export** — download the current report as CSV, or your whole dataset as JSON, with a "Show in folder" shortcut to find the file
