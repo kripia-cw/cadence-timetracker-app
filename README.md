@@ -20,7 +20,7 @@ Once running, the app pins itself to the right edge of your screen and stays on 
 ## Features
 
 - **Log** — capture what you're doing in seconds, with category, sub-category, tags, description and notes
-- **Auto-suggest** — start typing and Cadence offers matching past entries
+- **Auto-suggest** — start typing and Cadence offers matching past entries, and fills in the category and sub category. Works on the Log tab and in the Grid edit Description column
 - **Entries** — browse and edit everything you've logged, day by day
 - **Reports** — see where your time went, filtered by category or by project tag
 - **Grid edit** — bulk-edit entries in a spreadsheet-style view

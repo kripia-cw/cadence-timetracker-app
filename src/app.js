@@ -705,6 +705,7 @@ const HELP_SECTIONS = [
     <ul>
       <li>Only available in <strong>Day</strong> view. Entering grid mode switches the app to wide view automatically.</li>
       <li><strong>Gap rows</strong> appear as greyed-out italic placeholders between entries. Fill in a description to turn a gap into a real logged entry when you save.</li>
+      <li><strong>Auto-suggest</strong> works in the Description column just like on the Log tab: type two or more characters to see matching past descriptions, plus category / sub category hints. Arrow keys and Enter pick one, and it fills the row's Category and Sub category for you.</li>
       <li>To <strong>dismiss a gap</strong> inside the grid, click the <strong>✕</strong> button in the last column of that gap row.</li>
       <li>All changes are <strong>staged in memory</strong> — nothing saves until you click <strong>Save changes</strong>.</li>
       <li><strong>Discard</strong> rolls back everything including any new sub categories created mid-session.</li>
@@ -1140,27 +1141,38 @@ initCombo({ id:'project',    getItems:()=>P.map(p=>p.name), addItem:(name,cat)=>
 initCombo({ id:'tag1',       getItems:()=>T,              addItem:name=>{T.push(name);sv();render();},             addLabel:'Add new tag' });
 initCombo({ id:'tag2',       getItems:()=>T,              addItem:name=>{if(!T.includes(name)){T.push(name);sv();render();}}, addLabel:'Add new tag' });
 
+// A pick is applied by whichever surface opened the box (Log form or Grid edit
+// row): suggestApply is set in showSuggestBox and cleared when it hides.
 function applySuggestPick(item) {
   if (!item || !item.dataset) return;
-  const catProjOnly = item.dataset.pickKind === 'catproj';
-  const cat = item.dataset.pickCat || '';
-  const proj = item.dataset.pickProj || '';
-  if (!catProjOnly) {
-    const d = item.dataset.pickDesc != null ? item.dataset.pickDesc : '';
-    document.getElementById('desc').value = d;
-  }
-  if (cat) {
-    setComboVal('cat-sel', cat);
+  const pick = {
+    catProjOnly: item.dataset.pickKind === 'catproj',
+    desc: item.dataset.pickDesc != null ? item.dataset.pickDesc : '',
+    cat: item.dataset.pickCat || '',
+    proj: item.dataset.pickProj || ''
+  };
+  const apply = suggestApply || applyLogSuggestPick;
+  hideSuggestions();
+  apply(pick);
+}
+
+function applyLogSuggestPick(pick) {
+  if (!pick.catProjOnly) document.getElementById('desc').value = pick.desc;
+  if (pick.cat) {
+    setComboVal('cat-sel', pick.cat);
     if (window.filterProjects) window.filterProjects();
-    if (proj) setTimeout(() => { setComboVal('project', proj); }, 30);
+    if (pick.proj) setTimeout(() => { setComboVal('project', pick.proj); }, 30);
     else setComboVal('project', '');
   }
-  hideSuggestions();
 }
 
 function bindSuggestFieldKeynav(fieldId) {
-  const field = document.getElementById(fieldId);
-  if (!field) return;
+  bindSuggestKeynavEl(document.getElementById(fieldId));
+}
+
+function bindSuggestKeynavEl(field) {
+  if (!field || field.dataset.suggestKeynav) return;
+  field.dataset.suggestKeynav = '1';
   field.addEventListener('keydown', function(e) {
     const box = document.getElementById('suggest-box');
     if (!box) return;
@@ -1744,12 +1756,16 @@ function rebuildLearnFromEntries() {
 })();
 
 let suggestIdx = -1;
+let suggestApply = null;   // how the current box applies a pick
+let suggestAnchor = null;  // the field the current box hangs off
 const LOG_SUGGEST_MIN_CHARS = 2;
 
 function hideSuggestions() {
   const b = document.getElementById('suggest-box');
   if (b) b.remove();
   suggestIdx = -1;
+  suggestApply = null;
+  suggestAnchor = null;
 }
 
 function highlightSuggest(idx) {
@@ -1799,13 +1815,14 @@ function rankCatProjFromDescription(val) {
 }
 
 // Description field: past descriptions + category/sub category hints (not Details). All from current E / lists.
-window.descSuggest = function(val, sourceId) {
+// ctx supplies the surface's current cat/proj and how to apply a pick, so the
+// Log form and Grid edit rows share one implementation.
+function showSuggestBox(val, anchor, ctx) {
   hideSuggestions();
   val = (val || '').trim();
   if (val.length < LOG_SUGGEST_MIN_CHARS) return;
-  const typed = val.toLowerCase();
-  const anchor = document.getElementById(sourceId || 'desc');
   if (!anchor) return;
+  const typed = val.toLowerCase();
   const rect = anchor.getBoundingClientRect();
 
   const descMap = {};
@@ -1824,12 +1841,7 @@ window.descSuggest = function(val, sourceId) {
   }).sort((a, b) => b.count - a.count);
   const descMatches = rows.filter(r => r.desc.toLowerCase().includes(typed)).slice(0, 7);
 
-  const catSel = document.getElementById('cat-sel');
-  const projSel = document.getElementById('project');
-  let catProjRanked = [];
-  if (catSel && projSel && (!catSel.value || !projSel.value)) {
-    catProjRanked = rankCatProjFromDescription(val).slice(0, 6);
-  }
+  const catProjRanked = ctx.wantCatProj ? rankCatProjFromDescription(val).slice(0, 6) : [];
 
   if (!descMatches.length && !catProjRanked.length) return;
 
@@ -1838,7 +1850,7 @@ window.descSuggest = function(val, sourceId) {
   box.className = 'suggest-box';
   box.style.left = rect.left + 'px';
   box.style.top = (rect.bottom + 2) + 'px';
-  box.style.width = rect.width + 'px';
+  box.style.width = Math.max(rect.width, ctx.minWidth || 0) + 'px';
 
   descMatches.forEach(({ desc, cat, proj }) => {
     const item = document.createElement('div');
@@ -1882,14 +1894,27 @@ window.descSuggest = function(val, sourceId) {
   });
 
   document.body.appendChild(box);
+  suggestApply = ctx.apply;
+  suggestAnchor = anchor;
   highlightSuggest(0);
+}
+
+window.descSuggest = function(val, sourceId) {
+  const catSel = document.getElementById('cat-sel');
+  const projSel = document.getElementById('project');
+  showSuggestBox(val, document.getElementById(sourceId || 'desc'), {
+    cat: catSel ? catSel.value : '',
+    proj: projSel ? projSel.value : '',
+    wantCatProj: !!(catSel && projSel && (!catSel.value || !projSel.value)),
+    apply: applyLogSuggestPick
+  });
 };
 
 window.autoSuggest = window.descSuggest;
 
 document.addEventListener('click', e => {
   const box = document.getElementById('suggest-box');
-  if (box && !box.contains(e.target) && e.target.id !== 'desc') hideSuggestions();
+  if (box && !box.contains(e.target) && e.target !== suggestAnchor && e.target.id !== 'desc') hideSuggestions();
 });
 
 window.toggleChip = function(v) { if(activeChips.has(v))activeChips.delete(v);else activeChips.add(v); render(); };
@@ -2925,6 +2950,7 @@ function confirmLeaveGrid(onProceed) {
 }
 
 function exitGridEdit(restoreProjects) {
+  hideSuggestions();
   if (restoreProjects && gridDraftPSnapshot) P = gridDraftPSnapshot;
   gridEditMode = false;
   gridDraft = null;
@@ -3012,9 +3038,64 @@ function gridNewSubcat(i) {
   _focusModalInput('gnc-name');
 }
 
+// Grid Description fields get the same auto-suggest as the Log form: matching
+// past descriptions, plus category / sub category hints when the row is missing
+// one. Picking fills the row in place so focus survives.
+function wireGridDescSuggest(inp) {
+  const open = () => {
+    const i = +inp.dataset.i;
+    const row = gridDayEntries()[i];
+    if (!row) return;
+    showSuggestBox(inp.value, inp, {
+      cat: row.cat || '',
+      proj: row.proj || '',
+      wantCatProj: !(row.cat && row.proj),
+      minWidth: 220,
+      apply: pick => applyGridSuggestPick(i, pick)
+    });
+  };
+  inp.addEventListener('focus', open);
+  inp.addEventListener('input', open);
+  // Only close if focus really left this field, since tabbing to the next row
+  // opens its own box first.
+  inp.addEventListener('blur', () => setTimeout(() => { if (suggestAnchor === inp) hideSuggestions(); }, 120));
+  bindSuggestKeynavEl(inp);
+}
+
+// A suggested category or sub category may predate the current lists, so make
+// sure the select can actually hold it.
+function ensureSelOption(sel, val) {
+  if (!val || Array.from(sel.options).some(o => o.value === val)) return;
+  const o = document.createElement('option');
+  o.value = val;
+  o.textContent = val;
+  sel.appendChild(o);
+}
+
+function applyGridSuggestPick(i, pick) {
+  const row = gridDayEntries()[i];
+  if (!row) return;
+  const el = document.getElementById('entries-list');
+  if (!el) return;
+  if (!pick.catProjOnly) {
+    row.desc = pick.desc;
+    const inp = el.querySelector('.gd-f[data-f="desc"][data-i="' + i + '"]');
+    if (inp) inp.value = pick.desc;
+  }
+  if (pick.cat) {
+    row.cat = pick.cat;
+    row.proj = pick.proj || '';
+    const catSel = el.querySelector('.gd-cat[data-i="' + i + '"]');
+    if (catSel) { ensureSelOption(catSel, row.cat); catSel.value = row.cat; }
+    const projSel = el.querySelector('.gd-proj[data-i="' + i + '"]');
+    if (projSel) { ensureSelOption(projSel, row.proj); projSel.value = row.proj; }
+  }
+}
+
 function renderGrid() {
   const el = document.getElementById('entries-list');
   if (!gridDraft) return;
+  hideSuggestions();
   const day = gridDayEntries();
   // sort earliest-first (start of day → end) in-place so data-i indices match the sorted order
   day.sort((a,b) => { if(!a.start&&!b.start)return 0; if(!a.start)return 1; if(!b.start)return -1; return a.start.localeCompare(b.start); });
@@ -3041,6 +3122,7 @@ function renderGrid() {
     <button class="btn-discard" onclick="window.discardGridEdit()">Discard changes</button>
   </div>`;
   el.querySelectorAll('.gd-f').forEach(inp => {
+    if (inp.dataset.f === 'desc') wireGridDescSuggest(inp);
     inp.addEventListener('input', () => {
       const i = +inp.dataset.i, f = inp.dataset.f;
       gridDayEntries()[i][f] = inp.value;

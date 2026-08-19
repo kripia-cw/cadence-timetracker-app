@@ -527,3 +527,44 @@ test('close button sits fully inside the panel at 200px', async () => {
     await closeApp(app);
   }
 });
+
+// ─── Test 18: Grid edit description auto-suggest ──────────────────────────
+// The Description column in Grid edit offers the same suggestions as the Log
+// tab, and picking one fills the row's Category and Sub category.
+test('grid edit — description auto-suggest fills category and sub category', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Grid suggest source', start: '09:00', end: '10:00' });
+
+    await switchTab(win, 'entries');
+    await win.click('#grid-edit-btn');
+    await win.waitForTimeout(500);
+
+    // New blank row, so the suggestion has a category and sub category to fill
+    await win.click('.btn-add-row');
+    await win.waitForTimeout(300);
+
+    const row = win.locator('.grid-table tbody tr').last();
+    const desc = row.locator('.gd-f[data-f="desc"]');
+    await desc.click();
+    await desc.pressSequentially('Grid sugg');
+    await win.waitForTimeout(400);
+
+    await expect(win.locator('#suggest-box')).toBeVisible();
+
+    await win.locator('#suggest-box .suggest-item').first().click();
+    await win.waitForTimeout(300);
+
+    await expect(win.locator('#suggest-box')).toHaveCount(0);
+    await expect(desc).toHaveValue('Grid suggest source');
+    await expect(row.locator('.gd-cat')).toHaveValue('Operations');
+    await expect(row.locator('.gd-proj')).toHaveValue('Recurring ops tasks');
+
+    // Leave grid mode so the unsaved-edits beforeunload guard does not block teardown
+    await win.click('.btn-discard');
+    await win.waitForTimeout(500);
+    await expect(win.locator('#grid-edit-btn')).toBeVisible();
+  } finally {
+    await closeApp(app);
+  }
+});
