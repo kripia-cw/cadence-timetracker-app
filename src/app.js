@@ -1546,7 +1546,50 @@ document.addEventListener('click', function(e) {
   }
 });
 
-function afs() { if(!E.length) return; const l=E[0]; if(l.date===document.getElementById('date').value&&l.end){const s=document.getElementById('start');if(!s.value)s.value=l.end;} }
+// The Start field always offers the next sensible starting point: the latest
+// end time of any entry already logged on the Log tab's selected date.
+//
+// It has to be the latest end across the whole day, not the end of whatever was
+// added most recently. Grid edit writes entries anywhere in the day and edits
+// existing ones in place, so the newest item in E is not reliably the day's last
+// entry — that mismatch was the bug this replaces.
+//
+// Anything the user put in the field wins. We only ever replace a value we wrote
+// ourselves (tracked in autoStartValue) or an empty field, so a hand-typed time,
+// a gap fill or the entry being edited is never clobbered.
+let autoStartValue = null;
+
+function latestEndForDate(ds) {
+  if (!ds) return '';
+  let latest = '', latestM = -1;
+  for (const e of E) {
+    if (e.date !== ds || !e.end) continue;
+    const m = mins(e.end);
+    if (m > latestM) { latestM = m; latest = e.end; }
+  }
+  return latest;
+}
+
+function afs() {
+  if (editingId !== null) return; // editing loads that entry's own start time
+  const dateEl = document.getElementById('date');
+  const s = document.getElementById('start');
+  if (!dateEl || !s) return;
+  if (s.value && s.value !== autoStartValue) return; // the user's own value — leave it
+  const end = latestEndForDate(dateEl.value);
+  if (s.value === end) return;
+  s.value = end; // '' on an empty day, so a time from another day never lingers
+  autoStartValue = end || null;
+  syncEndField();
+}
+
+// After saving, the field is ours again — drop the old value so afs() refills it.
+function resetStartToLatestEnd() {
+  const s = document.getElementById('start');
+  if (s) s.value = '';
+  autoStartValue = null;
+  afs();
+}
 
 window.filterProjects = function() {
   // project is now a combobox input — value preserved automatically
@@ -1638,7 +1681,7 @@ window.addEntry = function() {
     document.getElementById('add-btn').textContent='Add entry';
     sv();
     document.getElementById('desc').value='';document.getElementById('end').value='';
-    document.getElementById('start').value=end;setComboVal('tag1','');setComboVal('tag2','');
+    resetStartToLatestEnd();setComboVal('tag1','');setComboVal('tag2','');
     setComboVal('cat-sel','');setComboVal('project','');
     clearNotesField();
     st.textContent='Saved!';setTimeout(()=>st.textContent='',2000);
@@ -1659,7 +1702,7 @@ window.addEntry = function() {
   }
   sv();
   document.getElementById('desc').value='';document.getElementById('end').value='';
-  document.getElementById('start').value=end;document.getElementById('tag1').value='';document.getElementById('tag2').value='';
+  resetStartToLatestEnd();document.getElementById('tag1').value='';document.getElementById('tag2').value='';
   document.getElementById('cat-sel').value='';document.getElementById('project').value='';
   clearNotesField();
   st.textContent='';
@@ -2920,6 +2963,7 @@ function render() {
   }
   syncEntriesDayBar();
   renderReports();
+  afs(); // data changed — the day's latest end may have moved
 }
 
 // GRID EDIT

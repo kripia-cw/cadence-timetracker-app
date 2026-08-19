@@ -568,3 +568,132 @@ test('grid edit — description auto-suggest fills category and sub category', a
     await closeApp(app);
   }
 });
+
+// ─── Tests 19-22: Start field tracks the day's latest end time ────────────
+// The Log tab's Start field is meant to show the latest end time of any entry
+// on the selected day, so the next entry carries straight on from the last one.
+// It used to read only the most recently added entry, which meant grid edit
+// changes and out-of-order entries left it stale.
+
+// Fill one grid row's description, start and end. `rowIndex` is the row's
+// position in the rendered table (rows sort earliest-first; blank rows sit last).
+async function fillGridRow(win, rowIndex, { desc, start, end }) {
+  const row = win.locator('.grid-table tbody tr').nth(rowIndex);
+  await row.locator('.gd-f[data-f="desc"]').fill(desc);
+  await row.locator('.gd-f[data-f="start"]').fill(start);
+  await row.locator('.gd-f[data-f="end"]').fill(end);
+  await win.waitForTimeout(200);
+}
+
+test('start field updates after grid edit adds a later entry', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Morning block', start: '09:00', end: '10:00' });
+
+    // Straight after adding, Start carries on from that entry
+    await expect(win.locator('#start')).toHaveValue('10:00');
+
+    await switchTab(win, 'entries');
+    await win.click('#grid-edit-btn');
+    await win.waitForTimeout(500);
+
+    // New row after the existing one — blank rows render last
+    await win.click('.btn-add-row');
+    await win.waitForTimeout(300);
+    await fillGridRow(win, 1, { desc: 'Afternoon block', start: '11:00', end: '12:30' });
+
+    await win.click('.btn-save');
+    await win.waitForTimeout(500);
+
+    // This is the bug: Start used to stay on 10:00 after a grid edit
+    await switchTab(win, 'log');
+    await expect(win.locator('#start')).toHaveValue('12:30');
+  } finally {
+    await closeApp(app);
+  }
+});
+
+test('start field shows the day latest end, not the most recent entry', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Late block', start: '15:00', end: '16:00' });
+    await expect(win.locator('#start')).toHaveValue('16:00');
+
+    // Backfill something earlier in the day — the latest end is still 16:00
+    await addEntry(win, { desc: 'Early block', start: '08:00', end: '08:30' });
+    await expect(win.locator('#start')).toHaveValue('16:00');
+  } finally {
+    await closeApp(app);
+  }
+});
+
+test('start field updates when grid edit moves the last entry end time', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Only block', start: '09:00', end: '10:00' });
+    await expect(win.locator('#start')).toHaveValue('10:00');
+
+    await switchTab(win, 'entries');
+    await win.click('#grid-edit-btn');
+    await win.waitForTimeout(500);
+
+    // Stretch the existing entry's end time rather than adding a row
+    await win.locator('.grid-table tbody tr').first().locator('.gd-f[data-f="end"]').fill('11:45');
+    await win.waitForTimeout(200);
+
+    await win.click('.btn-save');
+    await win.waitForTimeout(500);
+
+    await switchTab(win, 'log');
+    await expect(win.locator('#start')).toHaveValue('11:45');
+  } finally {
+    await closeApp(app);
+  }
+});
+
+test('a hand-typed start time is never overwritten', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Morning block', start: '09:00', end: '10:00' });
+    await expect(win.locator('#start')).toHaveValue('10:00');
+
+    // Kim types her own start time — nothing after this may touch it
+    await win.fill('#start', '13:15');
+    await win.press('#start', 'Tab');
+    await win.waitForTimeout(200);
+
+    await switchTab(win, 'entries');
+    await win.click('#grid-edit-btn');
+    await win.waitForTimeout(500);
+    await win.click('.btn-add-row');
+    await win.waitForTimeout(300);
+    await fillGridRow(win, 1, { desc: 'Afternoon block', start: '11:00', end: '12:30' });
+    await win.click('.btn-save');
+    await win.waitForTimeout(500);
+
+    await switchTab(win, 'log');
+    await expect(win.locator('#start')).toHaveValue('13:15');
+  } finally {
+    await closeApp(app);
+  }
+});
+
+test('start field is empty on a day with no entries', async () => {
+  const { app, win } = await launchApp();
+  try {
+    await addEntry(win, { desc: 'Today block', start: '09:00', end: '10:00' });
+    await expect(win.locator('#start')).toHaveValue('10:00');
+
+    // Move the Log tab to a day that has nothing logged — no time to carry on from
+    await win.evaluate(() => window.calPick('2020-01-15'));
+    await win.waitForTimeout(300);
+    await expect(win.locator('#start')).toHaveValue('');
+
+    // …and back to today restores the carry-on time
+    await win.evaluate(() => window.calPickToday());
+    await win.waitForTimeout(300);
+    await expect(win.locator('#start')).toHaveValue('10:00');
+  } finally {
+    await closeApp(app);
+  }
+});
